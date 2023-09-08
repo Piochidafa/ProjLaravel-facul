@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('filial', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('endereco_id')->nullable();
-            $table->string('telefone')->unique();
+            $table->string('name');
+            $table->string('cpf')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('endereco_id')->references('id')->on('endereco');
+
 
         });
     }
@@ -27,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('filial');
+
+        Schema::dropIfExists('users');
     }
 };

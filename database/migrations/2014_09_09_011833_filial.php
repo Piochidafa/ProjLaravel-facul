@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('filial', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('estabelecimento_id')->nullable();
-            $table->string('name');
-            $table->string('cpf')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('estabelecimento_id');
+            $table->string('telefone')->unique();
             $table->timestamps();
-
-
+            
             $table->foreign('estabelecimento_id')->references('id')->on('estabelecimento');
 
         });
@@ -33,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('filial');
     }
 };

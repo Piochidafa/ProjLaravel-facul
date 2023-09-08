@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('estabelecimento', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('filial_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nome_estabelecimento');
             $table->string('cnpj')->unique();
             $table->string('telefone')->unique();
             $table->timestamps();
 
-            $table->foreign('filial_id')->references('id')->on('filial');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
     }
