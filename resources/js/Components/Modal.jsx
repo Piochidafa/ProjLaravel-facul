@@ -50,7 +50,7 @@ export default function Modal({ children, show = false, maxWidth = '2xl', closea
                     >
                         {children}
                     </Dialog.Panel>
-                </Transition.Child>
+                </Transition.Child>                
             </Dialog>
         </Transition>
     );

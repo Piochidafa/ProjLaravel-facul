@@ -41,6 +41,9 @@ Route::get('/Initial', function () {
     return Inertia::render('Initial/telaBasica');
 });
 
+Route::get('/Estabelecimento', function () {
+    return Inertia::render('CadastroEstabelecimento/CadEstabelecimento');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
