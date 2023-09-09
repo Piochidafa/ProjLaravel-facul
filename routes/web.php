@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\EnderecoController;
+use App\Http\Controllers\EstabelecimentoController;
+use App\Http\Controllers\FilialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +19,15 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
+Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
+
+Route::get('/a/filial/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
+Route::post('/a/filial/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
+
+Route::get('/a/filialget', [FilialController::class, 'index'])->name('filial.index');
+Route::post('/a/filial', [FilialController::class, 'store'])->name('filial.store');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -25,7 +37,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/Initial', function(){
+Route::get('/Initial', function () {
     return Inertia::render('Initial/telaBasica');
 });
 
@@ -42,4 +54,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

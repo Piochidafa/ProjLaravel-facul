@@ -14,6 +14,7 @@ class estabelecimento extends Model
      *
      * @var array<int, string>
      */
+    protected $table = "estabelecimento";
     protected $fillable = [
         'filial_id',
         'nome_estabelecimento',
@@ -21,7 +22,8 @@ class estabelecimento extends Model
         'telefone',
     ];
 
-    public function filial(){
+    public function filial()
+    {
         return $this->hasMany(filial::class);
     }
 

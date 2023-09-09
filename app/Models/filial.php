@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class filial extends Model
 {
     use HasFactory;
-
+    protected $table = 'filial';
     protected $fillable = [
-        'endereco_id',
+        'estabelecimento_id',
+        // 'nome_filial',
         'telefone',
     ];
 
-    public function endereco(){
+    public function endereco()
+    {
         return $this->hasOne(endereco::class);
     }
 

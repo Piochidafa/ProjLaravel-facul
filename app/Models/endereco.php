@@ -8,8 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class endereco extends Model
 {
     use HasFactory;
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $table = 'endereco';
     protected $fillable = [
+        'filial_id',
         'bairro',
         'cep',
         'cidade',
