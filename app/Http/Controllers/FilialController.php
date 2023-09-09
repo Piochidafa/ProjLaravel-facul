@@ -35,6 +35,7 @@ class FilialController extends Controller
         $faker = Faker::create();
         $dados = [
             'estabelecimento_id' => 1,
+            'nome_filial' => $faker->company,
             'telefone' => $faker->phoneNumber,
         ];
         $filial = filial::create($dados);

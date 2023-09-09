@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('filial', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('estabelecimento_id');
-            // $table->string('nome_filial');
+            $table->string('nome_filial');
             $table->string('telefone')->unique();
             $table->timestamps();
 

@@ -63,6 +63,7 @@ export default function CadastroEndereco() {
                     />
                     <InputError message={errors.cidade} className="mt-2" />
                 </div>
+
                 <div about='estado' >
                     <InputLabel value="estado" />
                     <TextInput

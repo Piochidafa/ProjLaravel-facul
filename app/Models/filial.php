@@ -11,7 +11,7 @@ class filial extends Model
     protected $table = 'filial';
     protected $fillable = [
         'estabelecimento_id',
-        // 'nome_filial',
+        'nome_filial',
         'telefone',
     ];
 
