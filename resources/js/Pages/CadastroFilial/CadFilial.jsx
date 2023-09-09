@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
+import GuestLayout from '@/Layouts/GuestLayoutAll';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
