@@ -28,16 +28,16 @@ class EstabelecimentoController extends Controller
 
     public function store(Request $request)
     {
-        $faker = Faker::create();
-        // $dados = $request->all();
-        $dados = [
-            'user_id' => $faker->numberBetween(1, 10),
-            'nome_estabelecimento' => $faker->company,
-            'cnpj' => $faker->numerify('##############'),
-            'telefone' => $faker->phoneNumber,
-            'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-            'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-        ];
+        // $faker = Faker::create();
+        $dados = $request->all();
+        // $dados = [
+        //     'user_id' => $faker->numberBetween(1, 10),
+        //     'nome_estabelecimento' => $faker->company,
+        //     'cnpj' => $faker->numerify('##############'),
+        //     'telefone' => $faker->phoneNumber,
+        //     'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
+        //     'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
+        // ];
 
         $estabelecimento = estabelecimento::create($dados);
 

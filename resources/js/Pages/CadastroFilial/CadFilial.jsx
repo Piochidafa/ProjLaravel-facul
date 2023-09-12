@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
+import axios from 'axios';
 import Modal from '@/Components/Modal';
 import CadastroEndereco from '../CadastroEndereco/CadEndereco';
 
@@ -26,14 +27,50 @@ export default function CadFilial() {
         cep: '',
         cidade: '',
         estado: '',
+        estabelecimento_id: '',
+        filial_id: '',
     })
 
-    const onSubmit = (e) => {
-        e.preventcreateDefault();
-    };
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const estabelecimentoId = 17;
+            // Você pode usar estabelecimento_id aqui para associar a filial ao estabelecimento correto
+            const filialData = {
+                nome_filial: data.nome_filial,
+                telefone: data.telefone,
+                estabelecimento_id: data.estabelecimento_id, // Use o ID do estabelecimento
+            };
+
+            const enderecoData = {
+                bairro: data.bairro,
+                cep: data.cep,
+                cidade: data.cidade,
+                estado: data.estado,
+            };
+
+            // Envia os dados da filial para a rota de criação de filial
+            const responseFilial = await axios.post('/a/filial', filialData);
+
+            // Obtém o ID da filial criada a partir da resposta
+            const filialId = responseFilial.data.id;
+
+            // Adiciona o ID da filial aos dados de endereço
+            enderecoData.filial_id = filialId;
+
+            // Envia os dados de endereço para a rota de criação de endereço
+            await axios.post('/a/filial/endereco', enderecoData);
+
+            reset();
+
+        } catch (error) {
+            console.error('Erro ao cadastrar filial e endereço:', error);
+        }
+    }
     return (
         <GuestLayout>
-            <form onSubmit={onSubmit} action='/a/filial' method='POST'>
+            <form onSubmit={onSubmit} >
                 <div about='Nome filial' >
                     <InputLabel value="Nome filial" />
                     <TextInput

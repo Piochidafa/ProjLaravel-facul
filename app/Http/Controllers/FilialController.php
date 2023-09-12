@@ -24,7 +24,7 @@ class FilialController extends Controller
      */
     public function create()
     {
-        return Inertia::render('teste');
+        return Inertia::render('CadastroFilial/CadFilial');
     }
 
     /**
@@ -32,12 +32,13 @@ class FilialController extends Controller
      */
     public function store(Request $request)
     {
-        $faker = Faker::create();
-        $dados = [
-            'estabelecimento_id' => 1,
-            'nome_filial' => $faker->company,
-            'telefone' => $faker->phoneNumber,
-        ];
+        // $faker = Faker::create();
+        $dados = $request->all();
+        // $dados = [
+        //     'estabelecimento_id' => 1,
+        //     'nome_filial' => $faker->company,
+        //     'telefone' => $faker->phoneNumber,
+        // ];
         $filial = filial::create($dados);
 
         return response()->json([
