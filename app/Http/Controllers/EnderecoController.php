@@ -25,7 +25,7 @@ class EnderecoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Cadastro_Estabelecimento/Cad');
+        return Inertia::render('CadastroEndereco/CadEndereco');
     }
 
 
@@ -35,17 +35,17 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        $faker = Faker::create();
-        // $dadoos = $request->all();
-        $dados = [
-            "estabelecimento_id" => 1,
-            'bairro' => $faker->company,
-            'cep' => $faker->numerify('#######'),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-            'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-        ];
+        // $faker = Faker::create();
+        $dados = $request->all();
+        // $dados = [
+        //     "filial_id" => 1,
+        //     'bairro' => $faker->company,
+        //     'cep' => $faker->numerify('#######'),
+        //     'cidade' => $faker->city,
+        //     'estado' => $faker->state,
+        //     'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
+        //     'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
+        // ];
 
         $endereco = endereco::create($dados);
 

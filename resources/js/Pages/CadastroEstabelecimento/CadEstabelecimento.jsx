@@ -11,6 +11,7 @@ import Dropdown from '@/Components/Dropdown';
 import CadFilial from '../CadastroFilial/CadFilial';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import axios from 'axios';
 
 
 export default function CadastroEstabelecimento({auth}) {
@@ -32,8 +33,25 @@ export default function CadastroEstabelecimento({auth}) {
     useEffect(() => {
     }, []);
 
-    const onSubmit = (e) => {
-        e.preventcreateDefault();
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const estabelecimentoData = {
+                nome_estabelecimento: data.nome_estabelecimento,
+                cnpj: data.cnpj,
+                telefone: data.telefone,
+            }
+            // Envia os dados do estabelecimento para a rota de criação de estabelecimento
+            const responseEstabelecimento = await axios.post('/a/estabelecimento', estabelecimentoData)
+            // Obtém o ID do estabelecimento criado a partir da resposta
+            const estabelecimentoId = responseEstabelecimento.data.id;
+
+            // Define o ID do estabelecimento no estado
+            setData('estabelecimento_id', estabelecimentoId);
+            reset();
+        } catch (error) {
+            console.error('Erro ao cadastrar estabelecimento:', error);
+        }
     };
 
     return (        
@@ -59,7 +77,6 @@ export default function CadastroEstabelecimento({auth}) {
                         name="nome_estabelecimento"
                         value={data.nome_estabelecimento}
                         className="mt-1 block w-full"
-                        autoComplete="username"
                         isFocused={true}
                         onChange={(e) => setData('nome_estabelecimento', e.target.value)}
                     />

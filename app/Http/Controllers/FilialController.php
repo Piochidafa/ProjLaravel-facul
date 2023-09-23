@@ -2,50 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\estabelecimento;
+use App\Models\filial;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Faker\Factory as Faker;
-use Inertia\Response;
 
-class EstabelecimentoController extends Controller
+class FilialController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         return response()->json(
-            estabelecimento::all('*'),
+            filial::all('*'),
         );
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return Inertia::render('Cadastro_Estabelecimento/Cad');
-
+        return Inertia::render('CadastroFilial/CadFilial');
     }
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         // $faker = Faker::create();
         $dados = $request->all();
         // $dados = [
-        //     'user_id' => $faker->numberBetween(1, 10),
-        //     'nome_estabelecimento' => $faker->company,
-        //     'cnpj' => $faker->numerify('##############'),
+        //     'estabelecimento_id' => 1,
+        //     'nome_filial' => $faker->company,
         //     'telefone' => $faker->phoneNumber,
-        //     'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-        //     'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
         // ];
-
-        $estabelecimento = estabelecimento::create($dados);
+        $filial = filial::create($dados);
 
         return response()->json([
-            'message' => 'Estabelecimento criado com sucesso',
-            'data' => $estabelecimento,
+            'message' => "Deu certo",
+            'data' => $filial,
         ], 201);
     }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         //
