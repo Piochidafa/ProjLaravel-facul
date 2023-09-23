@@ -18,15 +18,13 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
-
-    Route::get('/a/filial/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
-    Route::post('/a/filial/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
-
-    Route::get('/a/filialget', [FilialController::class, 'index'])->name('filial.index');
-    Route::post('/a/filial', [FilialController::class, 'store'])->name('filial.store');
+    Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
+    Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
 });
 
 
@@ -43,13 +41,13 @@ Route::get('/Initial', function () {
     return Inertia::render('Initial/telaBasica');
 });
 
-Route::get('/Estabelecimento', function () {
-    return Inertia::render('CadastroEstabelecimento/CadEstabelecimento');
-});
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/CadastroEstabelecimento', function () {
+    return Inertia::render('CadastroEstabelecimento/CadEstabelecimento');
+})->middleware(['auth', 'verified'])->name('CadastroEstabelecimento');
 
 
 

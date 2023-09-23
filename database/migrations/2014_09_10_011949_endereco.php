@@ -12,15 +12,14 @@ return new class extends Migration {
     {
         Schema::create('endereco', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('filial_id');
+            $table->unsignedBigInteger('estabelecimento_id');
             $table->string('bairro');
             $table->string('cep');
             $table->string('cidade');
             $table->string('estado');
             $table->timestamps();
 
-            $table->foreign('filial_id')->references('id')->on('filial');
-
+            $table->foreign('estabelecimento_id')->references('id')->on('estabelecimento');
         });
     }
 

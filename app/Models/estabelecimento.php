@@ -16,15 +16,15 @@ class estabelecimento extends Model
      */
     protected $table = "estabelecimento";
     protected $fillable = [
-        'filial_id',
-        'nome_estabelecimento',
+        'razao_social',
+        'nome_fantasia',
         'cnpj',
         'telefone',
     ];
 
-    public function filial()
+    public function endereco()
     {
-        return $this->hasMany(filial::class);
+        return $this->hasOne(endereco::class);
     }
 
 }

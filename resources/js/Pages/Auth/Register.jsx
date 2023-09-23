@@ -12,6 +12,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        cpf: ''
     });
 
     useEffect(() => {
@@ -93,6 +94,22 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         onChange={(e) => setData('password_confirmation', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.password_confirmation} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="cpf" value="cpf" />
+
+                    <TextInput
+                        id="cpf"
+                        type="text"
+                        name="password_confirmation"
+                        value={data.cpf}
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('cpf', e.target.value)}
                         required
                     />
 

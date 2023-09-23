@@ -32,7 +32,8 @@ class EstabelecimentoController extends Controller
         // $dados = $request->all();
         $dados = [
             'user_id' => $faker->numberBetween(1, 10),
-            'nome_estabelecimento' => $faker->company,
+            'razao_social' => $faker->company,
+            'nome_fantasia' => $faker->company,
             'cnpj' => $faker->numerify('##############'),
             'telefone' => $faker->phoneNumber,
             'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),

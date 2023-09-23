@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,8 +13,9 @@ return new class extends Migration
         Schema::create('estabelecimento', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('nome_estabelecimento');
-            $table->string('cnpj')->unique();
+            $table->string('razao_social');
+            $table->string('nome_fantasia');
+            $table->string('cnpj');
             $table->string('telefone')->unique();
             $table->timestamps();
 
@@ -30,7 +30,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('estabelecimento');
-        
+
     }
 };
-

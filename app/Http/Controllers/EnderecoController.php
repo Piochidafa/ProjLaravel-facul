@@ -38,7 +38,7 @@ class EnderecoController extends Controller
         $faker = Faker::create();
         // $dadoos = $request->all();
         $dados = [
-            "filial_id" => 1,
+            "estabelecimento_id" => 1,
             'bairro' => $faker->company,
             'cep' => $faker->numerify('#######'),
             'cidade' => $faker->city,
