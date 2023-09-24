@@ -21,12 +21,12 @@ class User extends Authenticatable
     protected $fillable = [
         'estabelecimento_id',
         'name',
-        'cpf',
         'email',
         'password',
     ];
 
-    public function estabelecimento(){
+    public function estabelecimento()
+    {
         return $this->hasMany(estabelecimento::class);
     }
 
