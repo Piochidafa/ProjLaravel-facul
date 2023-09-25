@@ -10,17 +10,17 @@ import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from 'axios';
 
-
 export default function CadastroEstabelecimento({ auth }) {
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
     // const openModal = () => {
     //     setIsModalOpen(true);
-    // }
     // const closeModal = () => {
     //     setIsModalOpen(false);
     // }
+
+    // console.log(auth);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         razao_social: '',
@@ -39,7 +39,8 @@ export default function CadastroEstabelecimento({ auth }) {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const estabelecimentoData = {
+            const requestData = {
+                userId: auth.user.id,
                 razao_social: data.razao_social,
                 nome_fantasia: data.nome_fantasia,
                 cnpj: data.cnpj,
@@ -48,15 +49,24 @@ export default function CadastroEstabelecimento({ auth }) {
                 cep: data.cep,
                 cidade: data.cidade,
                 estado: data.estado,
+                user_id: auth.user.id,
+            };
+            console.log(requestData);
+
+
+            console.log(requestData);
+            const response = await axios.post('/a/estabelecimento', requestData);
+            if (response.status === 201) {
+                console.error('Deu certo:', response);
+            } else {
+                if (response.status === 442) {
+                    console.error('Erro de validação: ', response.data.errors);
+                } else {
+                    console.error('Erro ao cadastrar estabelecimento e endereço:', response.data.error);
+                }
             }
-
-            const responseEstabelecimento = await axios.post('/a/estabelecimento', estabelecimentoData)
-            // Obtém o ID do estabelecimento criado a partir da resposta
-            const estabelecimentoId = responseEstabelecimento.data.id;
-
-            // Define o ID do estabelecimento no estado
-            setData('estabelecimento_id', estabelecimentoId);
             reset();
+
         } catch (error) {
             console.error('Erro ao cadastrar estabelecimento:', error);
         }

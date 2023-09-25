@@ -35,17 +35,8 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        $faker = Faker::create();
-        // $dados = $request->all();
-        $dados = [
-            "estabelecimento_id" => 1,
-            'bairro' => $faker->company,
-            'cep' => $faker->numerify('#######'),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-            'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-        ];
+
+        $dados = $request->all();
 
         $endereco = endereco::create($dados);
 

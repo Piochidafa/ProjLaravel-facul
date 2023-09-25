@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\endereco;
 use App\Models\estabelecimento;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use Inertia\Response;
 
@@ -18,7 +20,7 @@ class EstabelecimentoController extends Controller
     }
     public function create()
     {
-        return Inertia::render('Cadastro_Estabelecimento/Cad');
+        return Inertia::render('CadastroEstabelecimento/CadEstabelecimento');
 
     }
     /**
@@ -28,25 +30,45 @@ class EstabelecimentoController extends Controller
 
     public function store(Request $request)
     {
-        $faker = Faker::create();
-        // $dados = $request->all();
-        $dados = [
-            'user_id' => $faker->numberBetween(1, 10),
-            'razao_social' => $faker->company,
-            'nome_fantasia' => $faker->company,
-            'cnpj' => $faker->numerify('##############'),
-            'telefone' => $faker->phoneNumber,
-            'created_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-            'updated_at' => $faker->dateTimeBetween('2023-10-01', '2023-10-10')->format('Y-m-d\TH:i:s.u\Z'),
-        ];
+        try {
+            DB::beginTransaction();
 
-        $estabelecimento = estabelecimento::create($dados);
+            $estabelecimento = estabelecimento::create([
+                'razao_social' => $request->razao_social,
+                'nome_fantasia' => $request->nome_fantasia,
+                'cnpj' => $request->cnpj,
+                'telefone' => $request->telefone,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        return response()->json([
-            'message' => 'Estabelecimento criado com sucesso',
-            'data' => $estabelecimento,
-        ], 201);
+            $endereco = endereco::create([
+                'estabelecimento_id' => $estabelecimento->id,
+                'bairro' => $request->bairro,
+                'cep' => $request->cep,
+                'cidade' => $request->cidade,
+                'estado' => $request->estado,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Estabelecimento criado com sucesso',
+                'data' => [
+                    'estabelecimento' => $estabelecimento,
+                    'endereco' => $endereco,
+                ],
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
+            ], 500);
+        }
+
     }
+
     public function show(string $id)
     {
         //
