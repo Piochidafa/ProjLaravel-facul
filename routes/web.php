@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,15 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/a', [ProdutoController::class, 'index'])->name('produto.index');
+
+
+Route::post('/a/prod', [ProdutoController::class, 'store'])->name('produto.store');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/a/prod', [ProdutoController::class, 'store'])->name('produto.store');
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -25,7 +35,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/Initial', function(){
+Route::get('/Initial', function () {
     return Inertia::render('Initial/telaBasica');
 });
 
@@ -46,4 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+
+require __DIR__ . '/auth.php';
