@@ -31,6 +31,7 @@ export default function CadastroEstabelecimento({ auth }) {
         cep: '',
         cidade: '',
         estado: '',
+
     })
 
     useEffect(() => {
@@ -40,7 +41,6 @@ export default function CadastroEstabelecimento({ auth }) {
         e.preventDefault();
         try {
             const requestData = {
-                userId: auth.user.id,
                 razao_social: data.razao_social,
                 nome_fantasia: data.nome_fantasia,
                 cnpj: data.cnpj,

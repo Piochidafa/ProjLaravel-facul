@@ -31,9 +31,10 @@ class EstabelecimentoController extends Controller
     public function store(Request $request)
     {
         try {
-            DB::beginTransaction();
 
+            DB::beginTransaction();
             $estabelecimento = estabelecimento::create([
+                'user_id' => $request->user_id,
                 'razao_social' => $request->razao_social,
                 'nome_fantasia' => $request->nome_fantasia,
                 'cnpj' => $request->cnpj,
@@ -66,7 +67,6 @@ class EstabelecimentoController extends Controller
                 'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
             ], 500);
         }
-
     }
 
     public function show(string $id)
