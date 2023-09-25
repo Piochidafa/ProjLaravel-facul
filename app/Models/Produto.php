@@ -9,15 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 {
     use HasFactory;
 
-    protected $table = "produto";
-    protected $fillable = [
-        'produto_nome',
-        'produto_preco',
-        'produto_descricao',
-        'produto_peso',
-        'produto_tamanho',
-        'produto_material',
-        'produto_categoria',
-        'produto_fornecedor',
-    ];
+    protected $table = 'produtos';
+    protected fillable = [
+        'id';
+        'produto_nome';
+        'produto_descricao';
+        'produto_preco';
+        'produto_material';
+        'produto_tamanho';
+        'produto_peso';
+        ]
 }

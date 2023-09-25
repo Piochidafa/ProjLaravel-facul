@@ -21,6 +21,12 @@ return new class extends Migration
             $table->string('produto_material');
             $table->string('produto_categoria');
             $table->string('produto_fornecedor');
+            $table->string('produto_descricao');
+            $table->string('produto_material');
+            $table->string('produto_peso');
+            $table->string('produto_tamanho');
+            $table->string('categoria_id');
+            $table->string('fornecedor_id');
             $table->timestamps();
         });
     }
