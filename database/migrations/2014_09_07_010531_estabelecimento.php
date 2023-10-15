@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->dateTime('updated_at');
             $table->dateTime('created_at');
             $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 

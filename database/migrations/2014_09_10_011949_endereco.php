@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('cidade');
             $table->string('estado');
             $table->timestamps();
-
             $table->foreign('estabelecimento_id')->references('id')->on('estabelecimento');
         });
     }

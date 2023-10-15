@@ -19,5 +19,5 @@ class Produto extends Model
         'tamanho';
         'variacao';
         'unidade';
-        ]
+    ]
 }
