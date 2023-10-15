@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('nome_fantasia');
             $table->string('cnpj');
             $table->string('telefone')->unique();
-            $table->string('inactivated_at')->nullable();
+            $table->dateTime('inactivated_at')->nullable();
             // $table->timestamps();
             $table->dateTime('updated_at');
             $table->dateTime('created_at');

@@ -39,9 +39,9 @@ class EstabelecimentoController extends Controller
                 'nome_fantasia' => $request->nome_fantasia,
                 'cnpj' => $request->cnpj,
                 'telefone' => $request->telefone,
-                'inactivated_at' => '',
-                // 'created_at' => now(),
-                // 'updated_at' => now(),
+                'inactivated_at' => null,
+                'created_at' => now(),
+                'updated_at' => null,
             ]);
 
             $endereco = endereco::create([

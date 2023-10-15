@@ -21,6 +21,9 @@ class estabelecimento extends Model
         'nome_fantasia',
         'cnpj',
         'telefone',
+        'inactivated_at',
+        'updated_at',
+        'created_at'
     ];
 
     public function endereco()
