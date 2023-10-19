@@ -18,9 +18,7 @@ return new class extends Migration {
             $table->string('cnpj');
             $table->string('telefone')->unique();
             $table->dateTime('inactivated_at')->nullable();
-            // $table->timestamps();
-            $table->dateTime('updated_at');
-            $table->dateTime('created_at');
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

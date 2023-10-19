@@ -19,10 +19,10 @@ use Inertia\Inertia;
 |
 */
 
+Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
-    Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
     Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
 });
