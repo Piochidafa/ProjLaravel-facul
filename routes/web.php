@@ -21,12 +21,21 @@ use Inertia\Inertia;
 
 
 Route::middleware('auth')->group(function () {
+    
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
+    
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
+    
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
-    Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
-});
 
+    Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
+    
+    Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
+    
+    
+
+});
+Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

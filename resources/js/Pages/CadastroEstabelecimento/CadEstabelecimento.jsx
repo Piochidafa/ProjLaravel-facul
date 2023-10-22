@@ -9,8 +9,25 @@ import CadFilial from '../CadastroFilial/CadFilial';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from 'axios';
+import { getEstabelecimentoById } from '../../../../SERVICESSAPORRA/estabelecimentoService';
 
 export default function CadastroEstabelecimento({ auth }) {
+    
+
+    const [allEstabelecimentoData, setAllEstabelecimentoData] = useState()
+    const [controlVal, setControlVal] = useState(false)
+
+
+    useEffect(() => {
+        
+            getEstabelecimentoById(auth.user.id).then((res) => {
+        
+                if(res.data != {}){
+                    setAllEstabelecimentoData(res.data)
+                }
+            })
+
+    },[controlVal])
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,7 +55,8 @@ export default function CadastroEstabelecimento({ auth }) {
     }, []);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
+        
         try {
             const requestData = {
                 razao_social: data.razao_social,
@@ -51,10 +69,7 @@ export default function CadastroEstabelecimento({ auth }) {
                 estado: data.estado,
                 user_id: auth.user.id,
             };
-            console.log(requestData);
-
-
-            console.log(requestData);
+            
             const response = await axios.post('/a/estabelecimento', requestData);
             if (response.status === 201) {
                 console.error('Deu certo:', response);
@@ -65,6 +80,7 @@ export default function CadastroEstabelecimento({ auth }) {
                     console.error('Erro ao cadastrar estabelecimento e endereço:', response.data.error);
                 }
             }
+            setControlVal(controlVal => !controlVal)
             reset();
 
         } catch (error) {
@@ -80,7 +96,11 @@ export default function CadastroEstabelecimento({ auth }) {
         >
             <Head title="Cadastro Estabelecimento" />
 
-            <div className="py-12">
+            {<h1 style={{color: 'black'}}>{JSON.stringify(allEstabelecimentoData)}</h1>}
+
+            { !allEstabelecimentoData && (
+
+                <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <GuestLayout>
@@ -222,8 +242,12 @@ export default function CadastroEstabelecimento({ auth }) {
                         </GuestLayout>
 
                     </div>
+                
                 </div>
             </div>
+            )}
+
+            
 
         </AuthenticatedLayout>
 

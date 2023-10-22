@@ -17,12 +17,20 @@ export default function Dashboard({ auth }) {
             >
                 <Head title="Dashboard" />
 
-                <div className="py-12">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div className="p-6 text-gray-900">
+                {auth && (
+                    <h1>{JSON.stringify(auth.user)}</h1>
+                )}
+
+                <div className="py-12 flex justify-content-center">
+                    <div className="w-11">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-7">
+                            <button className="p-4 text-0 border-0 border-1 border-round-3xl" >
+                                <a href="CadastroEstabelecimento">Meu Estabelecimento</a>
+                            </button>
+                            
+                            {/* <div className="p-6 text-gray-900">
                                 You're logged in!
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
