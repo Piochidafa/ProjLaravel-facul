@@ -1,8 +1,7 @@
-
-
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import CadastroEstabelecimento from "./CadastroEstabelecimento/CadEstabelecimento";
+// import CadastroEstabelecimento from "./CadastroEstabelecimento/CadEstabelecimento";
+import CadastroProduto from "./CadastroProduto/CadProd";
 
 export default function Dashboard({ auth }) {
     return (
@@ -17,17 +16,17 @@ export default function Dashboard({ auth }) {
             >
                 <Head title="Dashboard" />
 
-                {auth && (
-                    <h1>{JSON.stringify(auth.user)}</h1>
-                )}
+                {auth && <h1>{JSON.stringify(auth.user)}</h1>}
 
                 <div className="py-12 flex justify-content-center">
                     <div className="w-11">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-7">
-                            <button className="p-4 text-0 border-0 border-1 border-round-3xl" >
-                                <a href="CadastroEstabelecimento">Meu Estabelecimento</a>
+                            <button className="p-4 text-0 border-0 border-1 border-round-3xl">
+                                <a href="MeuEstabelecimento">
+                                    Meu Estabelecimento
+                                </a>
                             </button>
-                            
+
                             {/* <div className="p-6 text-gray-900">
                                 You're logged in!
                             </div> */}
@@ -38,5 +37,3 @@ export default function Dashboard({ auth }) {
         </div>
     );
 }
-
-
