@@ -1,16 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 // import CadastroEstabelecimento from "./CadastroEstabelecimento/CadEstabelecimento";
-import CadastroProduto from "./CadastroProduto/CadProd";
+import CadastroProduto from "../../../js/Pages/CadastroProduto/CadProd";
 
-export default function Dashboard({ auth }) {
+export default function MeuEstabelecimento({ auth }) {
     return (
         <div>
             <AuthenticatedLayout
                 user={auth.user}
                 header={
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Dashboard
+                        Meu Estabelecimento
                     </h2>
                 }
             >
@@ -21,11 +21,10 @@ export default function Dashboard({ auth }) {
                 <div className="py-12 flex justify-content-center">
                     <div className="w-11">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-7">
-                            <button className="p-4 text-0 border-0 border-1 border-round-3xl">
-                                <a href="MeuEstabelecimento">
-                                    Meu Estabelecimento
-                                </a>
-                            </button>
+                            <p className="text-100">User: frog</p>
+                            <p className="text-100">Estabelecimento: perere</p>
+                            <button className="text-100">Editar</button>
+                            <button className="text-100">Desativar</button>
 
                             {/* <div className="p-6 text-gray-900">
                                 You're logged in!
