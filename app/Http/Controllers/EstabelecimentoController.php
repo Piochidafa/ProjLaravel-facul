@@ -63,7 +63,8 @@ class EstabelecimentoController extends Controller
 
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
 
-            return redirect(RouteServiceProvider::HOME);
+            // return redirect(RouteServiceProvider::HOME);
+            return Redirect()->route('dashboard')->with('success','Estabelecimento Cadastrado com susexo');
 
         } catch (\Exception $e) {
             DB::rollback();

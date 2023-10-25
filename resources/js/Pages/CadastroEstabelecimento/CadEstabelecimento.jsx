@@ -29,16 +29,6 @@ export default function CadastroEstabelecimento({ auth }) {
 
     },[controlVal])
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // const openModal = () => {
-    //     setIsModalOpen(true);
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // }
-
-    // console.log(auth);
-
     const { data, setData, post, processing, errors, reset } = useForm({
         razao_social: '',
         nome_fantasia: '',
@@ -57,35 +47,35 @@ export default function CadastroEstabelecimento({ auth }) {
     const onSubmit = async (e) => {
         // e.preventDefault();
         
-        try {
-            const requestData = {
-                razao_social: data.razao_social,
-                nome_fantasia: data.nome_fantasia,
-                cnpj: data.cnpj,
-                telefone: data.telefone,
-                bairro: data.bairro,
-                cep: data.cep,
-                cidade: data.cidade,
-                estado: data.estado,
-                user_id: auth.user.id,
-            };
+        // try {
+        //     const requestData = {
+        //         razao_social: data.razao_social,
+        //         nome_fantasia: data.nome_fantasia,
+        //         cnpj: data.cnpj,
+        //         telefone: data.telefone,
+        //         bairro: data.bairro,
+        //         cep: data.cep,
+        //         cidade: data.cidade,
+        //         estado: data.estado,
+        //         user_id: auth.user.id,
+        //     };
             
-            const response = await axios.post('/a/estabelecimento', requestData);
-            if (response.status === 201) {
-                console.error('Deu certo:', response);
-            } else {
-                if (response.status === 442) {
-                    console.error('Erro de validação: ', response.data.errors);
-                } else {
-                    console.error('Erro ao cadastrar estabelecimento e endereço:', response.data.error);
-                }
-            }
-            setControlVal(controlVal => !controlVal)
-            reset();
+            // const response = await axios.post('/a/estabelecimento', requestData);
+            // if (response.status === 201) {
+            //     console.error('Deu certo:', response);
+            // } else {
+            //     if (response.status === 442) {
+            //         console.error('Erro de validação: ', response.data.errors);
+            //     } else {
+            //         console.error('Erro ao cadastrar estabelecimento e endereço:', response.data.error);
+            //     }
+            // }
+        //     setControlVal(controlVal => !controlVal)
+        //     reset();
 
-        } catch (error) {
-            console.error('Erro ao cadastrar estabelecimento:', error);
-        }
+        // } catch (error) {
+        //     console.error('Erro ao cadastrar estabelecimento:', error);
+        // }
     };
 
     return (
@@ -104,7 +94,7 @@ export default function CadastroEstabelecimento({ auth }) {
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <GuestLayout>
-                            <form onSubmit={onSubmit} action='/a/estabelecimento' method='POST' className='p-4'>
+                            <form onSubmit={onSubmit} action='a/estabelecimento' method='POST' className='p-4'>
                                 <div className='grid grid-cols-2 gap-4'>
 
                                     <div about='razao_social' >
