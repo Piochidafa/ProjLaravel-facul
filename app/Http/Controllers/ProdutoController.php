@@ -44,7 +44,7 @@ class ProdutoController extends Controller
             DB::beginTransaction();
             $produto = Produto::create([
                 // 'user_id' => $request->user_id,
-                'nome_produto' => "$request->nome_produto",
+                'nome_produto' => $request->nome_produto,
                 'valor' => $request->valor,
                 'descricao' => $request->descricao,
                 'peso' => $request->peso,
@@ -55,6 +55,8 @@ class ProdutoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            
             DB::commit();
 
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
