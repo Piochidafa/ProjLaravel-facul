@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\FornecedorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
 
-
-
+    
 });
+Route::post('a/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 
@@ -70,6 +71,9 @@ Route::get('/MeuEstabelecimento', function () {
     return Inertia::render('MeuEstabelecimento/MyEstabelecimento');
 })->middleware(['auth', 'verified'])->name('MeuEstabelecimento');
 
+Route::get('/CadastroFornecedor', function (){
+    return Inertia::render('CadastroFornecedor/cadastrofornecedor');    
+})->middleware(['auth', 'verified'])->name('CadastroFornecedor');
 
 
 Route::middleware('auth')->group(function () {

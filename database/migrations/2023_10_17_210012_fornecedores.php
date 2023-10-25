@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create("fornecedor", function (Blueprint $table) {
-            $table->id("id");
+            $table->id();
             $table->string("razao_social");
             $table->string("cnpj");
             $table->string("email");
@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->dateTime("updated_at");
             $table->dateTime("created_at");
             $table->dateTime('inactivated_at')->nullable();
-            $table->string("endereco_id");
+            $table->string("endereco_id")->nullable();
         });
     }
 
