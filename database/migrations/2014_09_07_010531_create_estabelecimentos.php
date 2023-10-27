@@ -10,18 +10,19 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('estabelecimento', function (Blueprint $table) {
+        Schema::create('estabelecimentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('razao_social');
             $table->string('nome_fantasia');
             $table->string('cnpj');
             $table->string('telefone')->unique();
-            $table->dateTime('inactivated_at')->nullable();
-            // $table->timestamps();
-            $table->dateTime('updated_at');
             $table->dateTime('created_at');
+            $table->dateTime('updated_at');
+            $table->dateTime('inactivated_at')->nullable();
+            $table->unsignedBigInteger('endereco_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('endereco_id')->references('id')->on('enderecos');
         });
     }
 
@@ -30,7 +31,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('estabelecimento');
+        Schema::dropIfExists('estabelecimentos');
 
     }
 };

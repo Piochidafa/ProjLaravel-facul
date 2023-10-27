@@ -20,9 +20,12 @@ return new class extends Migration {
             $table->dateTime("updated_at");
             $table->dateTime("created_at");
             $table->dateTime('inactivated_at')->nullable();
+            $table->unsignedBigInteger('produto_id');
+            $table->unsignedBigInteger('estabelecimento_id');
+            $table->unsignedBigInteger('fornecedor_id');
             $table->foreign("produto_id")->references("id")->on("produtos");
-            $table->foreign("estabelecimento_id")->references("id")->on("estabelecimento");
-            $table->foreign("fornecedor_id")->references("id")->on("fornecedor");
+            $table->foreign("estabelecimento_id")->references("id")->on("estabelecimentos");
+            $table->foreign("fornecedor_id")->references("id")->on("fornecedores");
         });
     }
 
@@ -31,6 +34,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('produtos_estabelecimento');
     }
 };
