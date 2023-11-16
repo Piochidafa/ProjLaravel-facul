@@ -10,17 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('endereco', function (Blueprint $table) {
+        Schema::create('enderecos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('estabelecimento_id');
-            // $table->unsignedBigInteger('fornecedor_id');
             $table->string('bairro');
             $table->string('cep');
             $table->string('cidade');
             $table->string('estado');
-            $table->timestamps();
-            $table->foreign('estabelecimento_id')->references('id')->on('estabelecimento');
-            // $table->foreign('fornecedor_id')->references('id')->on('fornecedor');
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('endereco');
+        Schema::dropIfExists('enderecos');
     }
 };

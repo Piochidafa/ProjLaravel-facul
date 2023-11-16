@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\endereco;
+
 use App\Models\Produto;
 
 
+use App\Models\ProdutoEstabelecimento;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -45,26 +46,35 @@ class ProdutoController extends Controller
 
             DB::beginTransaction();
             $produto = Produto::create([
-                // 'user_id' => $request->user_id,
-                'nome_produto' => "$request->nome_produto",
-                'valor' => $request->valor,
-                'descricao' => $request->descricao,
+                'nome_produto' => $request->nome_produto,
                 'peso' => $request->peso,
                 'tamanho' => $request->tamanho,
                 'material' => $request->material,
                 'categoria' => $request->categoria,
-                'fornecedor' => $request->fornecedor,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            
+            
+            $produtoEstabelecimento = ProdutoEstabelecimento::create([
+                'valor' => $request->valor,
+                'descricao' => $request->descricao,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'produto_id' => $produto->id,
+                'estabalecimento_id' => $request->estabelecimento,
+                'fornecedor_id' => $request->fornecedor,
+            ]);
+
+            
             DB::commit();
 
-            // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
+            // return Inertia::location(route('dashboard'))->with('success', 'Produto criado com sucesso');
 
             return response()->json([
-                'message' => 'Estabelecimento criado com sucesso',
+                'message' => 'Produto criado com sucesso',
                 'data' => [
-                    'estabelecimento' => $produto
+                    'produto' => $produtoEstabelecimento
                 ],
             ], 201);
 
@@ -76,7 +86,7 @@ class ProdutoController extends Controller
             // return redirect(RouteServiceProvider::HOME);
 
             return response()->json([
-                'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
+                'error' => 'Erro ao cadastrar Produto e ProdutoEstabelecimento: ' . $e->getMessage(),
             ], 500);
         }
     }
@@ -86,7 +96,12 @@ class ProdutoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $produtoEstabelecimento = ProdutoEstabelecimento::find($id);
+
+        if (!$produtoEstabelecimento) {
+            return response()->json(['error' => 'Recurso não encontrado'], 404);
+        }
+        return response()->json(['data' => $produtoEstabelecimento], 200);
     }
 
     /**
