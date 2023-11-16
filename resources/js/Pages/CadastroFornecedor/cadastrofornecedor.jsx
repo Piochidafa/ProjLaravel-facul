@@ -9,25 +9,11 @@ import CadEstabelecimento from '../CadastroEstabelecimento/CadEstabelecimento';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from 'axios';
-import { getFornecedorById } from '../../../../SERVICESSAPORRA/fornecedorService';
+
 
 export default function CadastroFornecedor({ auth }) {
-    
-
-    const [allFornecedorData, setAllFornecedorData] = useState()
-    const [controlVal, setControlVal] = useState(false)
 
 
-    useEffect(() => {
-        
-            getFornecedorById(auth.user.id).then((res) => {
-        
-                if(res.data != {}){
-                    setAllFornecedorData(res.data)
-                }
-            })
-
-    },[controlVal])
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -46,8 +32,9 @@ export default function CadastroFornecedor({ auth }) {
         cep: '',
         cidade: '',
         estado: '',
-        bairro: ''
-
+        bairro: '',
+        marca: '',
+        email: '',
     })
 
     useEffect(() => {
@@ -55,35 +42,32 @@ export default function CadastroFornecedor({ auth }) {
 
     const onSubmit = async (e) => {
         // e.preventDefault();
-        
-        // try {
-        //     const requestData = {
-        //         razao_social: data.razao_social,
-        //         cnpj: data.cnpj,
-        //         web_site: data.web_site,
-        //         bairro: data.bairro,
-        //         cep: data.cep,
-        //         cidade: data.cidade,
-        //         estado: data.estado,
-        //         user_id: auth.user.id,
-        //     };
-            
-        //     const response = await axios.post('/a/fornecedor', requestData);
-        //     if (response.status === 201) {
-        //         console.error('Deu certo:', response);
-        //     } else {
-        //         if (response.status === 442) {
-        //             console.error('Erro de validação: ', response.data.errors);
-        //         } else {
-        //             console.error('Erro ao cadastrar Fornecedor e endereço:', response.data.error);
-        //         }
-        //     }
-        //     setControlVal(controlVal => !controlVal)
-        //     reset();
 
-        // } catch (error) {
-        //     console.error('Erro ao cadastrar Fornecedor:', error);
-        // }
+        try {
+            const requestData = {
+                razao_social: data.razao_social,
+                cnpj: data.cnpj,
+                web_site: data.web_site,
+                bairro: data.bairro,
+                cep: data.cep,
+                cidade: data.cidade,
+                estado: data.estado,
+                marca: data.marca,
+                email: data.email,
+                user_id: auth.user.id,
+            };
+
+            const response = await axios.post('/c/fornecedor', requestData);
+            if (response.status === 200) {
+                console.error('Deu certo:', response);
+            }
+            else {
+                console.error('Erro ao cadastrar Fornecedor e endereço:', error);
+            }   
+
+        } catch (error) {
+            console.error('Erro ao cadastrar Fornecedor:', error, response);
+        }
     };
 
     return (
@@ -94,15 +78,11 @@ export default function CadastroFornecedor({ auth }) {
         >
             <Head title="Cadastro Fornecedor" />
 
-            {<h1 style={{color: 'black'}}>{JSON.stringify(allFornecedorData)}</h1>}
-
-            { !allFornecedorData && (
-
-                <div className="py-12">
+            <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <GuestLayout>
-                            <form onSubmit={onSubmit} action='a/fornecedor' method='POST' className='p-4'>
+                            <form onSubmit={onSubmit} className='p-4'>
                                 <div className='grid grid-cols-2 gap-4'>
 
                                     <div about='razao_social' >
@@ -120,7 +100,7 @@ export default function CadastroFornecedor({ auth }) {
                                         <InputError message={errors.razao_social} className="mt-2" />
                                     </div>
 
-                                   
+
 
                                     <div about='cnpj'>
                                         <InputLabel value="Cnpj" />
@@ -152,7 +132,7 @@ export default function CadastroFornecedor({ auth }) {
                                         <InputError message={errors.web_site} className="mt-2" />
                                     </div>
 
-                                    
+
                                     <div about='Bairro' >
                                         <InputLabel value="Bairro" />
                                         <TextInput
@@ -208,6 +188,34 @@ export default function CadastroFornecedor({ auth }) {
                                         />
                                         <InputError message={errors.estado} className="mt-2" />
                                     </div>
+
+                                    <div about='marca' >
+                                        <InputLabel value="marca" />
+                                        <TextInput
+                                            id="marca"
+                                            type="text"
+                                            name="marca"
+                                            value={data.marca}
+                                            className="mt-1 block w-full"
+                                            isFocused={true}
+                                            onChange={(e) => setData('marca', e.target.value)}
+                                        />
+                                        <InputError message={errors.marca} className="mt-2" />
+                                    </div>
+                                    <div about='email' >
+                                        <InputLabel value="email" />
+                                        <TextInput
+                                            id="email"
+                                            type="text"
+                                            name="email"
+                                            value={data.email}
+                                            className="mt-1 block w-full"
+                                            isFocused={true}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                        />
+                                        <InputError message={errors.email} className="mt-2" />
+                                    </div>
+
                                 </div>
                                 <div className="flex items-center justify-content-between mt-4 flex-col">
                                     <PrimaryButton className="ml-4" disabled={processing}>
@@ -227,12 +235,9 @@ export default function CadastroFornecedor({ auth }) {
                         </GuestLayout>
 
                     </div>
-                
+
                 </div>
             </div>
-            )}
-
-            
 
         </AuthenticatedLayout>
 

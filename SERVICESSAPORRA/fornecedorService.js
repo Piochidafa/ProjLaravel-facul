@@ -17,7 +17,7 @@ export function getAllFornecedor() {
  
 export function getFornecedorById(id) {
   return new Promise((resolve, reject) => {
-    axios.get(`${baseUrl}/Fornecedor/user/${id}`).then((res) => {
+    axios.get(`${baseUrl}/fornecedor/user/${id}`).then((res) => {
       resolve(res.data);
       console.log(res.data);
     })

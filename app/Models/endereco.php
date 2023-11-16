@@ -15,7 +15,8 @@ class endereco extends Model
      */
     protected $table = 'endereco';
     protected $fillable = [
-        'estabelecimento_id',
+        'estabelecimento_id',        
+        // 'fornecedor_id',        
         'bairro',
         'cep',
         'cidade',

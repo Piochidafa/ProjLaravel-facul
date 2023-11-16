@@ -17,5 +17,7 @@ class VerifyCsrfToken extends Middleware
         'b/*',
         'a/estabelecimento/endereco',
         'a/*',
+        '/c/fornecedor',
+
     ];
 }

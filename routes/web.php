@@ -37,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
 
     
+    Route::post('/c/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
 });
-Route::post('a/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 

@@ -18,11 +18,12 @@ class fornecedor extends Model
     protected $fillable = [
         'razao_social',
         'marca',
+        'web_site',
         'cnpj',
         'email',
-        'web_site',
         'updated_at',
         'created_at',
+        'inactivated_at',
         'endereco_id'
     ];
 

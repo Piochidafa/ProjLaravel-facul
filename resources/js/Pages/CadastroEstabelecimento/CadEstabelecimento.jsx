@@ -28,6 +28,9 @@ export default function CadastroEstabelecimento({ auth }) {
             })
 
     },[controlVal])
+    console.log("allEstabelecimentoData: ",allEstabelecimentoData);
+    console.log("controlVal: ",controlVal);
+    console.log("getFornecedorById: ",getEstabelecimentoById());
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
