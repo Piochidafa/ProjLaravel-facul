@@ -34,45 +34,73 @@ class EstabelecimentoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request): RedirectResponse
+    // public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         try {
 
             DB::beginTransaction();
-            $estabelecimento = estabelecimento::create([
-                // 'user_id' => $request->user_id,
-                'user_id' => Auth::user()->getAuthIdentifier(),
-                'razao_social' => $request->razao_social,
-                'nome_fantasia' => $request->nome_fantasia,
-                'cnpj' => $request->cnpj,
-                'telefone' => $request->telefone,
-                'inactivated_at' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        //     $estabelecimento = estabelecimento::create([
+        //         // 'user_id' => $request->user_id,
+        //         'user_id' => Auth::user()->getAuthIdentifier(),
+        //         'razao_social' => $request->razao_social,
+        //         'nome_fantasia' => $request->nome_fantasia,
+        //         'cnpj' => $request->cnpj,
+        //         'telefone' => $request->telefone,
+        //         'inactivated_at' => null,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
 
-            $endereco = endereco::create([
-                'estabelecimento_id' => $estabelecimento->id,
-                'bairro' => $request->bairro,
-                'cep' => $request->cep,
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-            ]);
+        //     $endereco = endereco::create([
+        //         'estabelecimento_id' => $estabelecimento->id,
+        //         'bairro' => $request->bairro,
+        //         'cep' => $request->cep,
+        //         'cidade' => $request->cidade,
+        //         'estado' => $request->estado,
+        //     ]);
+        
+        
+        $endereco = endereco::create([
+            'bairro' => 'logo ali',
+            'cep' => '78032010',
+            'cidade' => 'cuiabrasa',
+            'estado' => 'MT',
+        ]);
+
+        $estabelecimento = estabelecimento::create([
+            // 'user_id' => $request->user_id,
+            'user_id' => Auth::user()->getAuthIdentifier(),
+            'endereco_id' => $endereco->id,
+            'razao_social' => 'empresa_1',
+            'nome_fantasia' => 'boa compra',
+            'cnpj' => '4409233000165',
+            'telefone' => '659981253666',
+            'inactivated_at' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
             DB::commit();
 
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
 
-            return redirect(RouteServiceProvider::HOME);
+            // return redirect(RouteServiceProvider::HOME);
+            return response()->json([
+                'message' => 'estabelecimento criado com sucesso',
+                'data' => [
+                    'estabelecimento' => $estabelecimento
+                ],
+            ], 201);
 
         } catch (\Exception $e) {
             DB::rollback();
 
-            return redirect(RouteServiceProvider::HOME);
+            // return redirect(RouteServiceProvider::HOME);
 
-            // return response()->json([
-            //     'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
-            // ], 500);
+            return response()->json([
+                'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
+            ], 500);
         }
     }
 

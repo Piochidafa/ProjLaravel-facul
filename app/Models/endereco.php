@@ -13,7 +13,7 @@ class endereco extends Model
      *
      * @var array<int, string>
      */
-    protected $table = 'endereco';
+    protected $table = 'enderecos';
     protected $fillable = [
         'estabelecimento_id',
         'bairro',

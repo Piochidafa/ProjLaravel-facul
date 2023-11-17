@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('fornecedores', function (Blueprint $table) {
-            $table->id('id');
+            $table->bigIncrements('id');
             $table->string('razao_social');
             $table->string('cnpj');
             $table->string('email');

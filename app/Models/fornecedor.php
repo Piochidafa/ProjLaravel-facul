@@ -14,7 +14,7 @@ class fornecedor extends Model
      * @var array<int, string>
      */
 
-    protected $table = "fornecedor";
+    protected $table = "fornecedores";
     protected $fillable = [
         'razao_social',
         'marca',

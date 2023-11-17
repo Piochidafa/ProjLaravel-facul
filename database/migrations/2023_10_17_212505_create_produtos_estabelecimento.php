@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create("produtos_estabelecimento", function (Blueprint $table) {
-            $table->id("id");          
-            $table->string("preco");
+            $table->bigIncrements("id");          
+            $table->string("preco")->default(0);
             $table->string("descricao");
             $table->dateTime("updated_at");
             $table->dateTime("created_at");

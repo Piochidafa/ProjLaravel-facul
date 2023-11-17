@@ -14,7 +14,7 @@ class estabelecimento extends Model
      *
      * @var array<int, string>
      */
-    protected $table = "estabelecimento";
+    protected $table = "estabelecimentos";
     protected $fillable = [
         'user_id',
         'razao_social',
