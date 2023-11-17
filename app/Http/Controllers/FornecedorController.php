@@ -39,10 +39,18 @@ class FornecedorController extends Controller
        // try {
 
             DB::beginTransaction();
+            $endereco = endereco::create([
+                'bairro' => $request->bairro,
+                'cep' => $request->cep,
+                'cidade' => $request->cidade,
+                'estado' => $request->estado,
+            ]);
+
             $fornecedor = fornecedor::create([
                 // 'user_id' => $request->user_id,
                 'user_id' => Auth::user()->getAuthIdentifier(),
                 'razao_social' => $request->razao_social,
+                'telefone' => $request->telefone,
                 'cnpj' => $request->cnpj,
                 'web_site' => $request->web_site,                
                 'marca' => $request->marca,
@@ -50,14 +58,9 @@ class FornecedorController extends Controller
                 'inactivated_at' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'endereco_id' => $endereco->id,
             ]);
-            $endereco = endereco::create([
-                // 'fornecedor_id' => $fornecedor->id,
-                'bairro' => $request->bairro,
-                'cep' => $request->cep,
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-            ]);
+            
 
 
             DB::commit();

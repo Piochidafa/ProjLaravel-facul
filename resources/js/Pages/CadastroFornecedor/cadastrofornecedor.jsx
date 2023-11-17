@@ -27,6 +27,7 @@ export default function CadastroFornecedor({ auth }) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         razao_social: '',
+        telefone: '',
         cnpj: '',
         web_site: '',
         cep: '',
@@ -46,6 +47,7 @@ export default function CadastroFornecedor({ auth }) {
         try {
             const requestData = {
                 razao_social: data.razao_social,
+                telefone: data.telefone,
                 cnpj: data.cnpj,
                 web_site: data.web_site,
                 bairro: data.bairro,
@@ -99,6 +101,23 @@ export default function CadastroFornecedor({ auth }) {
 
                                         <InputError message={errors.razao_social} className="mt-2" />
                                     </div>
+
+
+                                    <div about='telefone' >
+                                        <InputLabel value="telefone" />
+                                        <TextInput
+                                            id="telefone"
+                                            type="text"
+                                            name="telefone"
+                                            value={data.telefone}
+                                            className="mt-1 block w-full"
+                                            isFocused={true}
+                                            onChange={(e) => setData('telefone', e.target.value)}
+                                        />
+
+                                        <InputError message={errors.telefone} className="mt-2" />
+                                    </div>
+        
 
 
 

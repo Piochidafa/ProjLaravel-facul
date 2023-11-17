@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('cep');
             $table->string('cidade');
             $table->string('estado');
+            $table->timestamps();
         });
     }
 
