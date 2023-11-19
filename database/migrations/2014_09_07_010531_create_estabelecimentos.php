@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('razao_social');
             $table->string('nome_fantasia');
             $table->string('cnpj');
-            $table->string('telefone')->unique();
+            $table->string('telefone');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             $table->dateTime('inactivated_at')->nullable();
