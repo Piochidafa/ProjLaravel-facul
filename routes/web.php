@@ -23,7 +23,6 @@ use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
 
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
 
@@ -38,6 +37,12 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
+Route::put('a/estabelecimento/{id}/editar', [EstabelecimentoController::class, 'edit'])->name('estabelecimento.edit');
+
+Route::post('a/estabelecimento/{id}/atualizar', [EstabelecimentoController::class, 'update'])->name('estabelecimento.store');
+
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 
