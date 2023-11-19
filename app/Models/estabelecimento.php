@@ -17,6 +17,7 @@ class estabelecimento extends Model
     protected $table = "estabelecimentos";
     protected $fillable = [
         'user_id',
+        'endereco_id',
         'razao_social',
         'nome_fantasia',
         'cnpj',
