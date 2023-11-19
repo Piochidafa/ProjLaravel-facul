@@ -133,7 +133,8 @@ class EstabelecimentoController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $estabelecimento = EstabelecimentoController::findOrFail($id);
+        return response()->json(['estabelecimento' => $estabelecimento]);
     }
 
     /**
@@ -141,7 +142,14 @@ class EstabelecimentoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            // Defina as regras de validação aqui
+        ]);
+
+        $estabelecimento = EstabelecimentoController::findOrFail($id);
+        $estabelecimento->update($request->all());
+
+        return response()->json('estabelecimento.index')->with('success', 'Entidade atualizada com sucesso!');
     }
 
     /**
