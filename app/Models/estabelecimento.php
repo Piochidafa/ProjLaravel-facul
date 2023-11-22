@@ -29,7 +29,7 @@ class estabelecimento extends Model
 
     public function endereco()
     {
-        return $this->hasOne(endereco::class);
+        return $this->hasOne(endereco::class, 'endereco_id');
     }
 
 }
