@@ -10,7 +10,7 @@ import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-// import { getProdutoById } from "../../../../SERVICESSAPORRA/produtoService";
+import { getEstabelecimentoById } from "../../../../SERVICESSAPORRA/estabelecimentoService";
 
 export default function CadastroProduto({ auth }) {
     const [allProdutoData, setAllProdutoData] = useState();
@@ -42,47 +42,45 @@ export default function CadastroProduto({ auth }) {
         tamanho: "",
         material: "",
         categoria: "",
-        fornecedor: "",
+        fornecedor_id: "",
+        // estabelecimento_id:,
     });
 
     useEffect(() => {}, []);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const requestData = {
-                nome_produto: data.nome_produto,
-                valor: data.valor,
-                descricao: data.descricao,
-                peso: data.peso,
-                tamanho: data.tamanho,
-                material: data.material,
-                categoria: data.categoria,
-                fornecedor: data.fornecedor,
-                // user_id: auth.user.id,
-            };
-
-            console.log(requestData);
-
-            const response = await axios.post("/b/produto", requestData);
-            if (response.status === 201) {
-                console.error("Deu certo:", response);
-            } else {
-                if (response.status === 442) {
-                    console.error("Erro de validação: ", response.data.errors);
-                } else {
-                    console.error(
-                        "Erro ao cadastrar produto e endereço:",
-                        response.data.error
-                    );
-                }
-            }
-            setControlVal((controlVal) => !controlVal);
-            reset();
-        } catch (error) {
-            console.error("Erro ao cadastrar produto:", error);
-        }
+        //     e.preventDefault();
+        //     try {
+        //         const requestData = {
+        //             nome_produto: data.nome_produto,
+        //             valor: data.valor,
+        //             descricao: data.descricao,
+        //             peso: data.peso,
+        //             tamanho: data.tamanho,
+        //             material: data.material,
+        //             categoria: data.categoria,
+        //             fornecedor: data.fornecedor,
+        //             user_id: auth.user.id,
+        //         };
+        //         console.log(requestData);
+        //         const response = await axios.post("/b/produto", requestData);
+        //         if (response.status === 201) {
+        //             console.error("Deu certo:", response);
+        //         } else {
+        //             if (response.status === 442) {
+        //                 console.error("Erro de validação: ", response.data.errors);
+        //             } else {
+        //                 console.error(
+        //                     "Erro ao cadastrar produto e endereço:",
+        //                     response.data.error
+        //                 );
+        //             }
+        //         }
+        //         setControlVal((controlVal) => !controlVal);
+        //         reset();
+        //     } catch (error) {
+        //         console.error("Erro ao cadastrar produto:", error);
+        //     }
     };
 
     return (
