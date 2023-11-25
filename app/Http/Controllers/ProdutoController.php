@@ -41,53 +41,55 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
+            $produto = Produto::create([
+                'nome_produto' => $request->nome_produto,
+                'peso' => $request->peso,
+                'unidade' => '1',
+                'tamanho' => $request->tamanho,
+                'material' => $request->material,
+                'categoria' => $request->categoria,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+
+            $produtoEstabelecimento = ProdutoEstabelecimento::create([
+                'valor' => $request->valor,
+                'descricao' => $request->descricao,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'produto_id' => $produto->id,
+                // 'estabelecimento_id' => null,
+                'fornecedor_id' => '2',
+            ]);
+
             // DB::beginTransaction();
-            // $produto = Produto::create([
-            //     'nome_produto' => $request->nome_produto,
-            //     'peso' => $request->peso,
-            //     'tamanho' => $request->tamanho,
-            //     'material' => $request->material,
-            //     'categoria' => $request->categoria,
+            // $produto = Produto::firstOrCreate([
+            //     'nome_produto' => 'esponja bob',
+            //     'peso' => '32',
+            //     'unidade' => '1',
+            //     'tamanho' => '13',
+            //     'material' => 'polímero',
+            //     'categoria' => 'limpeza',
             //     'created_at' => now(),
             //     'updated_at' => now(),
             // ]);
-            
-            
+
+
             // $produtoEstabelecimento = ProdutoEstabelecimento::create([
-            //     'valor' => $request->valor,
-            //     'descricao' => $request->descricao,
+            //     'preco' => '2.00',
+            //     'descricao' => 'massa pra ela',
             //     'created_at' => now(),
             //     'updated_at' => now(),
             //     'produto_id' => $produto->id,
-            //     'estabalecimento_id' => $request->estabelecimento,
-            //     'fornecedor_id' => $request->fornecedor,
+            //     'estabelecimento_id' => 1,
+            //     'fornecedor_id' => 2,
             // ]);
 
-            DB::beginTransaction();
-            $produto = Produto::firstOrCreate([
-                'nome_produto' => 'esponja bob',
-                'peso' => '32',
-                'tamanho' => '13',
-                'material' => 'polímero',
-                'categoria' => 'limpeza',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            
-            
-            $produtoEstabelecimento = ProdutoEstabelecimento::create([
-                'preco' => '2.00',
-                'descricao' => 'massa pra ela',
-                'created_at' => now(),
-                'updated_at' => now(),
-                'produto_id' => 1,
-                'estabelecimento_id' => 1,
-                'fornecedor_id' => 1,
-            ]);
 
 
-            
-            
+
             DB::commit();
 
             // return Inertia::location(route('dashboard'))->with('success', 'Produto criado com sucesso');
