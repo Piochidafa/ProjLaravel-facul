@@ -14,7 +14,7 @@ class ProdutoEstabelecimento extends Model
         'descricao',
         'preco',
         'produto_id',
-        'estabelecimento_id',
+        // 'estabelecimento_id',
         'fornecedor_id',
         'updated_at',
         'created_at',
