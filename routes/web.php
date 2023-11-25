@@ -5,6 +5,7 @@ use App\Http\Controllers\EstabelecimentoController;
 use App\Http\Controllers\FilialController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FornecedorController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,30 +21,31 @@ use Inertia\Inertia;
 |
 */
 
-Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
-    // Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('endereco.store');
-    
-    Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
-    
+   
+   //Estabelecimento
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
+    Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
+    Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
     
-    // Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
 
+    //Endereço Estabelecimento
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
+    Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
+   
 
-
+    //Produto
+    Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
     Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
 
-    Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
 
+    //Fornecedor
+    Route::post('/c/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
 
 
 });
 
-Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 
 Route::get('/', function () {
@@ -75,7 +77,9 @@ Route::get('/MeuEstabelecimento', function () {
     return Inertia::render('MeuEstabelecimento/MyEstabelecimento');
 })->middleware(['auth', 'verified'])->name('MeuEstabelecimento');
 
-
+Route::get('/CadastroFornecedor', function (){
+    return Inertia::render('CadastroFornecedor/cadastrofornecedor');    
+})->middleware(['auth', 'verified'])->name('CadastroFornecedor');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

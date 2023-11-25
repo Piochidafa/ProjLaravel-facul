@@ -39,9 +39,18 @@ class EstabelecimentoController extends Controller
         try {
 
             DB::beginTransaction();
+            
+            $endereco = endereco::create([
+                'bairro' => $request->bairro,
+                'cep' => $request->cep,
+                'cidade' => $request->cidade,
+                'estado' => $request->estado,
+            ]);
+            
             $estabelecimento = estabelecimento::create([
                 // 'user_id' => $request->user_id,
                 'user_id' => Auth::user()->getAuthIdentifier(),
+                'endereco_id' => $endereco->id,
                 'razao_social' => $request->razao_social,
                 'nome_fantasia' => $request->nome_fantasia,
                 'cnpj' => $request->cnpj,
@@ -50,15 +59,6 @@ class EstabelecimentoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
-            $endereco = endereco::create([
-                'estabelecimento_id' => $estabelecimento->id,
-                'bairro' => $request->bairro,
-                'cep' => $request->cep,
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-            ]);
-
             DB::commit();
 
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
@@ -68,7 +68,6 @@ class EstabelecimentoController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-
             return redirect(RouteServiceProvider::HOME);
 
             // return response()->json([

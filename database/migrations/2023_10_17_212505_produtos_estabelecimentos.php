@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create("produtos_estabelecimento", function (Blueprint $table) {
-            $table->id("id");
+            $table->id();
             $table->unsignedBigInteger("produto_id");
             $table->unsignedBigInteger("estabelecimento_id");
             $table->unsignedBigInteger("fornecedor_id");
@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->dateTime('inactivated_at')->nullable();
             $table->foreign("produto_id")->references("id")->on("produtos");
             $table->foreign("estabelecimento_id")->references("id")->on("estabelecimento");
-            $table->foreign("fornecedor_id")->references("id")->on("fornecedor");
+            $table->foreign("fornecedor_id")->references("id")->on("fornecedores");
         });
     }
 
