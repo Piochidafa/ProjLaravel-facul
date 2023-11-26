@@ -18,9 +18,8 @@ class EstabelecimentoController extends Controller
 {
     public function index()
     {
-        return response()->json(
-            estabelecimento::all('*'),
-        );
+        $estabelecimentos = estabelecimento::with('endereco')->get();
+        return response()->json($estabelecimentos);
     }
 
 
@@ -39,16 +38,16 @@ class EstabelecimentoController extends Controller
         try {
 
             DB::beginTransaction();
-            
+
             $endereco = endereco::create([
                 'bairro' => $request->bairro,
                 'cep' => $request->cep,
                 'cidade' => $request->cidade,
                 'estado' => $request->estado,
             ]);
-            
+
             $estabelecimento = estabelecimento::create([
-                // 'user_id' => $request->user_id,
+
                 'user_id' => Auth::user()->getAuthIdentifier(),
                 'endereco_id' => $endereco->id,
                 'razao_social' => $request->razao_social,
@@ -60,19 +59,11 @@ class EstabelecimentoController extends Controller
                 'updated_at' => now(),
             ]);
             DB::commit();
-
-            // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
-
-            // return redirect(RouteServiceProvider::HOME);
-            return Redirect()->route('dashboard')->with('success','Estabelecimento Cadastrado com susexo');
+            return Redirect()->route('dashboard')->with('success', 'Estabelecimento Cadastrado com susexo');
 
         } catch (\Exception $e) {
             DB::rollback();
             return redirect(RouteServiceProvider::HOME);
-
-            // return response()->json([
-            //     'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
-            // ], 500);
         }
     }
 
@@ -90,16 +81,16 @@ class EstabelecimentoController extends Controller
      * Show the form for editing the specified resource.
      */
 
-    
-     public function showByUserId($id)
-     {
-         $recurso = estabelecimento::where('user_id', $id)->first();
-     
-         if (!$recurso) {
-             return response()->json(['error' => 'Recurso não encontrado'], 404);
-         }
-         return response()->json(['data' => $recurso]);
-     }
+
+    public function showByUserId($id)
+    {
+        $recurso = estabelecimento::where('user_id', $id)->first();
+
+        if (!$recurso) {
+            return response()->json(['error' => 'Recurso não encontrado'], 404);
+        }
+        return response()->json(['data' => $recurso]);
+    }
 
 
 
@@ -113,7 +104,22 @@ class EstabelecimentoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+
+            $estabelecimento = estabelecimento::findOrFail($id);
+            $estabelecimento->update($request->all());
+
+            $endereco = endereco::findOrFail($estabelecimento->endereco_id);
+            $endereco->update($request->all());
+
+            DB::commit();
+            return response()->json(['message' => 'Estabelecimento atualizado com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -121,6 +127,28 @@ class EstabelecimentoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+
+            $estabelecimento = estabelecimento::findOrFail($id);
+            $endereco = endereco::findOrFail($estabelecimento->endereco_id);
+
+            $endereco->delete();
+            $estabelecimento->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Estabelecimento exlcluido com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+
+
+
+
+
     }
 }

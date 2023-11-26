@@ -23,17 +23,17 @@ use Inertia\Inertia;
 
 
 Route::middleware('auth')->group(function () {
-   
-   //Estabelecimento
-    Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
+
+    //Estabelecimento
+    // Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
-    Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
-    
+    Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class, 'show'])->name('estabelecimento.show');
+
 
     //Endereço Estabelecimento
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
     Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
-   
+
 
     //Produto
     Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
@@ -45,8 +45,11 @@ Route::middleware('auth')->group(function () {
 
 
 });
+Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
 
-Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
+Route::put('a/estabelecimentoAtualizar/{id}', [EstabelecimentoController::class, 'update'])->name('estabelecimento.update');
+
+Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class, 'showByUserId'])->name('estabelecimento.showByUserId');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -77,8 +80,8 @@ Route::get('/MeuEstabelecimento', function () {
     return Inertia::render('MeuEstabelecimento/MyEstabelecimento');
 })->middleware(['auth', 'verified'])->name('MeuEstabelecimento');
 
-Route::get('/CadastroFornecedor', function (){
-    return Inertia::render('CadastroFornecedor/cadastrofornecedor');    
+Route::get('/CadastroFornecedor', function () {
+    return Inertia::render('CadastroFornecedor/cadastrofornecedor');
 })->middleware(['auth', 'verified'])->name('CadastroFornecedor');
 
 Route::middleware('auth')->group(function () {
