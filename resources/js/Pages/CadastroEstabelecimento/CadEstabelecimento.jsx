@@ -9,7 +9,7 @@ import CadFilial from '../CadastroFilial/CadFilial';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from 'axios';
-import { getEstabelecimentoById } from '../../../../SERVICESSAPORRA/estabelecimentoService';
+import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
 
 export default function CadastroEstabelecimento({ auth }) {
     

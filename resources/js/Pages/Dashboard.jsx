@@ -1,45 +1,41 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-// import CadastroEstabelecimento from "./CadastroEstabelecimento/CadEstabelecimento";
-import CadastroProduto from "./CadastroProduto/CadProd";
-import DropTeste from "@/0PersoComponents/DP";
-import TableDash from "@/0PersoComponents/TableDashboad";
+import TableDash from "@/Pages/TableDashboad";
+
 
 export default function Dashboard({ auth }) {
+    
+    
+    
+    
     return (
         <div>
             <AuthenticatedLayout
                 user={auth.user}
                 header={
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Dashboard
+                        Lista de produtos Precifica
                     </h2>
                 }
             >
                 <Head title="Dashboard" />
 
-                {auth && <h1>{JSON.stringify(auth.user)}</h1>}
-
-                <div className="py-12 flex justify-content-center">
+                <div className="py-10 flex justify-content-center">
                     <div className="w-11">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-7">
-                            <button className="p-4 text-0 border-0 border-1 border-round-3xl">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 ">
+                        
+                            {/* <button className="p-4 text-0 border-0 border-1 border-round-3xl">
                                 <a href="MeuEstabelecimento">
                                     Meu Estabelecimento
                                 </a>
-                            </button>
-
-                            <DropTeste 
+                            </button> */}
                             
-                                
+                            
+                            <TableDash
+                            hasAcao={true}
                             
                             />
 
-                            <TableDash/>
-
-                            {/* <div className="p-6 text-gray-900">
-                                You're logged in!
-                            </div> */}
                         </div>
                     </div>
                 </div>

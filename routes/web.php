@@ -23,21 +23,22 @@ use Inertia\Inertia;
 
 
 Route::middleware('auth')->group(function () {
-   
-   //Estabelecimento
+    
+    //Estabelecimento
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
     Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
     
-
+    
     //Endereço Estabelecimento
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
     Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
-   
-
+    
+    
     //Produto
     Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
     Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
+    Route::delete('b/delete/{id}', [ProdutoController::class, 'destroy'])->name('Produto.destroy');
 
 
     //Fornecedor
