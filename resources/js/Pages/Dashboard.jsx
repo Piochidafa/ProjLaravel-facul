@@ -2,6 +2,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 // import CadastroEstabelecimento from "./CadastroEstabelecimento/CadEstabelecimento";
 import CadastroProduto from "./CadastroProduto/CadProd";
+import DropTeste from "@/0PersoComponents/DP";
+import TableDash from "@/0PersoComponents/TableDashboad";
 
 export default function Dashboard({ auth }) {
     return (
@@ -26,6 +28,14 @@ export default function Dashboard({ auth }) {
                                     Meu Estabelecimento
                                 </a>
                             </button>
+
+                            <DropTeste 
+                            
+                                
+                            
+                            />
+
+                            <TableDash/>
 
                             {/* <div className="p-6 text-gray-900">
                                 You're logged in!
