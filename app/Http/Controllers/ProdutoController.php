@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\endereco;
 use App\Models\Produto;
+use App\Models\ProdutoEstabelecimento;
+use App\Models\produtosestabelecimentos;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -21,7 +23,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        return response()->json(
+            return response()->json(
             Produto::all('*'),
         );
     }
@@ -45,36 +47,44 @@ class ProdutoController extends Controller
             $produto = Produto::create([
                 // 'user_id' => $request->user_id,
                 'nome_produto' => "$request->nome_produto",
-                'valor' => $request->valor,
+                'preco' => $request->preco,
                 'descricao' => $request->descricao,
                 'peso' => $request->peso,
+                'unidade' => '1',
                 'tamanho' => $request->tamanho,
                 'material' => $request->material,
                 'categoria' => $request->categoria,
-                'fornecedor' => $request->fornecedor,
+                'fornecedor_id' => $request->id,
+                'estabelecimento_id' => $request->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+           if (!$produto->save()) {
+               DB::rollBack();
+               return response()->json([
+                    'error' => 'Erro ao cadastrar Produto',
+               ], 500);
+           }
+
             DB::commit();
 
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
 
             return response()->json([
-                'message' => 'Estabelecimento criado com sucesso',
+                'message' => 'Produto cadastrado com sucesso',
                 'data' => [
-                    'estabelecimento' => $produto
+                    'produto' => $produto
                 ],
             ], 201);
-
             // return redirect(RouteServiceProvider::HOME);
-
         } catch (\Exception $e) {
             DB::rollback();
 
             // return redirect(RouteServiceProvider::HOME);
 
             return response()->json([
-                'error' => 'Erro ao cadastrar estabelecimento e endereço: ' . $e->getMessage(),
+                'error' => 'Erro ao cadastrar Produto: ' . $e->getMessage(),
             ], 500);
         }
     }
