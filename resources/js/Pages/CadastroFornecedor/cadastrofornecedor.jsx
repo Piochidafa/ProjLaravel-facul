@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import GuestLayout from '@/Layouts/GuestLayoutAll';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, useForm } from '@inertiajs/react';
-import CadEstabelecimento from '../CadastroEstabelecimento/CadEstabelecimento';
-import Modal from '@/Components/Modal';
+import React, { useEffect, useState } from "react";
+import GuestLayout from "@/Layouts/GuestLayoutAll";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Head, useForm } from "@inertiajs/react";
+import CadEstabelecimento from "../CadastroEstabelecimento/CadEstabelecimento";
+import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import axios from 'axios';
-
+import axios from "axios";
 
 export default function CadastroFornecedor({ auth }) {
-
-
-
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
     // const openModal = () => {
@@ -26,23 +22,22 @@ export default function CadastroFornecedor({ auth }) {
     // console.log(auth);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        razao_social: '',
-        telefone: '',
-        cnpj: '',
-        web_site: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-        bairro: '',
-        marca: '',
-        email: '',
-    })
+        razao_social: "",
+        telefone: "",
+        cnpj: "",
+        web_site: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+        bairro: "",
+        marca: "",
+        email: "",
+    });
 
-    useEffect(() => {
-    }, []);
+    useEffect(() => {}, []);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
 
         try {
             const requestData = {
@@ -59,24 +54,28 @@ export default function CadastroFornecedor({ auth }) {
                 user_id: auth.user.id,
             };
 
-            const response = await axios.post('/c/fornecedor', requestData);
+            const response = await axios.post("/c/fornecedor", requestData);
             if (response.status === 200) {
-                console.error('Deu certo:', response);
+                console.error("Deu certo:", response);
+            } else {
+                console.error(
+                    "Erro ao cadastrar Fornecedor e endereço:",
+                    error
+                );
             }
-            else {
-                console.error('Erro ao cadastrar Fornecedor e endereço:', error);
-            }   
-
         } catch (error) {
-            console.error('Erro ao cadastrar Fornecedor:', error, response);
+            console.error("Erro ao cadastrar Fornecedor:", error, response);
         }
     };
 
     return (
-
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Cadastro Fornecedor</h2>}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    Cadastro Fornecedor
+                </h2>
+            }
         >
             <Head title="Cadastro Fornecedor" />
 
@@ -84,10 +83,9 @@ export default function CadastroFornecedor({ auth }) {
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <GuestLayout>
-                            <form onSubmit={onSubmit} className='p-4'>
-                                <div className='grid grid-cols-2 gap-4'>
-
-                                    <div about='razao_social' >
+                            <form onSubmit={onSubmit} className="p-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div about="razao_social">
                                         <InputLabel value="Razao Social" />
                                         <TextInput
                                             id="razao_social"
@@ -96,14 +94,21 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.razao_social}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('razao_social', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "razao_social",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
 
-                                        <InputError message={errors.razao_social} className="mt-2" />
+                                        <InputError
+                                            message={errors.razao_social}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-
-                                    <div about='telefone' >
+                                    <div about="telefone">
                                         <InputLabel value="telefone" />
                                         <TextInput
                                             id="telefone"
@@ -112,16 +117,21 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.telefone}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('telefone', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "telefone",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
 
-                                        <InputError message={errors.telefone} className="mt-2" />
+                                        <InputError
+                                            message={errors.telefone}
+                                            className="mt-2"
+                                        />
                                     </div>
-        
 
-
-
-                                    <div about='cnpj'>
+                                    <div about="cnpj">
                                         <InputLabel value="Cnpj" />
                                         <TextInput
                                             id="cnpj"
@@ -131,12 +141,17 @@ export default function CadastroFornecedor({ auth }) {
                                             className="mt-1 block w-full"
                                             autoComplete="cnpj"
                                             isFocused={true}
-                                            onChange={(e) => setData('cnpj', e.target.value)}
+                                            onChange={(e) =>
+                                                setData("cnpj", e.target.value)
+                                            }
                                         />
-                                        <InputError message={errors.cnpj} className="mt-2" />
+                                        <InputError
+                                            message={errors.cnpj}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-                                    <div about='web_site' >
+                                    <div about="web_site">
                                         <InputLabel value="Web_Site" />
                                         <TextInput
                                             id="web_site"
@@ -145,14 +160,21 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.web_site}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('web_site', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "web_site",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
 
-                                        <InputError message={errors.web_site} className="mt-2" />
+                                        <InputError
+                                            message={errors.web_site}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-
-                                    <div about='Bairro' >
+                                    <div about="Bairro">
                                         <InputLabel value="Bairro" />
                                         <TextInput
                                             id="bairro"
@@ -161,12 +183,20 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.bairro}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('bairro', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "bairro",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
-                                        <InputError message={errors.bairro} className="mt-2" />
+                                        <InputError
+                                            message={errors.bairro}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-                                    <div about='cep' >
+                                    <div about="cep">
                                         <InputLabel value="CEP" />
                                         <TextInput
                                             id="cep"
@@ -175,12 +205,17 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.cep}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('cep', e.target.value)}
+                                            onChange={(e) =>
+                                                setData("cep", e.target.value)
+                                            }
                                         />
-                                        <InputError message={errors.cep} className="mt-2" />
+                                        <InputError
+                                            message={errors.cep}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-                                    <div about='cidade' >
+                                    <div about="cidade">
                                         <InputLabel value="Cidade" />
                                         <TextInput
                                             id="cidade"
@@ -189,12 +224,20 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.cidade}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('cidade', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "cidade",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
-                                        <InputError message={errors.cidade} className="mt-2" />
+                                        <InputError
+                                            message={errors.cidade}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-                                    <div about='estado' >
+                                    <div about="estado">
                                         <InputLabel value="Estado" />
                                         <TextInput
                                             id="estado"
@@ -203,12 +246,20 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.estado}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('estado', e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "estado",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
-                                        <InputError message={errors.estado} className="mt-2" />
+                                        <InputError
+                                            message={errors.estado}
+                                            className="mt-2"
+                                        />
                                     </div>
 
-                                    <div about='marca' >
+                                    <div about="marca">
                                         <InputLabel value="marca" />
                                         <TextInput
                                             id="marca"
@@ -217,11 +268,16 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.marca}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('marca', e.target.value)}
+                                            onChange={(e) =>
+                                                setData("marca", e.target.value)
+                                            }
                                         />
-                                        <InputError message={errors.marca} className="mt-2" />
+                                        <InputError
+                                            message={errors.marca}
+                                            className="mt-2"
+                                        />
                                     </div>
-                                    <div about='email' >
+                                    <div about="email">
                                         <InputLabel value="email" />
                                         <TextInput
                                             id="email"
@@ -230,14 +286,21 @@ export default function CadastroFornecedor({ auth }) {
                                             value={data.email}
                                             className="mt-1 block w-full"
                                             isFocused={true}
-                                            onChange={(e) => setData('email', e.target.value)}
+                                            onChange={(e) =>
+                                                setData("email", e.target.value)
+                                            }
                                         />
-                                        <InputError message={errors.email} className="mt-2" />
+                                        <InputError
+                                            message={errors.email}
+                                            className="mt-2"
+                                        />
                                     </div>
-
                                 </div>
                                 <div className="flex items-center justify-content-between mt-4 flex-col">
-                                    <PrimaryButton className="ml-4" disabled={processing}>
+                                    <PrimaryButton
+                                        className="ml-4"
+                                        disabled={processing}
+                                    >
                                         Cadastrar
                                     </PrimaryButton>
                                     {/* <PrimaryButton onClick={openModal}>Cadastra Filial</PrimaryButton> */}
@@ -250,15 +313,10 @@ export default function CadastroFornecedor({ auth }) {
                                         <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
                                     </div>
                                 </Modal> */}
-
                         </GuestLayout>
-
                     </div>
-
                 </div>
             </div>
-
         </AuthenticatedLayout>
-
     );
 }

@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome_produto');
+            $table->unsignedBigInteger("estabelecimento_id");
+            $table->unsignedBigInteger("fornecedor_id");
+            $table->string('preco');
+            $table->string("descricao")->nullable();
             $table->string('categoria');
             $table->string('peso')->nullable();
             $table->string('material')->nullable();
@@ -22,6 +26,8 @@ return new class extends Migration
             $table->integer('unidade')->nullable();
             $table->dateTime('updated_at');
             $table->dateTime('created_at');
+            $table->foreign("estabelecimento_id")->references("id")->on("estabelecimento");
+            $table->foreign("fornecedor_id")->references("id")->on("fornecedores");
         });
     }
 

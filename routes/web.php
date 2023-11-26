@@ -23,12 +23,12 @@ use Inertia\Inertia;
 
 
 Route::middleware('auth')->group(function () {
-    
+ 
     //Estabelecimento
     Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
     Route::post('/a/estabelecimento', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
     Route::get('a/estabelecimento/{id}', [EstabelecimentoController::class,'show'])->name('estabelecimento.show');
-    
+
     
     //Endereço Estabelecimento
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
@@ -36,9 +36,9 @@ Route::middleware('auth')->group(function () {
     
     
     //Produto
-    Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
     Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
     Route::delete('b/delete/{id}', [ProdutoController::class, 'destroy'])->name('Produto.destroy');
+
 
 
     //Fornecedor
@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class,'showByUserId'])->name('estabelecimento.showByUserId');
 
 Route::get('/', function () {
@@ -79,7 +80,7 @@ Route::get('/MeuEstabelecimento', function () {
 })->middleware(['auth', 'verified'])->name('MeuEstabelecimento');
 
 Route::get('/CadastroFornecedor', function (){
-    return Inertia::render('CadastroFornecedor/cadastrofornecedor');    
+    return Inertia::render('CadastroFornecedor/cadastrofornecedor');
 })->middleware(['auth', 'verified'])->name('CadastroFornecedor');
 
 Route::middleware('auth')->group(function () {
