@@ -86,9 +86,9 @@ export default function CadastroFornecedor({ auth }) {
                             <form onSubmit={onSubmit} className="p-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div about="razao_social">
-                                        <InputLabel value="Razao Social" />
                                         <TextInput
                                             id="razao_social"
+                                            placeholder="Razão Social"
                                             type="text"
                                             name="razao_social"
                                             value={data.razao_social}
@@ -109,9 +109,9 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="telefone">
-                                        <InputLabel value="telefone" />
                                         <TextInput
                                             id="telefone"
+                                            placeholder="Telefone"
                                             type="text"
                                             name="telefone"
                                             value={data.telefone}
@@ -132,9 +132,9 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="cnpj">
-                                        <InputLabel value="Cnpj" />
                                         <TextInput
                                             id="cnpj"
+                                            placeholder="CNPJ"
                                             type="text"
                                             name="cnpj"
                                             value={data.cnpj}
@@ -152,10 +152,10 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="web_site">
-                                        <InputLabel value="Web_Site" />
                                         <TextInput
                                             id="web_site"
                                             type="text"
+                                            placeholder="Web Site"
                                             name="web_site"
                                             value={data.web_site}
                                             className="mt-1 block w-full"
@@ -175,10 +175,10 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="Bairro">
-                                        <InputLabel value="Bairro" />
                                         <TextInput
                                             id="bairro"
                                             type="text"
+                                            placeholder="Bairro"
                                             name="bairro"
                                             value={data.bairro}
                                             className="mt-1 block w-full"
@@ -197,11 +197,11 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="cep">
-                                        <InputLabel value="CEP" />
                                         <TextInput
                                             id="cep"
                                             type="text"
                                             name="cep"
+                                            placeholder="CEP"
                                             value={data.cep}
                                             className="mt-1 block w-full"
                                             isFocused={true}
@@ -216,11 +216,11 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="cidade">
-                                        <InputLabel value="Cidade" />
                                         <TextInput
                                             id="cidade"
                                             type="text"
                                             name="cidade"
+                                            placeholder="Cidade"
                                             value={data.cidade}
                                             className="mt-1 block w-full"
                                             isFocused={true}
@@ -238,11 +238,11 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="estado">
-                                        <InputLabel value="Estado" />
                                         <TextInput
                                             id="estado"
                                             type="text"
                                             name="estado"
+                                            placeholder="Estado"
                                             value={data.estado}
                                             className="mt-1 block w-full"
                                             isFocused={true}
@@ -260,11 +260,11 @@ export default function CadastroFornecedor({ auth }) {
                                     </div>
 
                                     <div about="marca">
-                                        <InputLabel value="marca" />
                                         <TextInput
                                             id="marca"
                                             type="text"
                                             name="marca"
+                                            placeholder="Marca"
                                             value={data.marca}
                                             className="mt-1 block w-full"
                                             isFocused={true}
@@ -278,9 +278,9 @@ export default function CadastroFornecedor({ auth }) {
                                         />
                                     </div>
                                     <div about="email">
-                                        <InputLabel value="email" />
                                         <TextInput
                                             id="email"
+                                            placeholder="E-mail"
                                             type="text"
                                             name="email"
                                             value={data.email}
