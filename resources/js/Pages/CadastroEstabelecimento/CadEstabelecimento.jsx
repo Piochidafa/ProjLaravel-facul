@@ -99,7 +99,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                         <div about="razao_social">
                                             <TextInput
                                                 id="razao_social"
-                                                placeholder="Razao Social"
+                                                placeholder="Razão Social"
                                                 type="text"
                                                 name="razao_social"
                                                 value={data.razao_social}
