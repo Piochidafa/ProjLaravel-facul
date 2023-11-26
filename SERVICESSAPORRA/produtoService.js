@@ -1,4 +1,4 @@
-let baseUrl = "http://localhost:8000/b";
+let baseUrl = "http://localhost:8000/";
 
 export function getAllProduto() {
     return new Promise((resolve, reject) => {

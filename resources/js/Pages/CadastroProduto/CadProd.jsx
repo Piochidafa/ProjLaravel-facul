@@ -10,19 +10,19 @@ import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-// import { getProdutoById } from "../../../../SERVICESSAPORRA/produtoService";
+import { getEstabelecimentoById } from "../../../../SERVICESSAPORRA/estabelecimentoService";
 
 export default function CadastroProduto({ auth }) {
     const [allProdutoData, setAllProdutoData] = useState();
     const [controlVal, setControlVal] = useState(false);
 
-    // useEffect(() => {
-    //     getProdutoById(auth.user.id).then((res) => {
-    //         if (res.data != {}) {
-    //             setAllProdutoData(res.data);
-    //         }
-    //     });
-    // }, [controlVal]);
+    useEffect(() => {
+        getEstabelecimentoById(auth.user.id).then((res) => {
+            if (res.data != {}) {
+                setAllProdutoData(res.data);
+            }
+        });
+    }, [controlVal]);
 
     // const [isModalOpen, setIsModalOpe    n] = useState(false);
 
@@ -36,53 +36,51 @@ export default function CadastroProduto({ auth }) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         nome_produto: "",
-        valor: "",
+        preco: "",
         descricao: "",
+        unidade: "",
         peso: "",
         tamanho: "",
         material: "",
         categoria: "",
-        fornecedor: "",
+        fornecedor_id: "",
+        estabelecimento_id: "",
     });
 
     useEffect(() => {}, []);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const requestData = {
-                nome_produto: data.nome_produto,
-                valor: data.valor,
-                descricao: data.descricao,
-                peso: data.peso,
-                tamanho: data.tamanho,
-                material: data.material,
-                categoria: data.categoria,
-                fornecedor: data.fornecedor,
-                // user_id: auth.user.id,
-            };
-
-            console.log(requestData);
-
-            const response = await axios.post("/b/produto", requestData);
-            if (response.status === 201) {
-                console.error("Deu certo:", response);
-            } else {
-                if (response.status === 442) {
-                    console.error("Erro de validação: ", response.data.errors);
-                } else {
-                    console.error(
-                        "Erro ao cadastrar produto e endereço:",
-                        response.data.error
-                    );
-                }
-            }
-            setControlVal((controlVal) => !controlVal);
-            reset();
-        } catch (error) {
-            console.error("Erro ao cadastrar produto:", error);
-        }
+        // e.preventDefault();
+        //     // try {
+        //     const requestData = {
+        //         nome_produto: data.nome_produto,
+        //         preco: data.preco,
+        //         unidade: data.unidade,
+        //         descricao: data.descricao,
+        //         peso: data.peso,
+        //         tamanho: data.tamanho,
+        //         material: data.material,
+        //         categoria: data.categoria,
+        //     };
+        //     // console.log(requestData);
+        //     const response = await axios.post("b/produto", requestData);
+        //     if (response.status === 200) {
+        //         console.error("Deu certo:", response);
+        //     } else {
+        //         if (response.status === 442) {
+        //             console.error("Erro de validação: ", response.data.errors);
+        //         } else {
+        //             console.error(
+        //                 "Erro ao cadastrar produto e endereço:",
+        //                 response.data.error
+        //             );
+        //         }
+        //     }
+        //     setControlVal((controlVal) => !controlVal);
+        //     reset();
+        // } catch (error) {
+        //     console.error("Erro ao cadastrar produto:", error);
+        // }
     };
 
     return (
@@ -102,16 +100,16 @@ export default function CadastroProduto({ auth }) {
                 </h1>
             } */}
 
-            {!allProdutoData && (
-                <div className="py-12">
-                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center">
+            {
+                <div className="py-12 ">
+                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
                             <GuestLayout>
                                 <form
                                     onSubmit={onSubmit}
-                                    action="/b/produto"
+                                    action="b/produto"
                                     method="POST"
-                                    className="p-4"
+                                    className="p-4 "
                                 >
                                     <div className="flex flex-row justify-content-center bg-white">
                                         <TextInput
@@ -136,20 +134,20 @@ export default function CadastroProduto({ auth }) {
                                         />
 
                                         <TextInput
-                                            id="valor"
+                                            id="preco"
                                             type="text"
-                                            name="valor"
-                                            value={data.valor}
+                                            name="preco"
+                                            value={data.preco}
                                             className="p-invalid text-50 bg-white w-5 mb-3 "
-                                            placeholder="Valor"
+                                            placeholder="Preço"
                                             isFocused={true}
                                             onChange={(e) =>
-                                                setData("valor", e.target.value)
+                                                setData("preco", e.target.value)
                                             }
                                         />
 
                                         <InputError
-                                            message={errors.valor}
+                                            message={errors.preco}
                                             className="mt-2"
                                         />
                                     </div>
@@ -260,7 +258,24 @@ export default function CadastroProduto({ auth }) {
                                     </div>
 
                                     <div className="flex flex-column align-items-center bg-white">
-                                        <TextInput
+                                        <select className="border-1 border-gray-300 border-round border-0 text-50 w-full py-2">
+                                            <option disabled>
+                                                Escolha um Fornecedor
+                                            </option>
+                                            <option>Nestle</option>
+                                            <option>Balduco</option>
+                                            <option>Kabum</option>
+                                            <option>Cacau Show</option>
+                                            <option>Kopenhagen</option>
+                                            <option>Amazon</option>
+                                        </select>
+                                    </div>
+
+                                    {/* <div className="flex flex-column align-items-center bg-white">
+                                        <Dropd
+                                            key="key"
+                                            options={select}
+                                            onSelect={() => {}}
                                             id="fornecedor"
                                             type="text"
                                             name="fornecedor"
@@ -279,7 +294,34 @@ export default function CadastroProduto({ auth }) {
                                             message={errors.fornecedor}
                                             className="mt-2"
                                         />
-                                    </div>
+                                    </div> */}
+
+                                    {false && (
+                                        <div className="flex flex-row justify-content-center bg-white">
+                                            <TextInput
+                                                id="estabelecimento_id"
+                                                type="text"
+                                                name="estabelecimento_id"
+                                                value={data.estabelecimento_id}
+                                                className="p-invalid text-50 bg-white w-full mb-3 mr-3"
+                                                isFocused={true}
+                                                placeholder="Estabelecimento ID"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "estabelecimento_id",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+
+                                            <InputError
+                                                message={
+                                                    errors.estabelecimento_id
+                                                }
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                    )}
 
                                     <div className="flex items-center justify-content-between mt-4 flex-col">
                                         <PrimaryButton
@@ -302,7 +344,7 @@ export default function CadastroProduto({ auth }) {
                         </div>
                     </div>
                 </div>
-            )}
+            }
         </AuthenticatedLayout>
     );
 }
