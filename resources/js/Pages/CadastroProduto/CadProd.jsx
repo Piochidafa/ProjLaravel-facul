@@ -43,11 +43,9 @@ export default function CadastroProduto({ auth }) {
         tamanho: "",
         material: "",
         categoria: "",
-        fornecedor_id: "",
-        estabelecimento_id: "",
     });
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const onSubmit = async (e) => {
         // e.preventDefault();
@@ -302,7 +300,7 @@ export default function CadastroProduto({ auth }) {
                                                 id="estabelecimento_id"
                                                 type="text"
                                                 name="estabelecimento_id"
-                                                value={data.estabelecimento_id}
+                                                // value={data.estabelecimento_id}
                                                 className="p-invalid text-50 bg-white w-full mb-3 mr-3"
                                                 isFocused={true}
                                                 placeholder="Estabelecimento ID"
@@ -315,9 +313,9 @@ export default function CadastroProduto({ auth }) {
                                             />
 
                                             <InputError
-                                                message={
-                                                    errors.estabelecimento_id
-                                                }
+                                                // message={
+                                                //     errors.estabelecimento_id
+                                                // }
                                                 className="mt-2"
                                             />
                                         </div>
