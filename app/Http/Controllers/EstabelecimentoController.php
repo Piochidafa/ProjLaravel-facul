@@ -125,24 +125,26 @@ class EstabelecimentoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
         try {
 
             DB::beginTransaction();
 
             $estabelecimento = estabelecimento::findOrFail($id);
-            $endereco = endereco::findOrFail($estabelecimento->endereco_id);
+            $endereco = $estabelecimento->endereco_id;
 
-            $endereco->delete();
+            // $endereco->delete();
             $estabelecimento->delete();
+            endereco::destroy($endereco);
 
             DB::commit();
 
             return response()->json(['message' => 'Estabelecimento exlcluido com sucesso']);
 
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Throwable $throwable) {
+            DB::rollback();
+            return response()->json(['error' => 'Erro ao excluir estabelecimento' . $throwable->getMessage()], 500);
         }
 
 

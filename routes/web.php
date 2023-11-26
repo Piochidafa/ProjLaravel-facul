@@ -45,11 +45,13 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+//Endereço Estabelecimento
 Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
-
 Route::put('a/estabelecimentoAtualizar/{id}', [EstabelecimentoController::class, 'update'])->name('estabelecimento.update');
-
 Route::get('a/estabelecimento/user/{id}', [EstabelecimentoController::class, 'showByUserId'])->name('estabelecimento.showByUserId');
+Route::delete('a/estabelecimentoDelete/{id}', [EstabelecimentoController::class, 'delete'])->name('estabelecimento.delete');
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
