@@ -1,8 +1,10 @@
 import './bootstrap';
 import '../css/app.css';
 
-import 'primeicons/primeicons.css'
-import 'primereact/resources/themes/viva-dark/theme.css'
+import 'primereact/resources/primereact.min.css'; // Importe os estilos do PrimeReact depois
+import 'primeicons/primeicons.css'; // Importe os estilos do PrimeReact depois
+
+import 'primereact/resources/themes/soho-light/theme.css'
 
 
 import { createRoot } from 'react-dom/client';
