@@ -10,11 +10,20 @@ import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
+import { Toast } from 'primereact/toast';
+import { useRef } from "react";
 // import { getProdutoById } from "../../../../SERVICESSAPORRA/produtoService";
 
 export default function CadastroProduto({ auth }) {
     const [allProdutoData, setAllProdutoData] = useState();
     const [controlVal, setControlVal] = useState(false);
+
+
+    const toast = useRef(null);
+
+    const ToastDeuCerto = () => {
+        toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Produto Adicionado com sucesso' });
+    };
 
     // useEffect(() => {
     //     getProdutoById(auth.user.id).then((res) => {
@@ -67,7 +76,9 @@ export default function CadastroProduto({ auth }) {
 
             const response = await axios.post("/b/produto", requestData);
             if (response.status === 201) {
+                ToastDeuCerto()
                 console.error("Deu certo:", response);
+
             } else {
                 if (response.status === 442) {
                     console.error("Erro de validação: ", response.data.errors);
@@ -119,7 +130,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="nome_produto"
                                             value={data.nome_produto}
-                                            className="p-invalid text-50 bg-white w-full mb-3 mr-3"
+                                            className="p-invalid text-800 bg-white w-full mb-3 mr-3"
                                             isFocused={true}
                                             placeholder="Nome Produto"
                                             onChange={(e) =>
@@ -140,7 +151,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="valor"
                                             value={data.valor}
-                                            className="p-invalid text-50 bg-white w-5 mb-3 "
+                                            className="p-invalid text-800 bg-white w-5 mb-3 "
                                             placeholder="Valor"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -160,7 +171,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="descricao"
                                             value={data.descricao}
-                                            className="autoResize border-gray-300 text-50 bg-white h-6rem mb-3 w-full"
+                                            className="autoResize border-gray-300 text-800 bg-white h-6rem mb-3 w-full"
                                             autoComplete="descricao"
                                             placeholder="Descrição"
                                             isFocused={true}
@@ -183,7 +194,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="peso"
                                             value={data.peso}
-                                            className="flex align-items-center justify-content-center p-invalid text-50 bg-white mb-3 mr-4 w-3"
+                                            className="flex align-items-center justify-content-center p-invalid text-800 bg-white mb-3 mr-4 w-3"
                                             autoComplete="current-password"
                                             placeholder="Peso(opcional)"
                                             onChange={(e) =>
@@ -201,7 +212,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="tamanho"
                                             value={data.tamanho}
-                                            className="flex align-items-center justify-content-center p-invalid text-50 bg-white mb-3 mr-4 w-3"
+                                            className="flex align-items-center justify-content-center p-invalid text-800 bg-white mb-3 mr-4 w-3"
                                             placeholder="Tamanho(opcional)"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -221,7 +232,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="material"
                                             value={data.material}
-                                            className=" flex align-items-center justify-content-centerp-invalid text-50 bg-white mb-3 w-3"
+                                            className=" flex align-items-center justify-content-centerp-invalid text-800 bg-white mb-3 w-3"
                                             placeholder="Material(opcional)"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -243,7 +254,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="categoria"
                                             value={data.categoria}
-                                            className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-full"
+                                            className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-full"
                                             placeholder="Categoria"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -265,7 +276,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="fornecedor"
                                             value={data.fornecedor}
-                                            className="p-invalid text-50 bg-white mb-3 mr-3 ml-3 w-full"
+                                            className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
                                             placeholder="Fornecedor"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -282,6 +293,7 @@ export default function CadastroProduto({ auth }) {
                                     </div>
 
                                     <div className="flex items-center justify-content-between mt-4 flex-col">
+                                        <Toast ref={toast} />
                                         <PrimaryButton
                                             className="ml-4"
                                             disabled={processing}

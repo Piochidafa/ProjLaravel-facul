@@ -108,6 +108,30 @@ class ProdutoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        try {
+
+            DB::beginTransaction();
+
+            $Produto = Produto::findOrFail($id);
+            $Produto->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Produto exlcluido com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
 }

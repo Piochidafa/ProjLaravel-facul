@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     //Produto
     Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
     Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
+    Route::delete('b/delete/{id}', [ProdutoController::class, 'destroy'])->name('Produto.destroy');
 
 
     //Fornecedor
