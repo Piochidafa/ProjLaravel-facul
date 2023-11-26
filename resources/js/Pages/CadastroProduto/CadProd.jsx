@@ -45,7 +45,7 @@ export default function CadastroProduto({ auth }) {
         categoria: "",
     });
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const onSubmit = async (e) => {
         // e.preventDefault();
@@ -92,11 +92,11 @@ export default function CadastroProduto({ auth }) {
         >
             <Head title="Cadastro Produto" />
 
-            {/* {
+            {
                 <h1 style={{ color: "black" }}>
                     {JSON.stringify(allProdutoData)}
                 </h1>
-            } */}
+            }
 
             {
                 <div className="py-12 ">
@@ -257,7 +257,7 @@ export default function CadastroProduto({ auth }) {
 
                                     <div className="flex flex-column align-items-center bg-white">
                                         <select className="border-1 border-gray-300 border-round border-0 text-50 w-full py-2">
-                                            <option disabled>
+                                            <option selected disabled>
                                                 Escolha um Fornecedor
                                             </option>
                                             <option>Nestle</option>
