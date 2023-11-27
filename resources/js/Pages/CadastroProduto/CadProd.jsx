@@ -105,7 +105,7 @@ export default function CadastroProduto({ auth }) {
                 estabelecimento_id: data.estabelecimento_id,
             };
             const response = await axios.post("b/produto", requestData);
-            if (response.status === 201) {
+            if (response.status === 200) {
                 ToastDeuCerto();
                 console.error("Deu certo:", response);
             } else {
@@ -138,9 +138,9 @@ export default function CadastroProduto({ auth }) {
             <Head title="Cadastro Produto" />
 
             {
-                <h1 style={{ color: "black" }}>
-                    {JSON.stringify(allProdutoData)}
-                </h1>
+                // <h1 style={{ color: "black" }}>
+                //     {JSON.stringify(allProdutoData)}
+                // </h1>
             }
 
             {
@@ -181,7 +181,7 @@ export default function CadastroProduto({ auth }) {
                                             placeholder="Preço"
                                             value={data.preco}
                                             onChange={(e) =>
-                                                setData("preco", e.target.value)
+                                                setData("preco", e.value)
                                             }
                                             className=" text-800 bg-white w-5 mb-3 border-gray-300 "
                                             mode="currency"

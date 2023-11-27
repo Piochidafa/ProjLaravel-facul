@@ -21,6 +21,8 @@ export default function CadastroEstabelecimento({ auth }) {
             if (res.data != {}) {
                 setAllEstabelecimentoData(res.data);
             }
+        }).catch(() => {
+            setAllEstabelecimentoData(null)
         });
     }, [controlVal]);
 
@@ -35,11 +37,28 @@ export default function CadastroEstabelecimento({ auth }) {
         estado: '',
     })
 
+    console.log(allEstabelecimentoData);
+
     const ToastDeuCerto = () => {
         toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Estabelecimento adicionado com sucesso' });
     };
-
+    
     useEffect(() => {}, []);
+    
+    const caseHaveEstabelecimento = () => {
+        
+        if(allEstabelecimentoData) {            
+            return(
+                <div className="py-12 w-full h-full">
+                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full h-60">
+                          <p>OIIII</p>  
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     const onSubmit = async (e) => {
         // e.preventDefault();
@@ -78,7 +97,7 @@ export default function CadastroEstabelecimento({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Cadastro Estabelecimento
+                    {!allEstabelecimentoData ? "Cadastro Estabelecimento" : "Meu Estabelecimento"}
                 </h2>
             }
         >
@@ -86,11 +105,12 @@ export default function CadastroEstabelecimento({ auth }) {
 
             {
                 <h1 style={{ color: "black" }}>
-                    {JSON.stringify(allEstabelecimentoData)}
+                    
+                    {JSON.stringify(allEstabelecimentoData)};
                 </h1>
             }
 
-            {!allEstabelecimentoData && (
+            {allEstabelecimentoData === null ? (
                 <div className="py-12">
                     <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -303,7 +323,7 @@ export default function CadastroEstabelecimento({ auth }) {
                         </div>
                     </div>
                 </div>
-            )}
+            ) : caseHaveEstabelecimento()} 
         </AuthenticatedLayout>
     );
 }

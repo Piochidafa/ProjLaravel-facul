@@ -67,7 +67,7 @@ class FornecedorController extends Controller
 
             return response()->json([
                 'error' => 'Erro ao cadastrar fornecedor: '
-            ], 200);
+            ], 500);
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
 
             // return redirect(RouteServiceProvider::HOME);

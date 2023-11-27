@@ -6,7 +6,7 @@ import TableDash from "@/Pages/TableDashboad";
 export default function Dashboard({ auth }) {
     
     
-    
+    console.log(auth);
     
     return (
         <div>
@@ -32,7 +32,7 @@ export default function Dashboard({ auth }) {
                             
                             
                             <TableDash
-                            hasAcao={true}
+                            canViewButtons={true}
                             
                             />
 

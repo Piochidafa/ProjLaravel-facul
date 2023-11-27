@@ -9,7 +9,7 @@ import { getAllProduto, deleteProdutoById } from '../../../SERVICES/produtoServi
 import { getFornecedorById } from "../../../SERVICES/fornecedorService";
 import { useRef } from 'react';
 
-export default function TableDash({}) {
+export default function TableDash({canViewButtons}) {
 
 
     const [products, setProducts] = useState([]);
@@ -51,32 +51,12 @@ export default function TableDash({}) {
             }
         };
         fetchData();
-
-        // getAllProduto().then(res => {
-        //     setProducts(res)
-        //     res.map((rA, i) => {
-        //         let a1;
-        //         getFornecedorById(rA.fornecedor_id).then(rB => {
-        //             let rb = rB.data;
-
-        //             setProducts({...rA, fornecedor:rb})
-
-
-
-        //             // setProducts(preArray => [...preArray, {...rA, fornecedor: rB.data}])
-        //         })
-        //     })
-        //     console.log(products);
-        //     // setProducts(a)
-        // })
-          
     },[])
 
 
     const onDelete = (rowData) => {
-        deleteProdutoById(rowData.id).then(res => {
+        deleteProdutoById(rowData.id).then(_ => {
             setVisibleModal(false)
-        }).then(_ => {
             fetchData()
         })
     }
@@ -119,14 +99,23 @@ export default function TableDash({}) {
     return (
         <div className="card">
 
-        <DataTable value={products} paginator rowsPerPageOptions={[10, 15, 20]} stripedRows loading={products.length === 0} rows={[10]} tableStyle={{ minWidth: '60rem' }} className='w-full flex flex-column'>
+        <DataTable
+            value={products} 
+            paginator 
+            rowsPerPageOptions={[10, 15, 20]} 
+            stripedRows 
+            loading={products.length === 0} 
+            rows={[10]} 
+            tableStyle={{ minWidth: '60rem' }} 
+            className='w-full flex flex-column'
+            >
 
             <Column field="id" header="Código"></Column>
             <Column field="nome_produto" header="Nome" sortable ></Column>
             <Column field="descricao" header="descricao" ></Column>
             <Column Field="preco" header="Preço" body={prefixDinheiro}></Column>
             <Column field="fornecedor.razao_social" header="Fornecedor" ></Column>
-            <Column header="Acoes" body={hasButton} className='w-1 '></Column>
+            {canViewButtons && <Column header="Acoes" body={hasButton} className='w-1 '></Column>}
 
         </DataTable>
 
