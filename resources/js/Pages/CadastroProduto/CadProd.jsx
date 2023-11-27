@@ -26,6 +26,19 @@ export default function CadastroProduto({ auth }) {
 
     const toast = useRef(null);
 
+    useEffect(() => {
+        getEstabelecimentoById(auth.user.id).then((res) => {
+            if (res.data != {}) {
+                setData({ ...data, estabelecimento_id: res.data.id });
+            }
+        });
+        getAllFornecedor().then((res) => {
+            setDropFornecedores(res);
+        });
+    }, [controlVal]);
+
+
+
     const { data, setData, post, processing, errors, reset } = useForm({
         nome_produto: "",
         preco: null,
@@ -124,11 +137,11 @@ export default function CadastroProduto({ auth }) {
         >
             <Head title="Cadastro Produto" />
 
-            {/* {
+            {
                 <h1 style={{ color: "black" }}>
                     {JSON.stringify(allProdutoData)}
                 </h1>
-            } */}
+            }
 
             {
                 <div className="py-12 ">

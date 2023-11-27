@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\endereco;
 use App\Models\estabelecimento;
 use App\Models\Produto;
-use App\Models\ProdutoEstabelecimento;
-use App\Models\produtosestabelecimentos;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -24,7 +22,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-            return response()->json(
+        return response()->json(
             Produto::all('*'),
         );
     }
@@ -43,7 +41,6 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         try {
-
             DB::beginTransaction();
 
             // $esta = estabelecimento::find
@@ -62,30 +59,16 @@ class ProdutoController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
-           if (!$produto->save()) {
-               DB::rollBack();
-               return response()->json([
-                    'error' => 'Erro ao cadastrar Produto',
-               ], 500);
-           }
-
             DB::commit();
-
-            // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
-
             return response()->json([
                 'message' => 'Produto cadastrado com sucesso',
                 'data' => [
                     'produto' => $produto
                 ],
-            ], 201);
-            // return redirect(RouteServiceProvider::HOME);
+            ], 200);
+
         } catch (\Exception $e) {
             DB::rollback();
-
-            // return redirect(RouteServiceProvider::HOME);
-
             return response()->json([
                 'error' => 'Erro ao cadastrar Produto: ' . $e->getMessage(),
             ], 500);
