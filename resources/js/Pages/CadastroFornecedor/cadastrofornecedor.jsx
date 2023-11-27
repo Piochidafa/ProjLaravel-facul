@@ -9,17 +9,10 @@ import CadEstabelecimento from "../CadastroEstabelecimento/CadEstabelecimento";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
+import { Toast } from 'primereact/toast';
 
-export default function CadastroFornecedor({ auth }) {
-    // const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // const openModal = () => {
-    //     setIsModalOpen(true);
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // }
-
-    // console.log(auth);
+export default function CadastroFornecedor({ auth }) {    
 
     const { data, setData, post, processing, errors, reset } = useForm({
         razao_social: "",
@@ -33,6 +26,10 @@ export default function CadastroFornecedor({ auth }) {
         marca: "",
         email: "",
     });
+
+    const ToastDeuCerto = () => {
+        toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Fornecedor adicionado com sucesso' });
+    };
 
     useEffect(() => {}, []);
 
@@ -55,7 +52,8 @@ export default function CadastroFornecedor({ auth }) {
             };
 
             const response = await axios.post("/c/fornecedor", requestData);
-            if (response.status === 200) {
+            if (response.status === 201) {
+                ToastDeuCerto();
                 console.error("Deu certo:", response);
             } else {
                 console.error(

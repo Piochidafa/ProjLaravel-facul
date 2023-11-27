@@ -10,42 +10,25 @@ import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-import { Toast } from 'primereact/toast';
+import { Dropdown } from "primereact/dropdown";
+import { Toast } from "primereact/toast";
 import { useRef } from "react";
-import { getEstabelecimentoById } from "../../../../SERVICESSAPORRA/estabelecimentoService";
+import { getEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
+import { getAllFornecedor } from "../../../../SERVICES/fornecedorService";
+import { Button } from "primereact/button";
+import { categoriasDeProdutos } from "./listCategoriaProdutros";
+import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
 
 export default function CadastroProduto({ auth }) {
-    const [allProdutoData, setAllProdutoData] = useState();
+    const [dropFornecedores, setDropFornecedores] = useState([]);
     const [controlVal, setControlVal] = useState(false);
-
 
     const toast = useRef(null);
 
-    const ToastDeuCerto = () => {
-        toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Produto Adicionado com sucesso' });
-    };
-
-    useEffect(() => {
-        getEstabelecimentoById(auth.user.id).then((res) => {
-            if (res.data != {}) {
-                setAllProdutoData(res.data);
-            }
-        });
-    }, [controlVal]);
-
-    // const [isModalOpen, setIsModalOpe    n] = useState(false);
-
-    // const openModal = () => {
-    //     setIsModalOpen(true);
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // }
-
-    // console.log(auth);
-
     const { data, setData, post, processing, errors, reset } = useForm({
         nome_produto: "",
-        preco: "",
+        preco: null,
         descricao: "",
         unidade: "",
         peso: "",
@@ -56,40 +39,78 @@ export default function CadastroProduto({ auth }) {
         estabelecimento_id: "",
     });
 
+    const ToastDeuCerto = () => {
+        toast.current.show({
+            severity: "success",
+            summary: "Adicionado com Sucesso",
+            detail: "Produto Adicionado com sucesso",
+        });
+    };
+
+    const ToastDeuErrado = () => {
+        toast.current.show({
+            severity: "warn",
+            summary: "Error",
+            detail: "Preencha Todos os campos obrigatorios",
+        });
+    };
+
+    useEffect(() => {
+        getEstabelecimentoById(auth.user.id).then((res) => {
+            if (res.data != {}) {
+                setData({ ...data, estabelecimento_id: res.data.id });
+            }
+        });
+        getAllFornecedor().then((res) => {
+            setDropFornecedores(res);
+        });
+    }, [controlVal]);
+
+    // const [isModalOpen, setIsModalOpe    n] = useState(false);
+    // const openModal = () => {
+    //     setIsModalOpen(true);
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // }
+    // console.log(auth);
+
     useEffect(() => {}, []);
 
     const onSubmit = async (e) => {
-        // e.preventDefault();
-        //     // try {
-        //     const requestData = {
-        //         nome_produto: data.nome_produto,
-        //         preco: data.preco,
-        //         unidade: data.unidade,
-        //         descricao: data.descricao,
-        //         peso: data.peso,
-        //         tamanho: data.tamanho,
-        //         material: data.material,
-        //         categoria: data.categoria,
-        //     };
-        //     // console.log(requestData);
-        //     const response = await axios.post("b/produto", requestData);
-        //     if (response.status === 200) {
-        //         console.error("Deu certo:", response);
-        //     } else {
-        //         if (response.status === 442) {
-        //             console.error("Erro de validação: ", response.data.errors);
-        //         } else {
-        //             console.error(
-        //                 "Erro ao cadastrar produto e endereço:",
-        //                 response.data.error
-        //             );
-        //         }
-        //     }
-        //     setControlVal((controlVal) => !controlVal);
-        //     reset();
-        // } catch (error) {
-        //     console.error("Erro ao cadastrar produto:", error);
-        // }
+        e.preventDefault();
+        try {
+            const requestData = {
+                nome_produto: data.nome_produto,
+                preco: data.preco,
+                unidade: data.unidade,
+                descricao: data.descricao,
+                peso: data.peso,
+                tamanho: data.tamanho,
+                material: data.material,
+                categoria: data.categoria,
+                fornecedor_id: data.fornecedor_id.id,
+                estabelecimento_id: data.estabelecimento_id,
+            };
+            const response = await axios.post("b/produto", requestData);
+            if (response.status === 201) {
+                ToastDeuCerto();
+                console.error("Deu certo:", response);
+            } else {
+                if (response.status === 500) {
+                    console.error("Erro de validação: ", response.data.errors);
+                } else {
+                    console.error(
+                        "Erro ao cadastrar produto e endereço:",
+                        response.data.error
+                    );
+                }
+            }
+            setControlVal((controlVal) => !controlVal);
+            reset();
+        } catch (error) {
+            ToastDeuErrado()
+            console.error("Erro ao cadastrar produto:", error);
+        }
     };
 
     return (
@@ -116,8 +137,8 @@ export default function CadastroProduto({ auth }) {
                             <GuestLayout>
                                 <form
                                     onSubmit={onSubmit}
-                                    action="b/produto"
-                                    method="POST"
+                                    // action="b/produto"
+                                    // method="POST"
                                     className="p-4 "
                                 >
                                     <div className="flex flex-row justify-content-center bg-white">
@@ -142,23 +163,19 @@ export default function CadastroProduto({ auth }) {
                                             className="mt-2"
                                         />
 
-                                        <TextInput
+                                        <InputNumber
                                             id="preco"
-                                            type="text"
-                                            name="preco"
-                                            value={data.preco}
-                                            className="p-invalid text-50 bg-white w-5 mb-3 "
                                             placeholder="Preço"
-                                            isFocused={true}
+                                            value={data.preco}
                                             onChange={(e) =>
                                                 setData("preco", e.target.value)
                                             }
+                                            className=" text-800 bg-white w-5 mb-3 border-gray-300 "
+                                            mode="currency"
+                                            currency="BRL"
+                                            locale="pt-BR"
                                         />
 
-                                        <InputError
-                                            message={errors.preco}
-                                            className="mt-2"
-                                        />
                                     </div>
 
                                     <div className="flex flex-column align-items-center bg-white">
@@ -190,7 +207,7 @@ export default function CadastroProduto({ auth }) {
                                             type="text"
                                             name="peso"
                                             value={data.peso}
-                                            className="flex align-items-center justify-content-center p-invalid text-800 bg-white mb-3 mr-4 w-3"
+                                            className="flex align-items-center justify-content-center p-invalid text-800 bg-white mb-3 mr-4 w-"
                                             autoComplete="current-password"
                                             placeholder="Peso(opcional)"
                                             onChange={(e) =>
@@ -245,12 +262,12 @@ export default function CadastroProduto({ auth }) {
                                     </div>
 
                                     <div className="flex flex-column align-items-center bg-white">
-                                        <TextInput
+                                        <Dropdown
                                             id="categoria"
-                                            type="text"
                                             name="categoria"
                                             value={data.categoria}
-                                            className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-full"
+                                            options={categoriasDeProdutos}
+                                            className="border-1 border-gray-300 mb-3 border-round border-0 text-50 w-full"
                                             placeholder="Categoria"
                                             isFocused={true}
                                             onChange={(e) =>
@@ -266,19 +283,21 @@ export default function CadastroProduto({ auth }) {
                                         />
                                     </div>
 
-                                    <div className="flex flex-column align-items-center bg-white">
-                                        <select className="border-1 border-gray-300 border-round border-0 text-50 w-full py-2">
-                                            <option disabled>
-                                                Escolha um Fornecedor
-                                            </option>
-                                            <option>Nestle</option>
-                                            <option>Balduco</option>
-                                            <option>Kabum</option>
-                                            <option>Cacau Show</option>
-                                            <option>Kopenhagen</option>
-                                            <option>Amazon</option>
-                                        </select>
-                                    </div>
+                                    <Dropdown
+                                        className="border-1 border-gray-300 border-round border-0 text-50 w-full"
+                                        id="fornecedor_id"
+                                        name="fornecedor_id"
+                                        value={data.fornecedor_id}
+                                        placeholder="Selecione o fornecedor"
+                                        optionLabel="razao_social"
+                                        options={dropFornecedores}
+                                        onChange={(e) =>
+                                            setData(
+                                                "fornecedor_id",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
 
                                     {/* <div className="flex flex-column align-items-center bg-white">
                                         <Dropd
@@ -304,33 +323,6 @@ export default function CadastroProduto({ auth }) {
                                             className="mt-2"
                                         />
                                     </div> */}
-
-                                    {false && (
-                                        <div className="flex flex-row justify-content-center bg-white">
-                                            <TextInput
-                                                id="estabelecimento_id"
-                                                type="text"
-                                                name="estabelecimento_id"
-                                                value={data.estabelecimento_id}
-                                                className="p-invalid text-50 bg-white w-full mb-3 mr-3"
-                                                isFocused={true}
-                                                placeholder="Estabelecimento ID"
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "estabelecimento_id",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-
-                                            <InputError
-                                                message={
-                                                    errors.estabelecimento_id
-                                                }
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                    )}
 
                                     <div className="flex items-center justify-content-between mt-4 flex-col">
                                         <Toast ref={toast} />

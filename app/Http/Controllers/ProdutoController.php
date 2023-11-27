@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\endereco;
+use App\Models\estabelecimento;
 use App\Models\Produto;
 use App\Models\ProdutoEstabelecimento;
 use App\Models\produtosestabelecimentos;
@@ -44,8 +45,10 @@ class ProdutoController extends Controller
         try {
 
             DB::beginTransaction();
+
+            // $esta = estabelecimento::find
+
             $produto = Produto::create([
-                // 'user_id' => $request->user_id,
                 'nome_produto' => "$request->nome_produto",
                 'preco' => $request->preco,
                 'descricao' => $request->descricao,
@@ -54,8 +57,8 @@ class ProdutoController extends Controller
                 'tamanho' => $request->tamanho,
                 'material' => $request->material,
                 'categoria' => $request->categoria,
-                'fornecedor_id' => $request->id,
-                'estabelecimento_id' => $request->id,
+                'fornecedor_id' => $request->fornecedor_id,
+                'estabelecimento_id' => $request->estabelecimento_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

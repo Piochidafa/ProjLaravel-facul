@@ -88,7 +88,12 @@ class FornecedorController extends Controller
      */
     public function show(string $id)
     {
-        
+        $fornecedor = fornecedor::find($id);
+
+        if (!$fornecedor) {
+            return response()->json(['error' => 'Recurso não encontrado'], 404);
+        }
+        return response()->json(['data' => $fornecedor]);
     }
 
     /**

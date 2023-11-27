@@ -42,9 +42,11 @@ Route::middleware('auth')->group(function () {
 
 
     //Fornecedor
+    Route::get('/c', [FornecedorController::class, 'index'])->name('fornecedor.index');
     Route::post('/c/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
-
-
+    Route::get('/c/fornecedor/{id}', [FornecedorController::class, 'show'])->name('fornecedor.show');
+    
+    
 });
 
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');

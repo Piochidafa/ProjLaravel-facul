@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nome_produto');
             $table->unsignedBigInteger("estabelecimento_id");
             $table->unsignedBigInteger("fornecedor_id");
-            $table->string('preco');
+            $table->integer('preco');
             $table->string("descricao")->nullable();
             $table->string('categoria');
             $table->string('peso')->nullable();

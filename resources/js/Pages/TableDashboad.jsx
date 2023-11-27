@@ -5,8 +5,8 @@ import { ProductService } from '../0PersoComponents/ProductService';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { getAllProduto } from '../../../SERVICES/produtoService';
-import { deleteProdutoById } from "../../../SERVICES/produtoService";
+import { getAllProduto, deleteProdutoById } from '../../../SERVICES/produtoService';
+import { getFornecedorById } from "../../../SERVICES/fornecedorService";
 import { useRef } from 'react';
 
 export default function TableDash({}) {
@@ -15,6 +15,7 @@ export default function TableDash({}) {
     const [products, setProducts] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false)
     const [rowInfo, setRowInfo] = useState({name:""})
+    const [fornecedorInfo, setFornecedorInfo] = useState()
     const [toastControl, setToastControl] = useState("")
     const toast = useRef(null);
 
@@ -35,37 +36,62 @@ export default function TableDash({}) {
 
     useEffect(() => {
 
-        getAllProduto().then(res => {
-            setProducts(res)
-        })
+        const fetchData = async () => {
+            try{
+                const listaObtida = await getAllProduto();
+                const listaAtualizada = await Promise.all(
+                    listaObtida.map(async (item) => {
+                        const valorPorId = await getFornecedorById(item.fornecedor_id);
+                        return {...item, fornecedor: valorPorId.data}
+                    })
+                );
+                setProducts(listaAtualizada)
+            }catch (erro) {
+                console.error('Erro ao buscar dados: ', erro)
+            }
+        };
+        fetchData();
+
+        // getAllProduto().then(res => {
+        //     setProducts(res)
+        //     res.map((rA, i) => {
+        //         let a1;
+        //         getFornecedorById(rA.fornecedor_id).then(rB => {
+        //             let rb = rB.data;
+
+        //             setProducts({...rA, fornecedor:rb})
 
 
+
+        //             // setProducts(preArray => [...preArray, {...rA, fornecedor: rB.data}])
+        //         })
+        //     })
+        //     console.log(products);
+        //     // setProducts(a)
+        // })
+          
     },[])
 
 
     const onDelete = (rowData) => {
         deleteProdutoById(rowData.id).then(res => {
             setVisibleModal(false)
-            
-            
         }).then(_ => {
-            
-            getAllProduto().then(res => {
-                setProducts(res)
-            }).then((_) => {
-
-                setTimeout(() => {
-                    ToastDeSucessoExclusao()
-                }, 120);
-                
-            })
+            fetchData()
         })
     }
+    
+    const prefixDinheiro0 = (value) => {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }; 
+    const prefixDinheiro = (rowData) => {
+        return prefixDinheiro0(rowData.preco);
+    };
 
     const hasButton = (rowData) => {
         return (
             <>
-                <Button icon="pi pi-pencil" size="small" severity="info" className="mr-1" onClick={() => console.log(rowData)} />
+                <Button icon="pi pi-pencil" size="small" severity="info" className="mr-1" onClick={() => console.log(products)} />
                 
                 <Toast ref={toast} />
                 <Button icon="pi pi-trash"  size='small' severity="danger" onClick={() => 
@@ -90,23 +116,16 @@ export default function TableDash({}) {
         
             </>)}
         
-
     return (
         <div className="card">
 
-        <DataTable value={products} paginator rowsPerPageOptions={[10, 15, 20]} rows={[10]} tableStyle={{ minWidth: '60rem' }} className='w-full flex flex-column'>
-{/* 
-        <Column field="code" header="Code"></Column>
-            <Column field="name" header="Name" ></Column>
-            <Column field="category" header="Category" ></Column>
-            <Column field="quantity" header="Quantity"></Column>
-            <Column header="Quantity" body={hasButton} className='w-1 '></Column> */}
+        <DataTable value={products} paginator rowsPerPageOptions={[10, 15, 20]} stripedRows loading={products.length === 0} rows={[10]} tableStyle={{ minWidth: '60rem' }} className='w-full flex flex-column'>
 
-
-            <Column field="id" header="ID"></Column>
-            <Column field="nome_produto" header="Nome do Produto" ></Column>
-            <Column field="categoria" header="Categoria" ></Column>
-            <Column field="peso" header="Peso"></Column>
+            <Column field="id" header="Código"></Column>
+            <Column field="nome_produto" header="Nome" sortable ></Column>
+            <Column field="descricao" header="descricao" ></Column>
+            <Column Field="preco" header="Preço" body={prefixDinheiro}></Column>
+            <Column field="fornecedor.razao_social" header="Fornecedor" ></Column>
             <Column header="Acoes" body={hasButton} className='w-1 '></Column>
 
         </DataTable>

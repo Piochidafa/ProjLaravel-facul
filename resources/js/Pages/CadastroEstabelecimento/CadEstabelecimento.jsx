@@ -8,6 +8,7 @@ import { Head, useForm } from '@inertiajs/react';
 import CadFilial from '../CadastroFilial/CadFilial';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
 
@@ -18,15 +19,12 @@ export default function CadastroEstabelecimento({ auth }) {
     const [controlVal, setControlVal] = useState(false)
 
 
-    useEffect(() => {
-        
-            getEstabelecimentoById(auth.user.id).then((res) => {
-        
+    useEffect(() => {        
+            getEstabelecimentoById(auth.user.id).then((res) => {        
                 if(res.data != {}){
                     setAllEstabelecimentoData(res.data)
                 }
             })
-
     },[controlVal])
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -38,8 +36,11 @@ export default function CadastroEstabelecimento({ auth }) {
         cep: '',
         cidade: '',
         estado: '',
-
     })
+
+    const ToastDeuCerto = () => {
+        toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Estabelecimento adicionado com sucesso' });
+    };
 
     useEffect(() => {
     }, []);
@@ -62,6 +63,7 @@ export default function CadastroEstabelecimento({ auth }) {
             
             // const response = await axios.post('/a/estabelecimento', requestData);
             // if (response.status === 201) {
+                // ToastDeuCerto()
             //     console.error('Deu certo:', response);
             // } else {
             //     if (response.status === 442) {
