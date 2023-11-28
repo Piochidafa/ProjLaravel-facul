@@ -11,6 +11,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
+import { InputText } from 'primereact/inputtext';
+import { Button } from "primereact/button";
+import { Avatar } from 'primereact/avatar';
+import { AvatarGroup } from 'primereact/avatargroup';
+import { Badge } from 'primereact/badge';
+
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
@@ -35,24 +41,54 @@ export default function CadastroEstabelecimento({ auth }) {
         cep: '',
         cidade: '',
         estado: '',
-    })
 
-    console.log(allEstabelecimentoData);
+    })
 
     const ToastDeuCerto = () => {
         toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Estabelecimento adicionado com sucesso' });
     };
-    
-    useEffect(() => {}, []);
-    
+
+    useEffect(() => { }, []);
+
     const caseHaveEstabelecimento = () => {
-        
-        if(allEstabelecimentoData) {            
-            return(
+        if (allEstabelecimentoData) {
+            return (
                 <div className="py-12 w-full h-full">
                     <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full h-60">
-                          <p>OIIII</p>  
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full h-full p-8">
+                            <div className="flex flex-wrap gap-5">
+                                <div className="flex">
+                                    <Avatar label={auth.user.name.substr(0, 1).toUpperCase()} className="mr-2" size="xlarge" shape="circle" />
+                                </div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div className="flex flex-column gap-2">
+                                    <label htmlFor="razao_social">Razão Social</label>
+                                    <InputText disabled onChange="" value={allEstabelecimentoData?.razao_social} />
+                                </div>
+                                <div className="flex flex-column gap-2">
+                                    <label htmlFor="nome_fantasia">Nome Fantasia</label>
+                                    <InputText disabled onChange="" value={allEstabelecimentoData?.nome_fantasia} />
+                                </div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div className="flex flex-column gap-2">
+                                    <label htmlFor="telefone">Telefone</label>
+                                    <InputText disabled onChange="" value={allEstabelecimentoData?.telefone} />
+                                </div>
+                                <div className="flex flex-column gap-2">
+                                    <label htmlFor="cnpj">CNPJ</label>
+                                    <InputText disabled onChange="" value={allEstabelecimentoData?.cnpj} />
+                                </div>
+                            </div>
+                            <div className="flex justify-between mt-4">
+                                <div>
+                                    <Button label="Desativar" icon="pi pi-times" outlined />
+                                </div>
+                                <div>
+                                    <Button label="Editar" icon="pi pi-check" severity="danger" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,7 +112,7 @@ export default function CadastroEstabelecimento({ auth }) {
         //     };
         // const response = await axios.post('/a/estabelecimento', requestData);
         // if (response.status === 201) {
-                // ToastDeuCerto()
+        // ToastDeuCerto()
         //     console.error('Deu certo:', response);
         // } else {
         //     if (response.status === 442) {
@@ -103,12 +139,6 @@ export default function CadastroEstabelecimento({ auth }) {
         >
             <Head title="Cadastro Estabelecimento" />
 
-            {
-                <h1 style={{ color: "black" }}>
-                    
-                    {JSON.stringify(allEstabelecimentoData)};
-                </h1>
-            }
 
             {allEstabelecimentoData === null ? (
                 <div className="py-12">
@@ -323,7 +353,7 @@ export default function CadastroEstabelecimento({ auth }) {
                         </div>
                     </div>
                 </div>
-            ) : caseHaveEstabelecimento()} 
+            ) : caseHaveEstabelecimento()}
         </AuthenticatedLayout>
     );
 }
