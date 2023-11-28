@@ -37,8 +37,6 @@ export default function CadastroEstabelecimento({ auth }) {
         estado: '',
     })
 
-    console.log(allEstabelecimentoData);
-
     const ToastDeuCerto = () => {
         toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Estabelecimento adicionado com sucesso' });
     };

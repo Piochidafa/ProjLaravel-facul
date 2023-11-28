@@ -70,7 +70,7 @@ Route::get('/Initial', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/CadastroEstabelecimento', function () {
