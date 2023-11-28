@@ -59,7 +59,6 @@ export default function TableDash({canViewButtons, auth}) {
         }
     };
 
-
     //<-UseEffect----------------------------------
 
     useEffect(() => {        
@@ -79,7 +78,7 @@ export default function TableDash({canViewButtons, auth}) {
 
     const onDelete = (rowData) => {
         deleteProdutoById(rowData.id).then((data) => {
-          
+          console.log(data);
             toast.success('Produto Excluido com sussexo')
             setVisibleModalExcluir(false)
             setIsFetching(true)
@@ -97,8 +96,6 @@ export default function TableDash({canViewButtons, auth}) {
         return prefixDinheiro0(rowData.preco);
     };
 
-   
-
     const hasButton = (rowData) => {
         return (
             <>
@@ -114,37 +111,36 @@ export default function TableDash({canViewButtons, auth}) {
                         setRowInfo(rowData)    
                     }}/>    
             </>
-        );}
+    );}
     
-        const dialogFooter = () => {
-            return(
-            <>
-                <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} /> 
+    const dialogFooter = () => {
+        return(
+        <>
+            <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} /> 
 
-                <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => 
-                    {
-                        onDelete(rowInfo)
-                        ToastDeSucessoExclusao()
-                        setVisibleModalExcluir(false)
-                    }} />
-            </>
-        )}
+            <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => 
+                {
+                    onDelete(rowInfo)
+                    setVisibleModalExcluir(false)
+                }} />
+        </>
+    )}
 
-        const dialogFooterEdit = () => {
-            return(
-            <>
-                <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setVisibleModalEditar(false)} />  
-                <Button label="Salvar" icon="pi pi-check" severity="danger" onClick={() => 
-                    {
-                        atualizarProdutoById(dataEditProd.id, dataEditProd).then(_ => {
-                            setIsFetching(true)
-                            fetchData()
-                        })
-                        setVisibleModalEditar(false)
-                    }} />
-            </>
-        )}
-        
+    const dialogFooterEdit = () => {
+        return(
+        <>
+            <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setVisibleModalEditar(false)} />  
+            <Button label="Salvar" icon="pi pi-check" severity="danger" onClick={() => 
+                {
+                    atualizarProdutoById(dataEditProd.id, dataEditProd).then(_ => {
+                        toast.warn("Produto atualizado com sucesso")
+                        setIsFetching(true)
+                        fetchData()
+                    })
+                    setVisibleModalEditar(false)
+                }} />
+        </>
+    )}
         
     const formEditProd = () => {
         return(
@@ -301,19 +297,12 @@ export default function TableDash({canViewButtons, auth}) {
 
             </div>
         
-        )} 
+    )} 
 
     //<-JSX ------------------------------
 
     return (
         <div className="card">
-            <Button onClick={() => {
-                toast.success('Tesao do krl')
-                toast.info('Tesao do krl')
-                toast.warn('Tesao do krl')
-                toast.error('Tesao do krl')
-                
-                }} />
         <DataTable
             value={products} 
             paginator 
