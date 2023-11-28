@@ -4,8 +4,8 @@ import { Column } from 'primereact/column';
 import { ProductService } from '../../0PersoComponents/ProductService'; 
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import { getAllProduto, deleteProdutoById } from '../../../../SERVICES/produtoService';
+import { toast } from 'react-toastify';
+import { getAllProduto, deleteProdutoById, atualizarProdutoById} from '../../../../SERVICES/produtoService';
 import { getAllFornecedor, getFornecedorById } from "../../../../SERVICES/fornecedorService";
 import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
 import { useRef } from 'react';
@@ -25,9 +25,6 @@ export default function TableDash({canViewButtons, auth}) {
     const [dropFornecedor, setDropFornecedores] = useState()
     const [rowInfoEditar, setRowInfoEditar] = useState({name:""})
     const [isFetching, setIsFetching] = useState(false)
-    const [fornecedorInfo, setFornecedorInfo] = useState()
-    const [toastControl, setToastControl] = useState("")
-    const toast = useRef(null);
     
     const [dataEditProd, setDataEditProd] = useState({
         nome_produto: "",
@@ -43,6 +40,7 @@ export default function TableDash({canViewButtons, auth}) {
 
     });
 
+    // const toast =  Toast()
     //<-CoreFunctions------------------------------
 
     const fetchData = async () => {
@@ -78,17 +76,16 @@ export default function TableDash({canViewButtons, auth}) {
 
     //<-Funcoes-------------------------------
 
-    
-    const  ToastDeSucessoExclusao = async () =>
-    {
-        await toast.current.show({severity:'warn', summary: 'Atenção', detail:'Produto excluido com sucesso'});
-    }
 
     const onDelete = (rowData) => {
-        deleteProdutoById(rowData.id).then(_ => {
+        deleteProdutoById(rowData.id).then((data) => {
+          
+            toast.success('Produto Excluido com sussexo')
             setVisibleModalExcluir(false)
             setIsFetching(true)
-            ToastDeSucessoExclusao().then(_ => fetchData())
+            
+                fetchData()
+    
         })
     }
 
@@ -111,8 +108,7 @@ export default function TableDash({canViewButtons, auth}) {
                     setVisibleModalEditar(true)
                     }} />
 
-                <Toast ref={toast} />
-                <Button icon="pi pi-trash"  size='small' severity="danger" onClick={() => 
+                <Button icon="pi pi-trash" size='small' severity="danger" onClick={() => 
                     {
                         setVisibleModalExcluir(true)
                         setRowInfo(rowData)    
@@ -125,10 +121,10 @@ export default function TableDash({canViewButtons, auth}) {
             <>
                 <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} /> 
 
-                <Toast ref={toast} />
                 <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => 
                     {
                         onDelete(rowInfo)
+                        ToastDeSucessoExclusao()
                         setVisibleModalExcluir(false)
                     }} />
             </>
@@ -140,6 +136,10 @@ export default function TableDash({canViewButtons, auth}) {
                 <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setVisibleModalEditar(false)} />  
                 <Button label="Salvar" icon="pi pi-check" severity="danger" onClick={() => 
                     {
+                        atualizarProdutoById(dataEditProd.id, dataEditProd).then(_ => {
+                            setIsFetching(true)
+                            fetchData()
+                        })
                         setVisibleModalEditar(false)
                     }} />
             </>
@@ -177,8 +177,9 @@ export default function TableDash({canViewButtons, auth}) {
                                             id="preco"
                                             placeholder="Preço"
                                             value={dataEditProd.preco}
-                                            onChange={(e) =>
-                                                setDataEditProd({...dataEditProd, preco: e.target.value})
+                                            onChange={(e) =>{
+                                                setDataEditProd({...dataEditProd, preco: e.value})
+                                            }
                                             }
                                             className=" text-800 bg-white w-full mb-3 border-gray-300 "
                                             mode="currency"
@@ -293,7 +294,7 @@ export default function TableDash({canViewButtons, auth}) {
                                         optionLabel="razao_social"
                                         options={dropFornecedor}
                                         onChange={(e) =>
-                                            setDataEditProd({...dataEditProd, fornecedor: e.target.value})
+                                            setDataEditProd({...dataEditProd, fornecedor: e.target.value, fornecedor_id: e.target.value.id})
                                         }
                                     />
                             </div>
@@ -306,7 +307,13 @@ export default function TableDash({canViewButtons, auth}) {
 
     return (
         <div className="card">
-            <Button onClick={() => console.log(dataEditProd)} />
+            <Button onClick={() => {
+                toast.success('Tesao do krl')
+                toast.info('Tesao do krl')
+                toast.warn('Tesao do krl')
+                toast.error('Tesao do krl')
+                
+                }} />
         <DataTable
             value={products} 
             paginator 
@@ -335,6 +342,7 @@ export default function TableDash({canViewButtons, auth}) {
                 </div>
             </Dialog>
 
+            {/* <ToastContainer /> */}
 
         <Dialog draggable={false} visible={visibleModalEditar} style={{ width: '50rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooterEdit} onHide={(() => setVisibleModalEditar(false))}>
                 <div className="confirmation-content">

@@ -96,12 +96,26 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+
+            $Produto = Produto::findOrFail($id);
+            $Produto->update($request->all());
+
+            DB::commit();
+            return response()->json(['message' => 'Produto atualizado com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(string $id)
     {
         try {

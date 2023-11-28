@@ -37,10 +37,8 @@ Route::middleware('auth')->group(function () {
 
     //Produto
     Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
-    Route::post('b/produto', [ProdutoController::class, 'store'])->name('Produto.store');
     Route::delete('b/delete/{id}', [ProdutoController::class, 'destroy'])->name('Produto.destroy');
-
-
+    
     //Fornecedor
     Route::get('/c', [FornecedorController::class, 'index'])->name('fornecedor.index');
     Route::post('/c/fornecedor', [FornecedorController::class, 'store'])->name('fornecedor.store');
@@ -51,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
 //Prod
 
+Route::put('b/produtoAtualizar/{id}', [ProdutoController::class, 'update'])->name('Produto.update');
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 
 
