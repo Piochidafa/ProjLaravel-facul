@@ -158,6 +158,7 @@ export default function CadastroProduto({ auth }) {
                                             value={data.descricao}
                                             className="autoResize border-gray-300 text-50 bg-white h-6rem mb-3 w-full"
                                             autoComplete="descricao"
+                                            maxLength={20}
                                             placeholder="Descrição"
                                             isFocused={true}
                                             onChange={(e) =>
