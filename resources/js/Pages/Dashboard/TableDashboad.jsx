@@ -332,9 +332,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     <span>Deseja Realmente excluir <strong>{rowInfo.nome_produto} </strong>?</span>
                 </div>
-            </Dialog>
-
-            {/* <ToastContainer /> */}
+        </Dialog>
 
         <Dialog draggable={false} visible={visibleModalEditar} style={{ width: '60rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooterEdit} onHide={(() => setVisibleModalEditar(false))}>
                 <div className="confirmation-content">
