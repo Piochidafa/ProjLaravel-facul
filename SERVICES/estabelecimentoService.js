@@ -42,7 +42,7 @@ export function deleteEstabelecimentoById(id) {
 export function atualizarEstabelecimentoById(id, bodyAtualizado) {
     return new Promise((resolve, reject) => {
         axios
-            .put(`${baseUrl}/estabelecimentoAtualizar/${id}`)
+            .put(`${baseUrl}/estabelecimentoAtualizar/${id}`, bodyAtualizado)
             .then((res) => {
                 resolve(res.data);
             })
