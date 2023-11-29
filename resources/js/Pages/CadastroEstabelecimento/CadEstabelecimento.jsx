@@ -8,55 +8,60 @@ import { Head, useForm } from "@inertiajs/react";
 import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Toast } from 'primereact/toast';
-import axios from 'axios';
-import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
+import { Toast } from "primereact/toast";
+import axios from "axios";
+import { getEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
     const [controlVal, setControlVal] = useState(false);
 
     useEffect(() => {
-        getEstabelecimentoById(auth.user.id).then((res) => {
-            if (res.data != {}) {
-                setAllEstabelecimentoData(res.data);
-            }
-        }).catch(() => {
-            setAllEstabelecimentoData(null)
-        });
+        getEstabelecimentoById(auth.user.id)
+            .then((res) => {
+                if (res.data != {}) {
+                    setAllEstabelecimentoData(res.data);
+                }
+            })
+            .catch(() => {
+                setAllEstabelecimentoData(null);
+            });
     }, [controlVal]);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        razao_social: '',
-        nome_fantasia: '',
-        cnpj: '',
-        telefone: '',
-        bairro: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-    })
+        razao_social: "",
+        nome_fantasia: "",
+        cnpj: "",
+        telefone: "",
+        bairro: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+    });
 
     const ToastDeuCerto = () => {
-        toast.current.show({ severity: 'success', summary: 'Adicionado com Sucesso', detail: 'Estabelecimento adicionado com sucesso' });
+        toast.current.show({
+            severity: "success",
+            summary: "Adicionado com Sucesso",
+            detail: "Estabelecimento adicionado com sucesso",
+        });
     };
-    
+
     useEffect(() => {}, []);
-    
+
     const caseHaveEstabelecimento = () => {
-        
-        if(allEstabelecimentoData) {            
-            return(
+        if (allEstabelecimentoData) {
+            return (
                 <div className="py-12 w-full h-full">
                     <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full h-60">
-                          <p>OIIII</p>  
+                            <p>OIIII</p>
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
-    }
+    };
 
     const onSubmit = async (e) => {
         // e.preventDefault();
@@ -74,7 +79,7 @@ export default function CadastroEstabelecimento({ auth }) {
         //     };
         // const response = await axios.post('/a/estabelecimento', requestData);
         // if (response.status === 201) {
-                // ToastDeuCerto()
+        // ToastDeuCerto()
         //     console.error('Deu certo:', response);
         // } else {
         //     if (response.status === 442) {
@@ -95,7 +100,9 @@ export default function CadastroEstabelecimento({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    {!allEstabelecimentoData ? "Cadastro Estabelecimento" : "Meu Estabelecimento"}
+                    {!allEstabelecimentoData
+                        ? "Cadastro Estabelecimento"
+                        : "Meu Estabelecimento"}
                 </h2>
             }
         >
@@ -103,14 +110,13 @@ export default function CadastroEstabelecimento({ auth }) {
 
             {
                 <h1 style={{ color: "black" }}>
-                    
                     {JSON.stringify(allEstabelecimentoData)};
                 </h1>
             }
 
             {allEstabelecimentoData === null ? (
                 <div className="py-12">
-                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
+                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <GuestLayout>
                                 <form
@@ -119,15 +125,18 @@ export default function CadastroEstabelecimento({ auth }) {
                                     method="POST"
                                     className="p-4"
                                 >
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div about="razao_social">
+                                    <div className="flex flex-column align-items-center bg-white">
+                                        <div
+                                            className="flex flex-column align-items-center bg-white w-full"
+                                            about="razao_social"
+                                        >
                                             <TextInput
                                                 id="razao_social"
                                                 placeholder="Razão Social"
                                                 type="text"
                                                 name="razao_social"
                                                 value={data.razao_social}
-                                                className="mt-1 block w-full"
+                                                className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -143,14 +152,17 @@ export default function CadastroEstabelecimento({ auth }) {
                                             />
                                         </div>
 
-                                        <div about="nome_fantasia">
+                                        <div
+                                            about="nome_fantasia"
+                                            className="flex flex-column align-items-center bg-white w-full"
+                                        >
                                             <TextInput
                                                 id="nome_fantasia"
                                                 type="text"
                                                 name="nome_fantasia"
                                                 placeholder="Nome Fantasia"
                                                 value={data.nome_fantasia}
-                                                className="mt-1 block w-full"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -166,14 +178,38 @@ export default function CadastroEstabelecimento({ auth }) {
                                             />
                                         </div>
 
-                                        <div about="cnpj">
+                                        <div
+                                            about="cnpj and telefone"
+                                            className="flex flex-row justify-content-between bg-white"
+                                        >
+                                            <TextInput
+                                                id="telefone"
+                                                placeholder="Telefone"
+                                                type="text"
+                                                name="telefone"
+                                                value={data.telefone}
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
+                                                autoComplete="current-password"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "telefone",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+
+                                            <InputError
+                                                message={errors.telefone}
+                                                className="mt-2"
+                                            />
+
                                             <TextInput
                                                 id="cnpj"
                                                 type="text"
                                                 placeholder="CNPJ"
                                                 name="cnpj"
                                                 value={data.cnpj}
-                                                className="mt-1 block w-full"
+                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
                                                 autoComplete="cnpj"
                                                 isFocused={true}
                                                 onChange={(e) =>
@@ -189,81 +225,17 @@ export default function CadastroEstabelecimento({ auth }) {
                                             />
                                         </div>
 
-                                        <div about="telefone">
-                                            <TextInput
-                                                id="telefone"
-                                                placeholder="Telefone"
-                                                type="text"
-                                                name="telefone"
-                                                value={data.telefone}
-                                                className="mt-1 block w-full"
-                                                autoComplete="current-password"
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "telefone",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-
-                                            <InputError
-                                                message={errors.telefone}
-                                                className="mt-2"
-                                            />
-                                        </div>
-
-                                        <div about="Bairro">
-                                            <TextInput
-                                                id="bairro"
-                                                placeholder="Bairro"
-                                                type="text"
-                                                name="bairro"
-                                                value={data.bairro}
-                                                className="mt-1 block w-full"
-                                                isFocused={true}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "bairro",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={errors.bairro}
-                                                className="mt-2"
-                                            />
-                                        </div>
-
-                                        <div about="cep">
-                                            <TextInput
-                                                id="cep"
-                                                placeholder="CEP"
-                                                type="text"
-                                                name="cep"
-                                                value={data.cep}
-                                                className="mt-1 block w-full"
-                                                isFocused={true}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "cep",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={errors.cep}
-                                                className="mt-2"
-                                            />
-                                        </div>
-
-                                        <div about="cidade">
+                                        <div
+                                            className="flex flex-column align-items-center bg-white w-full"
+                                            about="cidade"
+                                        >
                                             <TextInput
                                                 id="cidade"
                                                 placeholder="Cidade"
                                                 type="text"
                                                 name="cidade"
                                                 value={data.cidade}
-                                                className="mt-1 block w-full"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -278,14 +250,37 @@ export default function CadastroEstabelecimento({ auth }) {
                                             />
                                         </div>
 
-                                        <div about="estado">
+                                        <div
+                                            about="cep and estado"
+                                            className="flex flex-row justify-content-between bg-white"
+                                        >
+                                            <TextInput
+                                                id="cep"
+                                                placeholder="CEP"
+                                                type="text"
+                                                name="cep"
+                                                value={data.cep}
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
+                                                isFocused={true}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "cep",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <InputError
+                                                message={errors.cep}
+                                                className="mt-2"
+                                            />
+
                                             <TextInput
                                                 id="estado"
                                                 type="text"
                                                 placeholder="Estado"
                                                 name="estado"
                                                 value={data.estado}
-                                                className="mt-1 block w-full"
+                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -296,6 +291,31 @@ export default function CadastroEstabelecimento({ auth }) {
                                             />
                                             <InputError
                                                 message={errors.estado}
+                                                className="mt-2"
+                                            />
+                                        </div>
+
+                                        <div
+                                            className="flex flex-column align-items-center bg-white w-full"
+                                            about="Bairro"
+                                        >
+                                            <TextInput
+                                                id="bairro"
+                                                placeholder="Bairro"
+                                                type="text"
+                                                name="bairro"
+                                                value={data.bairro}
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                isFocused={true}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "bairro",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <InputError
+                                                message={errors.bairro}
                                                 className="mt-2"
                                             />
                                         </div>
@@ -312,16 +332,18 @@ export default function CadastroEstabelecimento({ auth }) {
                                 </form>
 
                                 {/* <Modal show={isModalOpen} onClose={closeModal} maxWidth="2xl">
-                                    <div className="p-4">
-                                        <CadFilial />
-                                        <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
-                                    </div>
-                                </Modal> */}
+                                <div className="p-4">
+                                    <CadFilial />
+                                    <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
+                                </div>
+                            </Modal> */}
                             </GuestLayout>
                         </div>
                     </div>
                 </div>
-            ) : caseHaveEstabelecimento()} 
+            ) : (
+                caseHaveEstabelecimento()
+            )}
         </AuthenticatedLayout>
     );
 }
