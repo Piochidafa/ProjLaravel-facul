@@ -8,46 +8,57 @@ import { Head, useForm } from "@inertiajs/react";
 import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Toast } from 'primereact/toast';
-import axios from 'axios';
-import { atualizarEstabelecimentoById, getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
-import { deleteEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
-import { InputText } from 'primereact/inputtext';
+import { Toast } from "primereact/toast";
+import axios from "axios";
+import {
+    atualizarEstabelecimentoById,
+    getEstabelecimentoById,
+} from "../../../../SERVICES/estabelecimentoService";
+import { deleteEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
+import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { Avatar } from 'primereact/avatar';
-import { AvatarGroup } from 'primereact/avatargroup';
-import { Badge } from 'primereact/badge';
+import { Avatar } from "primereact/avatar";
+import { AvatarGroup } from "primereact/avatargroup";
+import { Badge } from "primereact/badge";
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
     const [controlVal, setControlVal] = useState(false);
     const [editar, setEditar] = useState(false);
     const [editadaData, setEditadaData] = useState({});
-    const [razaoSocial, setRazaoSocial] = useState(allEstabelecimentoData?.razao_social || '');
-    const [nomeFantasia, setNomeFantasia] = useState(allEstabelecimentoData?.nome_fantasia || '');
-    const [telefone, setTelefone] = useState(allEstabelecimentoData?.telefone || '');
-    const [cnpj, setCnpj] = useState(allEstabelecimentoData?.cnpj || '');
-    const [loadingData, setLoadingData] = useState(true)
+    const [razaoSocial, setRazaoSocial] = useState(
+        allEstabelecimentoData?.razao_social || ""
+    );
+    const [nomeFantasia, setNomeFantasia] = useState(
+        allEstabelecimentoData?.nome_fantasia || ""
+    );
+    const [telefone, setTelefone] = useState(
+        allEstabelecimentoData?.telefone || ""
+    );
+    const [cnpj, setCnpj] = useState(allEstabelecimentoData?.cnpj || "");
+    const [loadingData, setLoadingData] = useState(true);
 
     useEffect(() => {
-        getEstabelecimentoById(auth.user.id).then((res) => {
-            if (res.data != {}) {
-                setAllEstabelecimentoData(res.data);
-                setEditadaData(res.data);
+        getEstabelecimentoById(auth.user.id)
+            .then((res) => {
+                if (res.data != {}) {
+                    setAllEstabelecimentoData(res.data);
+                    setEditadaData(res.data);
+                    setLoadingData(false);
+                }
+            })
+            .catch(() => {
+                setAllEstabelecimentoData(null);
                 setLoadingData(false);
-            }
-        }).catch(() => {
-            setAllEstabelecimentoData(null)
-            setLoadingData(false);
-        });
+            });
     }, [controlVal]);
 
     const editarClick = () => {
         setEditar(true);
-    }
+    };
 
     const salvarEdit = () => {
-        console.log('Clicou em Salvar!');
+        console.log("Clicou em Salvar!");
         if (allEstabelecimentoData && allEstabelecimentoData.id) {
             atualizarEstabelecimentoById(allEstabelecimentoData.id, editadaData)
                 .then((data) => {
@@ -55,33 +66,34 @@ export default function CadastroEstabelecimento({ auth }) {
                     setAllEstabelecimentoData(data);
                 })
                 .catch((error) => {
-                    console.error('Erro ao atualizar estabelecimento:', error);
+                    console.error("Erro ao atualizar estabelecimento:", error);
                 });
         } else {
-            console.error('ID do estabelecimento indefinido. Os dados podem não ter sido carregados corretamente.');
+            console.error(
+                "ID do estabelecimento indefinido. Os dados podem não ter sido carregados corretamente."
+            );
         }
-    }
-
+    };
 
     const onDelete = async (estabelecimentoData) => {
         try {
             await deleteEstabelecimentoById(estabelecimentoData.id);
             window.location.reload();
         } catch (error) {
-            console.log("Erro", error)
+            console.log("Erro", error);
         }
-    }
+    };
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        razao_social: '',
-        nome_fantasia: '',
-        cnpj: '',
-        telefone: '',
-        bairro: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-    })
+        razao_social: "",
+        nome_fantasia: "",
+        cnpj: "",
+        telefone: "",
+        bairro: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+    });
 
     const caseHaveEstabelecimento = () => {
         if (allEstabelecimentoData) {
@@ -89,53 +101,118 @@ export default function CadastroEstabelecimento({ auth }) {
                 <div className="py-12 w-full h-full">
                     <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full h-full p-8">
-                            <div className="flex flex-wrap gap-5">
-                                <div className="flex">
-                                    <Avatar label={auth.user.name.substr(0, 1).toUpperCase()} className="mr-2" size="xlarge" shape="circle" />
+                            <div className="flex justify-content-center mb-5">
+                                <div className="flex justify-content-center">
+                                    <Avatar
+                                        label={auth.user.name
+                                            .substr(0, 1)
+                                            .toUpperCase()}
+                                        className="mr-2"
+                                        size="xlarge"
+                                        shape="circle"
+                                    />
                                 </div>
                             </div>
-                            <div className="flex justify-between">
-                                <div className="flex flex-column gap-2">
-                                    <label htmlFor="razao_social">Razão Social</label>
-                                    <InputText disabled={!editar} onChange={(e) => setEditadaData({ ...editadaData, razao_social: e.target.value })} value={editadaData?.razao_social} />
+                            <div className="flex justify-content-center gap-4 mb-4">
+                                <div className=" w-12rem flex flex-column gap-2">
+                                    <label htmlFor="razao_social">
+                                        Razão Social
+                                    </label>
+                                    <InputText
+                                        disabled={!editar}
+                                        onChange={(e) =>
+                                            setEditadaData({
+                                                ...editadaData,
+                                                razao_social: e.target.value,
+                                            })
+                                        }
+                                        value={editadaData?.razao_social}
+                                    />
                                 </div>
-                                <div className="flex flex-column gap-2">
-                                    <label htmlFor="nome_fantasia">Nome Fantasia</label>
-                                    <InputText disabled={!editar} onChange={(e) => setEditadaData({ ...editadaData, nome_fantasia: e.target.value })} value={editadaData?.nome_fantasia} />
+                                <div className="w-12rem flex flex-column gap-2">
+                                    <label htmlFor="nome_fantasia">
+                                        Nome Fantasia
+                                    </label>
+                                    <InputText
+                                        disabled={!editar}
+                                        onChange={(e) =>
+                                            setEditadaData({
+                                                ...editadaData,
+                                                nome_fantasia: e.target.value,
+                                            })
+                                        }
+                                        value={editadaData?.nome_fantasia}
+                                    />
                                 </div>
                             </div>
-                            <div className="flex justify-between">
-                                <div className="flex flex-column gap-2">
+                            <div className="flex justify-content-center gap-4">
+                                <div className="w-12rem flex flex-column gap-2">
                                     <label htmlFor="telefone">Telefone</label>
-                                    <InputText disabled={!editar} onChange={(e) => setEditadaData({ ...editadaData, telefone: e.target.value })} value={editadaData?.telefone} />
+                                    <InputText
+                                        disabled={!editar}
+                                        onChange={(e) =>
+                                            setEditadaData({
+                                                ...editadaData,
+                                                telefone: e.target.value,
+                                            })
+                                        }
+                                        value={editadaData?.telefone}
+                                    />
                                 </div>
-                                <div className="flex flex-column gap-2">
+                                <div className="flex w-12rem flex-column gap-2">
                                     <label htmlFor="cnpj">CNPJ</label>
-                                    <InputText disabled={!editar} onChange={(e) => setEditadaData({ ...editadaData, cnpj: e.target.value })} value={editadaData?.cnpj} />
+                                    <InputText
+                                        disabled={!editar}
+                                        onChange={(e) =>
+                                            setEditadaData({
+                                                ...editadaData,
+                                                cnpj: e.target.value,
+                                            })
+                                        }
+                                        value={editadaData?.cnpj}
+                                    />
                                 </div>
                             </div>
-                            <div className="flex justify-between mt-4">
+                            <div className=" flex justify-content-center mt-5">
                                 {editar ? (
                                     <div>
-                                        <Button label="Salvar" icon="pi pi-check" outlined onClick={salvarEdit} />
+                                        <Button
+                                            className="w-12rem flex justify-content-center mr-4"
+                                            label="Salvar"
+                                            icon="pi pi-check"
+                                            outlined
+                                            onClick={salvarEdit}
+                                        />
                                     </div>
                                 ) : (
                                     <div>
-                                        <Button label="Editar" icon="pi pi-pencil" outlined onClick={editarClick} />
+                                        <Button
+                                            className="w-12rem flex justify-content-center mr-4"
+                                            label="Editar"
+                                            icon="pi pi-pencil"
+                                            outlined
+                                            onClick={editarClick}
+                                        />
                                     </div>
                                 )}
                                 <div>
-                                    <Button label="Excluir" icon="pi pi-check" severity="danger" onClick={() => {
-                                        onDelete(allEstabelecimentoData)
-                                    }} />
+                                    <Button
+                                        label="Excluir"
+                                        className="w-12rem flex justify-content-center"
+                                        icon="pi pi-check"
+                                        severity="danger"
+                                        onClick={() => {
+                                            onDelete(allEstabelecimentoData);
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
-    }
+    };
 
     const onSubmit = async (e) => {
         // e.preventDefault();
@@ -174,12 +251,13 @@ export default function CadastroEstabelecimento({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    {!allEstabelecimentoData ? "Cadastro Estabelecimento" : "Meu Estabelecimento"}
+                    {!allEstabelecimentoData
+                        ? "Cadastro Estabelecimento"
+                        : "Meu Estabelecimento"}
                 </h2>
             }
         >
             <Head title="Cadastro Estabelecimento" />
-
 
             {allEstabelecimentoData === null ? (
                 <div className="py-12">
@@ -408,7 +486,9 @@ export default function CadastroEstabelecimento({ auth }) {
                         </div>
                     </div>
                 </div>
-            ) : caseHaveEstabelecimento()}
+            ) : (
+                caseHaveEstabelecimento()
+            )}
         </AuthenticatedLayout>
     );
 }
