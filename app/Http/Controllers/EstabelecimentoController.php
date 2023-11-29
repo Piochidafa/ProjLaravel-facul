@@ -137,7 +137,6 @@ class EstabelecimentoController extends Controller
             // $endereco->delete();
             $estabelecimento->delete();
             endereco::destroy($endereco);
-
             DB::commit();
 
             return response()->json(['message' => 'Estabelecimento exlcluido com sucesso']);
@@ -146,11 +145,5 @@ class EstabelecimentoController extends Controller
             DB::rollback();
             return response()->json(['error' => 'Erro ao excluir estabelecimento' . $throwable->getMessage()], 500);
         }
-
-
-
-
-
-
     }
 }
