@@ -37,8 +37,6 @@ export default function CadastroProduto({ auth }) {
         });
     }, [controlVal]);
 
-
-
     const { data, setData, post, processing, errors, reset } = useForm({
         nome_produto: "",
         preco: null,
@@ -121,7 +119,7 @@ export default function CadastroProduto({ auth }) {
             setControlVal((controlVal) => !controlVal);
             reset();
         } catch (error) {
-            ToastDeuErrado()
+            ToastDeuErrado();
             console.error("Erro ao cadastrar produto:", error);
         }
     };
@@ -188,7 +186,6 @@ export default function CadastroProduto({ auth }) {
                                             currency="BRL"
                                             locale="pt-BR"
                                         />
-
                                     </div>
 
                                     <div className="flex flex-column align-items-center bg-white">
