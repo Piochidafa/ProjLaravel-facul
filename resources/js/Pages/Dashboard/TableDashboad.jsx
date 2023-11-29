@@ -15,7 +15,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { categoriasDeProdutos } from '../CadastroProduto/listCategoriaProdutros';
 
-export default function TableDash({canViewButtons, auth}) {
+export default function TableDash({canViewButtons, auth, goFetch}) {
 
 
     const [products, setProducts] = useState([]);
@@ -40,7 +40,6 @@ export default function TableDash({canViewButtons, auth}) {
 
     });
 
-    // const toast =  Toast()
     //<-CoreFunctions------------------------------
 
     const fetchData = async () => {
@@ -75,11 +74,16 @@ export default function TableDash({canViewButtons, auth}) {
 
     //<-Funcoes-------------------------------
 
+    useEffect(() => {
+        setIsFetching(true)
+        fetchData()
+
+    },[goFetch])
 
     const onDelete = (rowData) => {
         deleteProdutoById(rowData.id).then((data) => {
           console.log(data);
-            toast.success('Produto Excluido com sussexo')
+            toast.success('Produto Excluido com sucesso')
             setVisibleModalExcluir(false)
             setIsFetching(true)
             
@@ -145,9 +149,9 @@ export default function TableDash({canViewButtons, auth}) {
     const formEditProd = () => {
         return(
         
-            <div>
+            <div className='p-6'>
                 
-                <div className="flex flex-row justify-content-center bg-white">
+                <div className="flex flex-row justify-content-center bg-white ">
 
                             <div className='w-full flex flex-column mr-4'>
                                 <label><strong>Nome:</strong></label>
@@ -298,7 +302,6 @@ export default function TableDash({canViewButtons, auth}) {
             </div>
         
     )} 
-
     //<-JSX ------------------------------
 
     return (
@@ -312,14 +315,14 @@ export default function TableDash({canViewButtons, auth}) {
             loading={(products.length === 0 || isFetching) } 
             rows={[10]} 
             tableStyle={{ minWidth: '60rem' }} 
-            className='w-full flex flex-column'
+            className='w-full flex flex-column  '
             >
 
             <Column field="id" header="Código"></Column>
             <Column field="nome_produto" header="Nome" sortable ></Column>
             <Column field="descricao" header="descricao" ></Column>
             <Column Field="preco" header="Preço" body={prefixDinheiro}></Column>
-            <Column field="fornecedor.razao_social" header="Fornecedor" ></Column>
+            <Column field="fornecedor.razao_social" header="Fornecedor" className=''></Column>
             {canViewButtons && <Column header="Acoes" body={hasButton} className='w-1 '></Column>}
 
         </DataTable>
@@ -333,7 +336,7 @@ export default function TableDash({canViewButtons, auth}) {
 
             {/* <ToastContainer /> */}
 
-        <Dialog draggable={false} visible={visibleModalEditar} style={{ width: '50rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooterEdit} onHide={(() => setVisibleModalEditar(false))}>
+        <Dialog draggable={false} visible={visibleModalEditar} style={{ width: '60rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooterEdit} onHide={(() => setVisibleModalEditar(false))}>
                 <div className="confirmation-content">
                    {formEditProd()}
                 </div>

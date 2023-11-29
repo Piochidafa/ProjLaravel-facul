@@ -11,7 +11,6 @@ import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
 import { Dropdown } from "primereact/dropdown";
-import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { getEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
 import { getAllFornecedor } from "../../../../SERVICES/fornecedorService";
@@ -19,12 +18,17 @@ import { Button } from "primereact/button";
 import { categoriasDeProdutos } from "./listCategoriaProdutros";
 import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
+import TableDash from "../Dashboard/TableDashboad";
+import { toast } from 'react-toastify';
+import { Dialog } from "primereact/dialog";
 
 export default function CadastroProduto({ auth }) {
     const [dropFornecedores, setDropFornecedores] = useState([]);
     const [controlVal, setControlVal] = useState(false);
+    const [visible, setVisible] = useState();
+    const [goFetch, setGoFetch] = useState(false);
 
-    const toast = useRef(null);
+
 
     useEffect(() => {
         getEstabelecimentoById(auth.user.id).then((res) => {
@@ -50,21 +54,6 @@ export default function CadastroProduto({ auth }) {
         estabelecimento_id: "",
     });
 
-    const ToastDeuCerto = () => {
-        toast.current.show({
-            severity: "success",
-            summary: "Adicionado com Sucesso",
-            detail: "Produto Adicionado com sucesso",
-        });
-    };
-
-    const ToastDeuErrado = () => {
-        toast.current.show({
-            severity: "warn",
-            summary: "Error",
-            detail: "Preencha Todos os campos obrigatorios",
-        });
-    };
 
     useEffect(() => {
         getEstabelecimentoById(auth.user.id).then((res) => {
@@ -85,7 +74,7 @@ export default function CadastroProduto({ auth }) {
     // }
     // console.log(auth);
 
-    useEffect(() => {}, []);
+    const handleFetch = () => {}
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -103,8 +92,10 @@ export default function CadastroProduto({ auth }) {
                 estabelecimento_id: data.estabelecimento_id,
             };
             const response = await axios.post("b/produto", requestData);
+            setVisible(false)
             if (response.status === 200) {
-                ToastDeuCerto();
+                setGoFetch(prev => !prev)
+                toast.success("Poduto cadastrado com sucesso");
                 console.error("Deu certo:", response);
             } else {
                 if (response.status === 500) {
@@ -119,7 +110,7 @@ export default function CadastroProduto({ auth }) {
             setControlVal((controlVal) => !controlVal);
             reset();
         } catch (error) {
-            ToastDeuErrado();
+            toast.error("Erro ao Cadastrar produto");
             console.error("Erro ao cadastrar produto:", error);
         }
     };
@@ -136,21 +127,18 @@ export default function CadastroProduto({ auth }) {
             <Head title="Cadastro Produto" />
 
             {
-                // <h1 style={{ color: "black" }}>
-                //     {JSON.stringify(allProdutoData)}
-                // </h1>
-            }
+                
+            <div className="pt-6 w-full flex flex-column align-items-center">
 
-            {
-                <div className="py-12 ">
-                    <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center ">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
-                            <GuestLayout>
+            <Dialog header="Cadastrar Produto" visible={visible} draggable={false} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+
+                    <div className="flex justify-content-center align-items-center">
+                        <div className="bg-white">
                                 <form
                                     onSubmit={onSubmit}
                                     // action="b/produto"
                                     // method="POST"
-                                    className="p-4 "
+                                    className="p-4"
                                 >
                                     <div className="flex flex-row justify-content-center bg-white">
                                         <TextInput
@@ -309,53 +297,33 @@ export default function CadastroProduto({ auth }) {
                                         }
                                     />
 
-                                    {/* <div className="flex flex-column align-items-center bg-white">
-                                        <Dropd
-                                            key="key"
-                                            options={select}
-                                            onSelect={() => {}}
-                                            id="fornecedor"
-                                            type="text"
-                                            name="fornecedor"
-                                            value={data.fornecedor}
-                                            className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
-                                            placeholder="Fornecedor"
-                                            isFocused={true}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "fornecedor",
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        <InputError
-                                            message={errors.fornecedor}
-                                            className="mt-2"
-                                        />
-                                    </div> */}
-
                                     <div className="flex items-center justify-content-between mt-4 flex-col">
-                                        <Toast ref={toast} />
-                                        <PrimaryButton
+                                        {/* <PrimaryButton
                                             className="ml-4"
                                             disabled={processing}
                                         >
                                             Cadastrar
-                                        </PrimaryButton>
-                                        {/* <PrimaryButton onClick={openModal}>Cadastra Filial</PrimaryButton> */}
+                                        </PrimaryButton> */}
+                                        <Button label="Cadastrar" type="submit" onClick={() => setVisible(false)}/>
                                     </div>
                                 </form>
 
-                                {/* <Modal show={isModalOpen} onClose={closeModal} maxWidth="2xl">
-                                    <div className="p-4">
-                                        <CadFilial />
-                                        <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
-                                    </div>
-                                </Modal> */}
-                            </GuestLayout>
+                            
                         </div>
                     </div>
+                </Dialog>
+
+                <div className="w-11 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+
+                    <Button className="mb-3" icon="pi pi-plus" label="Adicionar produto" onClick={() => setVisible(true)}/>
+                    <TableDash
+                        auth={auth}
+                        canViewButtons={true}
+                        goFetch={goFetch}
+                        />
+
                 </div>
+            </div>
             }
         </AuthenticatedLayout>
     );

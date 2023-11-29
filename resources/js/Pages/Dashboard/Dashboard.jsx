@@ -22,7 +22,6 @@ export default function Dashboard({ auth }) {
                     <div className="w-11">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 ">
                             <TableDash
-                            canViewButtons={true}
                             auth={auth}
                             />
                         </div>
