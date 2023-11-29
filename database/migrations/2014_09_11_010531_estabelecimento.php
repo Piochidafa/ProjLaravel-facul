@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->dateTime('inactivated_at')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('endereco_id')->references('id')->on('endereco');
+            $table->foreign('endereco_id')->references('id')->on('endereco')->onDelete('cascade');
         });
     }
 
