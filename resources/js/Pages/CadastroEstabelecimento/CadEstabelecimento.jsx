@@ -8,7 +8,6 @@ import { Head, useForm } from "@inertiajs/react";
 import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Toast } from "primereact/toast";
 import axios from "axios";
 import {
     atualizarEstabelecimentoById,
@@ -20,21 +19,17 @@ import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { AvatarGroup } from "primereact/avatargroup";
 import { Badge } from "primereact/badge";
+import { toast } from "react-toastify";
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
     const [controlVal, setControlVal] = useState(false);
     const [editar, setEditar] = useState(false);
     const [editadaData, setEditadaData] = useState({});
-    const [razaoSocial, setRazaoSocial] = useState(
-        allEstabelecimentoData?.razao_social || ""
-    );
-    const [nomeFantasia, setNomeFantasia] = useState(
-        allEstabelecimentoData?.nome_fantasia || ""
-    );
-    const [telefone, setTelefone] = useState(
-        allEstabelecimentoData?.telefone || ""
-    );
+    const [visibleModalExcluir, setVisibleModalExcluir] = useState(false)
+    const [razaoSocial, setRazaoSocial] = useState(allEstabelecimentoData?.razao_social || "");
+    const [nomeFantasia, setNomeFantasia] = useState(allEstabelecimentoData?.nome_fantasia || "");
+    const [telefone, setTelefone] = useState(allEstabelecimentoData?.telefone || "");
     const [cnpj, setCnpj] = useState(allEstabelecimentoData?.cnpj || "");
     const [loadingData, setLoadingData] = useState(true);
 
@@ -58,12 +53,12 @@ export default function CadastroEstabelecimento({ auth }) {
     };
 
     const salvarEdit = () => {
-        console.log("Clicou em Salvar!");
         if (allEstabelecimentoData && allEstabelecimentoData.id) {
             atualizarEstabelecimentoById(allEstabelecimentoData.id, editadaData)
                 .then((data) => {
                     setEditar(false);
                     setAllEstabelecimentoData(data);
+                    toast.success("Opa");
                 })
                 .catch((error) => {
                     console.error("Erro ao atualizar estabelecimento:", error);
@@ -78,6 +73,8 @@ export default function CadastroEstabelecimento({ auth }) {
     const onDelete = async (estabelecimentoData) => {
         try {
             await deleteEstabelecimentoById(estabelecimentoData.id);
+            setAllEstabelecimentoData(estabelecimentoData);
+            toast.success("Excluido com sucesso!)");
             window.location.reload();
         } catch (error) {
             console.log("Erro", error);
@@ -214,36 +211,44 @@ export default function CadastroEstabelecimento({ auth }) {
         }
     };
 
+
+    // const dialogFooter = () => {
+    //     return (
+    //         <>
+    //             <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} />
+
+    //             <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => {
+    //                 onDelete(rowInfo)
+    //                 ToastDeSucessoExclusao()
+    //                 setVisibleModalExcluir(false)
+    //             }} />
+    //         </>
+    //     )
+    // }
+
     const onSubmit = async (e) => {
-        // e.preventDefault();
-        // try {
-        //     const requestData = {
-        //         razao_social: data.razao_social,
-        //         nome_fantasia: data.nome_fantasia,
-        //         cnpj: data.cnpj,
-        //         telefone: data.telefone,
-        //         bairro: data.bairro,
-        //         cep: data.cep,
-        //         cidade: data.cidade,
-        //         estado: data.estado,
-        //         user_id: auth.user.id,
-        //     };
-        // const response = await axios.post('/a/estabelecimento', requestData);
-        // if (response.status === 201) {
-        // ToastDeuCerto()
-        //     console.error('Deu certo:', response);
-        // } else {
-        //     if (response.status === 442) {
-        //         console.error('Erro de validação: ', response.data.errors);
-        //     } else {
-        //         console.error('Erro ao cadastrar estabelecimento e endereço:', response.data.error);
-        //     }
-        // }
-        //     setControlVal(controlVal => !controlVal)
-        //     reset();
-        // } catch (error) {
-        //     console.error('Erro ao cadastrar estabelecimento:', error);
-        // }
+        e.preventDefault();
+        try {
+            const requestData = {
+                razao_social: data.razao_social,
+                nome_fantasia: data.nome_fantasia,
+                cnpj: data.cnpj,
+                telefone: data.telefone,
+                bairro: data.bairro,
+                cep: data.cep,
+                cidade: data.cidade,
+                estado: data.estado,
+                user_id: auth.user.id,
+            };
+            const response = await axios.post('/a/estabelecimento', requestData);
+            if (response.status === 200) {
+                toast.success("Cadastro com sucesso!");
+            }
+            setControlVal(controlVal => !controlVal)
+            reset();
+        } catch (error) {
+            console.error('Erro ao cadastrar estabelecimento:', error);
+        }
     };
 
     return (
@@ -251,9 +256,7 @@ export default function CadastroEstabelecimento({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    {!allEstabelecimentoData
-                        ? "Cadastro Estabelecimento"
-                        : "Meu Estabelecimento"}
+                    {!allEstabelecimentoData ? "Cadastro Estabelecimento" : "Meu Estabelecimento"}
                 </h2>
             }
         >
@@ -266,8 +269,6 @@ export default function CadastroEstabelecimento({ auth }) {
                             <GuestLayout>
                                 <form
                                     onSubmit={onSubmit}
-                                    action="a/estabelecimento"
-                                    method="POST"
                                     className="p-4"
                                 >
                                     <div className="flex flex-column align-items-center bg-white">
@@ -290,11 +291,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-
-                                            <InputError
-                                                message={errors.razao_social}
-                                                className="mt-2"
-                                            />
                                         </div>
 
                                         <div
@@ -316,13 +312,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-
-                                            <InputError
-                                                message={errors.nome_fantasia}
-                                                className="mt-2"
-                                            />
                                         </div>
-
                                         <div
                                             about="cnpj and telefone"
                                             className="flex flex-row justify-content-between bg-white"
@@ -342,12 +332,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-
-                                            <InputError
-                                                message={errors.telefone}
-                                                className="mt-2"
-                                            />
-
                                             <TextInput
                                                 id="cnpj"
                                                 type="text"
@@ -363,10 +347,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                         e.target.value
                                                     )
                                                 }
-                                            />
-                                            <InputError
-                                                message={errors.cnpj}
-                                                className="mt-2"
                                             />
                                         </div>
 
@@ -389,10 +369,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-                                            <InputError
-                                                message={errors.cidade}
-                                                className="mt-2"
-                                            />
                                         </div>
 
                                         <div
@@ -414,11 +390,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-                                            <InputError
-                                                message={errors.cep}
-                                                className="mt-2"
-                                            />
-
                                             <TextInput
                                                 id="estado"
                                                 type="text"
@@ -433,10 +404,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                         e.target.value
                                                     )
                                                 }
-                                            />
-                                            <InputError
-                                                message={errors.estado}
-                                                className="mt-2"
                                             />
                                         </div>
 
@@ -459,10 +426,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                                     )
                                                 }
                                             />
-                                            <InputError
-                                                message={errors.bairro}
-                                                className="mt-2"
-                                            />
                                         </div>
                                     </div>
                                     <div className="flex items-center justify-content-between mt-4 flex-col">
@@ -472,20 +435,13 @@ export default function CadastroEstabelecimento({ auth }) {
                                         >
                                             Cadastrar
                                         </PrimaryButton>
-                                        {/* <PrimaryButton onClick={openModal}>Cadastra Filial</PrimaryButton> */}
                                     </div>
                                 </form>
-
-                                {/* <Modal show={isModalOpen} onClose={closeModal} maxWidth="2xl">
-                                <div className="p-4">
-                                    <CadFilial />
-                                    <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
-                                </div>
-                            </Modal> */}
                             </GuestLayout>
                         </div>
                     </div>
                 </div>
+
             ) : (
                 caseHaveEstabelecimento()
             )}
