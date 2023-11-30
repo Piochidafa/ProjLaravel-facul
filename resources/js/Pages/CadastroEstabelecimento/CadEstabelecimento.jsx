@@ -41,7 +41,6 @@ export default function CadastroEstabelecimento({ auth }) {
 
 
     useEffect(() => {
-        // fetchData()
         getEstabelecimentoById(auth.user.id)
             .then((res) => {
                 if (res.data != {}) {
@@ -56,23 +55,23 @@ export default function CadastroEstabelecimento({ auth }) {
             });
     }, [controlVal, refreshData]);
 
-    const fetchData = async () => {
-        try {
-            const listaObtida = await getAllEstabelecimento();
-            const listaAtualizada = await Promise.all(
-                listaObtida.map(async (item) => {
-                    const valorPorId = await getEstabelecimentoById(item.id);
-                    return { ...item, estabelecimento: valorPorId.data }
-                })
-            );
-            setEstabelecimento(listaAtualizada)
-            setIsFetching(false)
-            console.log("listaAtualizada :", listaAtualizada);
-        } catch (erro) {
-            console.error('Erro ao buscar dados: ', erro)
-            setIsFetching(false)
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         const listaObtida = await getAllEstabelecimento();
+    //         const listaAtualizada = await Promise.all(
+    //             listaObtida.map(async (item) => {
+    //                 const valorPorId = await getEstabelecimentoById(item.id);
+    //                 return { ...item, estabelecimento: valorPorId.data }
+    //             })
+    //         );
+    //         setEstabelecimento(listaAtualizada)
+    //         setIsFetching(false)
+    //         console.log("listaAtualizada :", listaAtualizada);
+    //     } catch (erro) {
+    //         console.error('Erro ao buscar dados: ', erro)
+    //         setIsFetching(false)
+    //     }
+    // };
 
     const editarClick = () => {
         setEditar(true);
@@ -84,6 +83,7 @@ export default function CadastroEstabelecimento({ auth }) {
                 .then((data) => {
                     setEditar(false);
                     setAllEstabelecimentoData(data);
+                    handleDataRefresh()
                     toast.success("Alterado com sucesso!");
                 })
                 .catch((error) => {
@@ -93,6 +93,7 @@ export default function CadastroEstabelecimento({ auth }) {
             console.error(
                 "ID do estabelecimento indefinido. Os dados podem não ter sido carregados corretamente."
             );
+            handleDataRefresh()
         }
     };
 
@@ -246,10 +247,10 @@ export default function CadastroEstabelecimento({ auth }) {
                             </div>
                         </div>
                     </div>
-                    <Dialog draggable={false} visible={visibleModalExcluir} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooter} onHide={(() => setVisibleModalExcluir(false))}>
+                    <Dialog draggable={false} visible={visibleModalExcluir} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} modal footer={dialogFooter} onHide={(() => setVisibleModalExcluir(false))}>
                         <div className="confirmation-content">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            <span>Deseja Realmente excluir <strong>{allEstabelecimentoData.razao_social} </strong>?</span>
+                            <span>Deseja realmente excluir <strong>{allEstabelecimentoData.razao_social} </strong>?</span>
                         </div>
                     </Dialog>
                 </div>
