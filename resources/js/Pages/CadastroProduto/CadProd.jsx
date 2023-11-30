@@ -212,7 +212,7 @@ export default function CadastroProduto({ auth }) {
                                                 onChange={(e) =>
                                                     setData(
                                                         "tamanho",
-                                                        e.target.value
+                                                        Validar.OnlyNumber(e.target.value)
                                                     )
                                                 }
                                             />

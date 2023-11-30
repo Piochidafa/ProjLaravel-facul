@@ -52,15 +52,15 @@ class FornecedorController extends Controller
                 'razao_social' => $request->razao_social,
                 'telefone' => $request->telefone,
                 'cnpj' => $request->cnpj,
-                'web_site' => $request->web_site,                
+                'web_site' => $request->web_site,
                 'marca' => $request->marca,
-                'email' => $request->email,               
+                'email' => $request->email,
                 'inactivated_at' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'endereco_id' => $endereco->id,
             ]);
-            
+
 
 
             DB::commit();
@@ -79,7 +79,7 @@ class FornecedorController extends Controller
 
             // return redirect(RouteServiceProvider::HOME);
 
-            
+
      //   }
     }
 
@@ -138,7 +138,7 @@ class FornecedorController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => 'Fornecedor excluido com sucesso']);
+            return response()->json(['message' => 'Fornecedor excluído com sucesso']);
 
         } catch (\Throwable $th) {
             throw $th;
