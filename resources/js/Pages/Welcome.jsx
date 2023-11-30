@@ -5,21 +5,10 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Button } from "primereact/button";
 import { useState } from "react";
+import { TelaInicialNaoAutenticado } from "./TelaInicial/TelaInicialNaoAutenticado";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
-    const [loading, setLoading] = useState(false);
 
-    const load = () => {
-        setLoading(true);
-
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
-    };
-
-    const { data, setData, post, processing, erros, reset } = useForm({
-        search: "",
-    });
 
     return (
         <div>
@@ -56,40 +45,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             )}
                         </div>
 
-                        <div className="w-screen flex flex-col justify-content-center align-items-center mt-8">
-                            <div className="overflow-hidden">
-                                <Link href="/">
-                                    <ApplicationLogo className="bg-center bg-contain bg-no-repeat h-4rem w-full fill-current text-green-500 mb-5" />
-                                </Link>
-                            </div>
-
-                            <div className=" flex p-input-icon-right ">
-                                <i className="pi pi-search" />
-                                <InputText
-                                    id="search"
-                                    type="search"
-                                    name="search"
-                                    value={data.search}
-                                    className="w-30rem"
-                                    placeholder="Busque um Produto"
-                                    isFocused={true}
-                                    onChange={(e) =>
-                                        setData("search", e.target.value)
-                                    }
-                                />
-                            </div>
-
-                            <div className="flex items-center justify-content-between mt-4 flex-col">
-                                <Button
-                                    icon="pi pi-search"
-                                    iconPos="right"
-                                    className="w-10rem bg-blue-600 border-0"
-                                    loading={loading}
-                                    onClick={load}
-                                    label="Buscar"
-                                />
-                            </div>
-                        </div>
+                        <TelaInicialNaoAutenticado/>
 
                         <div className="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
                             {/* Laravel v{laravelVersion} (PHP v{phpVersion}) */}

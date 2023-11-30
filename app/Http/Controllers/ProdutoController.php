@@ -75,6 +75,20 @@ class ProdutoController extends Controller
         }
     }
 
+    public function showByDesc(string $desc){
+
+        $produto = Produto::where('nome_produto', 'like', $desc . '%')->get();
+
+        return $produto;
+    }
+
+    public function showByEstabelecimentoID(string $id){
+
+        $produto = Produto::where('estabelecimento_id', $id )->get();
+
+        return $produto;
+    }
+
     /**
      * Display the specified resource.
      */

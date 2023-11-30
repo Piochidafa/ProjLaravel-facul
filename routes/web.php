@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     //Endereço Estabelecimento
     Route::get('/a/estabelecimento/enderecoget', [EnderecoController::class, 'index'])->name('endereco.index');
     Route::post('/a/estabelecimento/endereco', [EnderecoController::class, 'store'])->name('estabelecimento.store');
+    
 
 
     //Produto
@@ -47,12 +48,17 @@ Route::middleware('auth')->group(function () {
     
 });
 
+Route::delete('/c/fornecedordelete/{id}', [FornecedorController::class, 'destroy'])->name('fornecedor.destroy');
+Route::put('/c/fornecedorAtualiza/{id}', [FornecedorController::class, 'update'])->name('fornecedor.update');
+
 //Prod
 
 Route::put('b/produtoAtualizar/{id}', [ProdutoController::class, 'update'])->name('Produto.update');
+Route::get('/b/filterByDesc/{desc}', [ProdutoController::class, 'showByDesc'])->name('Produto.showByDesc');
+Route::get('/b/showByEstabelecimentoID/{id}', [ProdutoController::class, 'showByEstabelecimentoID'])->name('Produto.showByEstabelecimentoID');
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 
-
+Route::get('/a/endereco/{id}', [EnderecoController::class, 'show'])->name('endereco.show');
 //Endereço Estabelecimento
 Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
 Route::put('a/estabelecimentoAtualizar/{id}', [EstabelecimentoController::class, 'update'])->name('estabelecimento.update');
