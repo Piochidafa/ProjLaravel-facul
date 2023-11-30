@@ -32,14 +32,16 @@ export default function CadastroProduto({ auth }) {
 
 
     useEffect(() => {
-        getEstabelecimentoById(auth.user.id).then((res) => {
-            if (res.data != {}) {
-                setData({ ...data, estabelecimento_id: res.data.id });
-                setHasEstabelecimento(res.data)
-            }
-        }).catch(() => {
-            setHasEstabelecimento(null)
-        });
+        getEstabelecimentoById(auth.user.id)
+            .then((res) => {
+                if (res.data != {}) {
+                    setData({ ...data, estabelecimento_id: res.data.id });
+                    setHasEstabelecimento(res.data);
+                }
+            })
+            .catch(() => {
+                setHasEstabelecimento(null);
+            });
 
         getAllFornecedor().then((res) => {
             setDropFornecedores(res);
@@ -75,9 +77,9 @@ export default function CadastroProduto({ auth }) {
                 estabelecimento_id: data.estabelecimento_id,
             };
             const response = await axios.post("b/produto", requestData);
-            setVisible(false)
+            setVisible(false);
             if (response.status === 200) {
-                setGoFetch(prev => !prev)
+                setGoFetch((prev) => !prev);
                 toast.success("Poduto cadastrado com sucesso");
                 console.error("Deu certo:", response);
             } else {
@@ -98,22 +100,23 @@ export default function CadastroProduto({ auth }) {
         }
     };
 
-
-
     //-------------------- FORMULARIO DE CADASTRO DE PRODUTO ------------------>
 
     const FormularioProduto = () => {
-
-        if(hasEstabelecimento){
-        return(
-            <>
-                (
-                <div className="pt-6 w-full flex flex-column align-items-center">
-    
-                <Dialog header="Cadastrar Produto" visible={visible} draggable={false} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-    
-                        <div className="flex justify-content-center align-items-center">
-                            <div className="bg-white">
+        if (hasEstabelecimento) {
+            return (
+                <>
+                    (
+                    <div className="pt-6 w-full flex flex-column align-items-center">
+                        <Dialog
+                            header="Cadastrar Produto"
+                            visible={visible}
+                            draggable={false}
+                            style={{ width: "50vw" }}
+                            onHide={() => setVisible(false)}
+                        >
+                            <div className="flex justify-content-center align-items-center">
+                                <div className="bg-white">
                                     <form
                                         onSubmit={onSubmit}
                                         // action="b/produto"
@@ -136,12 +139,12 @@ export default function CadastroProduto({ auth }) {
                                                     )}
                                                 }
                                             />
-    
+
                                             <InputError
                                                 message={errors.nome_produto}
                                                 className="mt-2"
                                             />
-    
+
                                             <InputNumber
                                                 id="preco"
                                                 placeholder="Preço"
@@ -155,7 +158,7 @@ export default function CadastroProduto({ auth }) {
                                                 locale="pt-BR"
                                             />
                                         </div>
-    
+
                                         <div className="flex flex-column align-items-center bg-white">
                                             <InputTextarea
                                                 id="descricao"
@@ -178,7 +181,7 @@ export default function CadastroProduto({ auth }) {
                                                 className="mt-2"
                                             />
                                         </div>
-    
+
                                         <div className="flex flex-row justify-content-between bg-white w-full">
                                             <TextInput
                                                 id="peso"
@@ -189,15 +192,18 @@ export default function CadastroProduto({ auth }) {
                                                 autoComplete="current-password"
                                                 placeholder="Peso(opcional)"
                                                 onChange={(e) =>
-                                                    setData("peso", e.target.value)
+                                                    setData(
+                                                        "peso",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
-    
+
                                             <InputError
                                                 message={errors.peso}
                                                 className="mt-2"
                                             />
-    
+
                                             <TextInput
                                                 id="tamanho"
                                                 type="text"
@@ -217,7 +223,7 @@ export default function CadastroProduto({ auth }) {
                                                 message={errors.tamanho}
                                                 className="mt-2"
                                             />
-    
+
                                             <TextInput
                                                 id="material"
                                                 type="text"
@@ -238,7 +244,7 @@ export default function CadastroProduto({ auth }) {
                                                 className="mt-2"
                                             />
                                         </div>
-    
+
                                         <div className="flex flex-column align-items-center bg-white">
                                             <Dropdown
                                                 id="categoria"
@@ -260,7 +266,7 @@ export default function CadastroProduto({ auth }) {
                                                 className="mt-2"
                                             />
                                         </div>
-    
+
                                         <Dropdown
                                             className="border-1 border-gray-300 border-round border-0 text-50 w-full"
                                             id="fornecedor_id"
@@ -276,7 +282,7 @@ export default function CadastroProduto({ auth }) {
                                                 )
                                             }
                                         />
-    
+
                                         <div className="flex items-center justify-content-between mt-4 flex-col">
                                             {/* <PrimaryButton
                                                 className="ml-4"
@@ -284,33 +290,39 @@ export default function CadastroProduto({ auth }) {
                                             >
                                                 Cadastrar
                                             </PrimaryButton> */}
-                                            <Button label="Cadastrar" type="submit" onClick={() => setVisible(false)}/>
+                                            <Button
+                                                className="w-13rem bg-blue-600 border-0"
+                                                label="Cadastrar"
+                                                type="submit"
+                                                onClick={() =>
+                                                    setVisible(false)
+                                                }
+                                            />
                                         </div>
                                     </form>
-    
-                                
+                                </div>
                             </div>
-                        </div>
-                    </Dialog>
-    
-                    <div className="w-11 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-    
-                        <Button className="mb-3" icon="pi pi-plus" label="Adicionar produto" onClick={() => setVisible(true)}/>
-                        <TableProd
-                            auth={auth}
-                            canViewButtons={true}
-                            goFetch={goFetch}
-                            />
-    
-                    </div>
-                </div>)
-            
-            </>
-        )
-    
-        }
-    }
+                        </Dialog>
 
+                        <div className="w-11 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                            <Button
+                                className="mb-3 bg-blue-600 border-0"
+                                icon="pi pi-plus"
+                                label="Adicionar produto"
+                                onClick={() => setVisible(true)}
+                            />
+                            <TableDash
+                                auth={auth}
+                                canViewButtons={true}
+                                goFetch={goFetch}
+                            />
+                        </div>
+                    </div>
+                    )
+                </>
+            );
+        }
+    };
 
     //------------------- FIM FORMULARIO DE CADASTRO DE PRODUTO
 
@@ -325,17 +337,11 @@ export default function CadastroProduto({ auth }) {
         >
             <Head title="Cadastro Produto" />
 
-            {hasEstabelecimento === null ?
-                        
-                        
-                        
-            (<NaoTemEstabelecimento nomeTela="Produto"/>)
-            
-            
-            
-            : FormularioProduto()}
-
-
+            {hasEstabelecimento === null ? (
+                <NaoTemEstabelecimento nomeTela="Produto" />
+            ) : (
+                FormularioProduto()
+            )}
         </AuthenticatedLayout>
     );
 }

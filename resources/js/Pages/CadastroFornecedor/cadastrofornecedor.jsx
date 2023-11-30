@@ -48,17 +48,16 @@ export default function CadastroFornecedor({ auth }) {
     };
 
     useEffect(() => {
-
-        getEstabelecimentoById(auth.user.id).then((res) => {
-            if (res.data != {}) {
-                setData({ ...data, estabelecimento_id: res.data.id });
-                setHasEstabelecimento(res.data)
-            }
-        }).catch(() => {
-            setHasEstabelecimento(null)
-        });
-
-
+        getEstabelecimentoById(auth.user.id)
+            .then((res) => {
+                if (res.data != {}) {
+                    setData({ ...data, estabelecimento_id: res.data.id });
+                    setHasEstabelecimento(res.data);
+                }
+            })
+            .catch(() => {
+                setHasEstabelecimento(null);
+            });
     }, []);
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -128,11 +127,11 @@ export default function CadastroFornecedor({ auth }) {
                                         }
                                     />
 
-                                    <InputError
-                                        message={errors.razao_social}
-                                        className="mt-2"
-                                    />
-                                </div>
+                                            <InputError
+                                                message={errors.razao_social}
+                                                className="mt-2"
+                                            />
+                                        </div>
 
                                 <div
                                     className="flex flex-column align-items-center bg-white w-full"
@@ -176,10 +175,10 @@ export default function CadastroFornecedor({ auth }) {
                                         }
                                     />
 
-                                    <InputError
-                                        message={errors.telefone}
-                                        className="mt-2"
-                                    />
+                                            <InputError
+                                                message={errors.telefone}
+                                                className="mt-2"
+                                            />
 
                                     <TextInput
                                         id="cnpj"
@@ -312,11 +311,11 @@ export default function CadastroFornecedor({ auth }) {
                                         }
                                     />
 
-                                    <InputError
-                                        message={errors.web_site}
-                                        className="mt-2"
-                                    />
-                                </div>
+                                            <InputError
+                                                message={errors.web_site}
+                                                className="mt-2"
+                                            />
+                                        </div>
 
                                 <div
                                     about="email"
@@ -347,11 +346,20 @@ export default function CadastroFornecedor({ auth }) {
                                 >
                                     Cadastrar
                                 </PrimaryButton> */}
-                                <Button label="Cadastrar" type="submit" onClick={() => setVisible(false)}/>
-                                {/* <PrimaryButton onClick={openModal}>Cadastra Filial</PrimaryButton> */}
-                            </div>
-                        </form>
-                        {/* <Modal show={isModalOpen} onClose={closeModal} maxWidth="2xl">
+
+                                        <Button
+                                            className="w-13rem bg-blue-600 border-0"
+                                            label="Cadastrar"
+                                            type="submit"
+                                            // onClick={() =>
+                                            //     setVisible(false)
+                                            // }
+                                        />
+                                        {/* <PrimaryButton onClick={openModal}>Cadastra Filial</PrimaryButton> */}
+                                    </div>
+                                </form>
+
+                                {/* <Modal show={isModalOpen} onClose={closeModal} maxWidth="2xl">
                                 <div className="p-4">
                                     <CadEstabelecimento />
                                     <button style={{ background: 'red' }} onClick={closeModal}>Fechar Modal</button>
@@ -368,8 +376,7 @@ export default function CadastroFornecedor({ auth }) {
         </div>)
 
         }
-
-    }
+    };
 
     
 
