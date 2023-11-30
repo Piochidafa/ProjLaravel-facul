@@ -5,7 +5,7 @@ import { ProductService } from '../../0PersoComponents/ProductService';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { toast } from 'react-toastify';
-import { getAllProduto, deleteProdutoById, atualizarProdutoById} from '../../../../SERVICES/produtoService';
+import { deleteProdutoById, atualizarProdutoById, getAllProdutoFiltradoByDesc} from '../../../../SERVICES/produtoService';
 import { getAllFornecedor, getFornecedorById } from "../../../../SERVICES/fornecedorService";
 import { getEstabelecimentoById } from '../../../../SERVICES/estabelecimentoService';
 import { useRef } from 'react';
@@ -44,7 +44,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
 
     const fetchData = async () => {
         try{
-            const listaObtida = await getAllProduto();
+            const listaObtida = await getAllProdutoFiltradoByDesc(auth.user.id);
             const listaAtualizada = await Promise.all(
                 listaObtida.map(async (item) => {
                     const valorPorId = await getFornecedorById(item.fornecedor_id);

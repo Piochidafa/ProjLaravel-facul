@@ -51,7 +51,12 @@ class EnderecoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $Endereco = endereco::find($id);
+
+        if (!$Endereco) {
+            return response()->json(['error' => 'Recurso não encontrado'], 404);
+        }
+        return response()->json(['data' => $Endereco]);
     }
 
     /**

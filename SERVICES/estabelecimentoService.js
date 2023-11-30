@@ -51,3 +51,16 @@ export function atualizarEstabelecimentoById(id, bodyAtualizado) {
             });
     });
 }
+
+export function getEnderecoById(id) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`${baseUrl}/endereco/${id}`)
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}

@@ -67,7 +67,7 @@ class FornecedorController extends Controller
 
             return response()->json([
                 'error' => 'Erro ao cadastrar fornecedor: '
-            ], 500);
+            ], 201);
             // return Inertia::location(route('dashboard'))->with('success', 'Estabelecimento criado com sucesso');
 
             // return redirect(RouteServiceProvider::HOME);
@@ -109,7 +109,19 @@ class FornecedorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+
+            $Fornecedor = fornecedor::findOrFail($id);
+            $Fornecedor->update($request->all());
+
+            DB::commit();
+            return response()->json(['message' => 'Fornecedor atualizado com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -117,6 +129,20 @@ class FornecedorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        try {
+
+            DB::beginTransaction();
+
+            $Fornecedor = fornecedor::findOrFail($id);
+            $Fornecedor->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Fornecedor excluido com sucesso']);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+}
+
 }
