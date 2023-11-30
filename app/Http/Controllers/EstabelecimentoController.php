@@ -59,7 +59,7 @@ class EstabelecimentoController extends Controller
                 'updated_at' => now(),
             ]);
             DB::commit();
-            return Redirect()->route('dashboard')->with('success', 'Estabelecimento Cadastrado com susexo');
+            return Redirect()->route('dashboard')->with('success', 'Estabelecimento Cadastrado com sucesso');
 
         } catch (\Exception $e) {
             DB::rollback();

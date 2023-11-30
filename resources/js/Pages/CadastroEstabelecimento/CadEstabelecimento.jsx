@@ -9,10 +9,7 @@ import CadFilial from "../CadastroFilial/CadFilial";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-import {
-    atualizarEstabelecimentoById,
-    getEstabelecimentoById,
-} from "../../../../SERVICES/estabelecimentoService";
+import { atualizarEstabelecimentoById, getEstabelecimentoById, getAllEstabelecimento } from "../../../../SERVICES/estabelecimentoService";
 import { deleteEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -20,6 +17,8 @@ import { Avatar } from "primereact/avatar";
 import { AvatarGroup } from "primereact/avatargroup";
 import { Badge } from "primereact/badge";
 import { toast } from "react-toastify";
+import { Dialog } from 'primereact/dialog';
+
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
@@ -32,8 +31,17 @@ export default function CadastroEstabelecimento({ auth }) {
     const [telefone, setTelefone] = useState(allEstabelecimentoData?.telefone || "");
     const [cnpj, setCnpj] = useState(allEstabelecimentoData?.cnpj || "");
     const [loadingData, setLoadingData] = useState(true);
+    const [isFetching, setIsFetching] = useState(false)
+    const [estabelecimento, setEstabelecimento] = useState([]);
+    const [refreshData, setRefreshData] = useState(false);
+
+    const handleDataRefresh = () => {
+        setRefreshData(!refreshData);
+    };
+
 
     useEffect(() => {
+        // fetchData()
         getEstabelecimentoById(auth.user.id)
             .then((res) => {
                 if (res.data != {}) {
@@ -46,7 +54,25 @@ export default function CadastroEstabelecimento({ auth }) {
                 setAllEstabelecimentoData(null);
                 setLoadingData(false);
             });
-    }, [controlVal]);
+    }, [controlVal, refreshData]);
+
+    const fetchData = async () => {
+        try {
+            const listaObtida = await getAllEstabelecimento();
+            const listaAtualizada = await Promise.all(
+                listaObtida.map(async (item) => {
+                    const valorPorId = await getEstabelecimentoById(item.id);
+                    return { ...item, estabelecimento: valorPorId.data }
+                })
+            );
+            setEstabelecimento(listaAtualizada)
+            setIsFetching(false)
+            console.log("listaAtualizada :", listaAtualizada);
+        } catch (erro) {
+            console.error('Erro ao buscar dados: ', erro)
+            setIsFetching(false)
+        }
+    };
 
     const editarClick = () => {
         setEditar(true);
@@ -58,7 +84,7 @@ export default function CadastroEstabelecimento({ auth }) {
                 .then((data) => {
                     setEditar(false);
                     setAllEstabelecimentoData(data);
-                    toast.success("Opa");
+                    toast.success("Alterado com sucesso!");
                 })
                 .catch((error) => {
                     console.error("Erro ao atualizar estabelecimento:", error);
@@ -73,13 +99,27 @@ export default function CadastroEstabelecimento({ auth }) {
     const onDelete = async (estabelecimentoData) => {
         try {
             await deleteEstabelecimentoById(estabelecimentoData.id);
-            setAllEstabelecimentoData(estabelecimentoData);
+            setVisibleModalExcluir(false)
+            handleDataRefresh()
             toast.success("Excluido com sucesso!)");
-            window.location.reload();
         } catch (error) {
             console.log("Erro", error);
+            reset();
         }
     };
+
+    const dialogFooter = () => {
+        return (
+            <>
+                <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} />
+
+                <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => {
+                    onDelete(allEstabelecimentoData)
+                    setVisibleModalExcluir(false)
+                }} />
+            </>
+        )
+    }
 
     const { data, setData, post, processing, errors, reset } = useForm({
         razao_social: "",
@@ -199,32 +239,23 @@ export default function CadastroEstabelecimento({ auth }) {
                                         icon="pi pi-check"
                                         severity="danger"
                                         onClick={() => {
-                                            onDelete(allEstabelecimentoData);
+                                            setVisibleModalExcluir(true);
                                         }}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <Dialog draggable={false} visible={visibleModalExcluir} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={dialogFooter} onHide={(() => setVisibleModalExcluir(false))}>
+                        <div className="confirmation-content">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            <span>Deseja Realmente excluir <strong>{allEstabelecimentoData.razao_social} </strong>?</span>
+                        </div>
+                    </Dialog>
                 </div>
             );
         }
     };
-
-
-    // const dialogFooter = () => {
-    //     return (
-    //         <>
-    //             <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} />
-
-    //             <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => {
-    //                 onDelete(rowInfo)
-    //                 ToastDeSucessoExclusao()
-    //                 setVisibleModalExcluir(false)
-    //             }} />
-    //         </>
-    //     )
-    // }
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -248,6 +279,7 @@ export default function CadastroEstabelecimento({ auth }) {
             reset();
         } catch (error) {
             console.error('Erro ao cadastrar estabelecimento:', error);
+            reset();
         }
     };
 
