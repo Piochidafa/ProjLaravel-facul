@@ -60,7 +60,6 @@ export default function CadastroEstabelecimento({ auth }) {
     };
 
     const salvarEdit = () => {
-        console.log("Clicou em Salvar!");
         if (allEstabelecimentoData && allEstabelecimentoData.id) {
             atualizarEstabelecimentoById(allEstabelecimentoData.id, editadaData)
                 .then((data) => {
