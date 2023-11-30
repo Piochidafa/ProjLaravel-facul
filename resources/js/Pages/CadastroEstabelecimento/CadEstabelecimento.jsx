@@ -152,7 +152,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                     <InputMask
                                         disabled={!editar}
                                         mask="(99) 99999-9999"
-                                        className="p-invalid"
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
@@ -168,7 +167,6 @@ export default function CadastroEstabelecimento({ auth }) {
                                         disabled={!editar}
                                         mask="99.999.999/9999-99"
                                         maxLength={18}
-                                        className="p-invalid"
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
@@ -342,7 +340,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 value={data.telefone}
                                                 maxLength={15}
                                                 mask="(99) 99999-9999"
-                                                className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
+                                                className="text-800 bg-white  mb-3 mr-3 w-12"
                                                 autoComplete="current-password"
                                                 onChange={(e) =>
                                                     setData(
@@ -364,7 +362,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 name="cnpj"
                                                 value={data.cnpj}
                                                 mask="99.999.999/9999-99"
-                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12 p-invalid"
+                                                className="text-800 bg-white  mb-3 ml-3 w-12"
                                                 autoComplete="cnpj"
                                                 maxLength={18}
                                                 isFocused={true}
