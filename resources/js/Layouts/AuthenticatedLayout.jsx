@@ -23,10 +23,10 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
+                                    href="/"
+                                    // active={route().current("dashboard")}
                                 >
-                                    Dashboard
+                                    Tela Inicial
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -44,7 +44,7 @@ export default function Authenticated({ user, header, children }) {
                                     href={route("CadastroProduto")}
                                     active={route().current("CadastroProduto")}
                                 >
-                                    Produto
+                                   Meus Produtos
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -54,7 +54,7 @@ export default function Authenticated({ user, header, children }) {
                                         "CadastroFornecedor"
                                     )}
                                 >
-                                    Fornecedor
+                                    Fornecedores
                                 </NavLink>
                             </div>
                         </div>

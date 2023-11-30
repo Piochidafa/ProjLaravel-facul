@@ -16,32 +16,43 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 flex justify-content-center align-itens-center">
                     <div className="">
-                        <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                        <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right w-full ">
                             {auth.user ? (
-                                <div>
+                                <div className="flex justify-content-between ">
+                                    <div className="flex">
+                                        <h1 className="text-4xl font-bold ">Precifica</h1>
+                                        <ApplicationLogo className="bg-center bg-contain bg-no-repeat h-1rem w-full fill-current text-green-500"/>
+                                    </div>
                                     <Link
-                                        href={route("dashboard")}
+                                        href={route("CadastroEstabelecimento")}
                                         className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                                     >
                                         Area Administrativa
                                     </Link>
                                 </div>
                             ) : (
-                                <>
+                                <div className="flex w-full justify-content-between ">
+                                    <div className="flex">
+                                        <h1 className="text-4xl font-bold ">Precifica</h1>
+                                        <ApplicationLogo className="bg-center bg-contain bg-no-repeat h-1rem w-1 fill-current text-green-500"/>
+                                    </div>
+                                    <div>
+
                                     <Link
                                         href={route("login")}
                                         className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >
+                                        >
                                         Log in
                                     </Link>
 
                                     <Link
                                         href={route("register")}
                                         className="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >
+                                        >
                                         Register
                                     </Link>
-                                </>
+                                        </div>
+                                </div>
                             )}
                         </div>
 

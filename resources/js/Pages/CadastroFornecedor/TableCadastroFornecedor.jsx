@@ -85,24 +85,17 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
 
     const onDelete = (rowData) => {
         console.log(rowData);
-        
-        deleteFornecedorById(rowData.id).then((data) => {
+       
+        deleteFornecedorById(rowData.id).then((data) => {     
             toast.success('Fornecedor Excluido com sucesso')
             setVisibleModalExcluir(false)
             setIsFetching(true)
             
-                fetchData()
-    
+            fetchData()
+            
         })
     }
 
-    // const prefixDinheiro0 = (value) => {
-    //     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    // }; 
-
-    // const prefixDinheiro = (rowData) => {
-    //     return prefixDinheiro0(rowData.preco);
-    // };
 
     const hasButton = (rowData) => {
         return (
@@ -110,7 +103,6 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                 <Button icon="pi pi-pencil" size="small" severity="info" className="mr-1" onClick={() => {
                     setDataEditProd({...rowData})
                     setVisibleModalEditar(true)
-                    console.log(rowData);
                     }} />
 
                 <Button icon="pi pi-trash" size='small' severity="danger" onClick={() => 
@@ -154,7 +146,7 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
         return(
         
             <div className="p-5">
-            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            {/* <div className="  "> */}
                 {/* <GuestLayout> */}
 
                         <div className="flex flex-column align-items-center bg-white">
@@ -162,6 +154,7 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                                 className="flex flex-column align-items-center bg-white w-full"
                                 about="razao_social"
                             >
+                                <label className='flex align-self-start'><strong>Razão Social:</strong></label>
                                 <TextInput
                                     id="razao_social"
                                     placeholder="Razão Social"
@@ -179,16 +172,17 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                             </div>
 
                             <div
-                                className="flex flex-column align-items-center bg-white w-full"
+                                className="flex flex-column align-items-center bg-white w-12 "
                                 about="marca"
                             >
+                                <label className='flex align-self-start'><strong>Marca:</strong></label>
                                 <TextInput
                                     id="marca"
                                     type="text"
                                     name="marca"
                                     placeholder="Marca"
                                     value={dataEditProd.marca}
-                                    className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
+                                    className=" text-800 bg-white mb-3 w-full"
                                     isFocused={true}
                                     onChange={(e) =>
                                         setDataEditProd({...dataEditProd,  marca: e.target.value})
@@ -199,30 +193,35 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
 
                             <div
                                 about="telefone and cnpj"
-                                className="flex flex-row justify-content-between bg-white w-full"
+                                className="flex flex-row justify-content-between bg-white w-full gap-4"
                             >
+
+                                <div className='w-6'>
+                                <label className='flex align-self-start'><strong>Telefone:</strong></label>
                                 <TextInput
                                     id="telefone"
                                     placeholder="Telefone"
                                     type="text"
                                     name="telefone"
                                     value={dataEditProd.telefone}
-                                    className="p-invalid text-800 bg-white mb-3 mr-3"
+                                    className="p-invalid text-800 bg-white mb-3  mr-2 w-full"
                                     isFocused={true}
                                     onChange={(e) =>
                                         setDataEditProd({...dataEditProd,  telefone: e.target.value})
 
                                     }
                                 />
+                                </div>
 
-
+                                <div className='w-6'>
+                                <label className='flex '><strong>CNPJ:</strong></label>
                                 <TextInput
                                     id="cnpj"
                                     placeholder="CNPJ"
                                     type="text"
                                     name="cnpj"
                                     value={dataEditProd.cnpj}
-                                    className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
+                                    className="p-invalid text-800 bg-white  mb-3 w-12"
                                     autoComplete="cnpj"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -230,13 +229,14 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
 
                                     }
                                 />
-                               
+                                </div>
                             </div>
 
                             <div
                                 about="cidade"
                                 className="flex flex-column align-items-center bg-white w-full"
                             >
+                                <label className='flex align-self-start'><strong>Cidade:</strong></label>
                                 <TextInput
                                     id="cidade"
                                     type="text"
@@ -255,8 +255,10 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
 
                             <div
                                 about="cep and estado"
-                                className="flex flex-row justify-content-between bg-white w-full"
+                                className="flex flex-row justify-content-between bg-white w-full gap-3 "
                             >
+                                <div className='w-6 '>
+                                <label className='flex '><strong>CNPJ:</strong></label>
                                 <TextInput
                                     id="cep"
                                     type="text"
@@ -269,27 +271,31 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                                         setDataEditProd({...dataEditProd, enderecoOBJ:{...dataEditProd.enderecoOBJ, cep: e.target.value}})
                                     }
                                 />
+                                    </div>
                              
-
+                                <div className='w-6 '>
+                                <label className='flex'><strong>Estado:</strong></label>        
                                 <TextInput
                                     id="estado"
                                     type="text"
                                     name="estado"
                                     placeholder="Estado"
                                     value={dataEditProd.enderecoOBJ.estado}
-                                    className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
+                                    className="p-invalid text-800 bg-white  mb-3 w-12"
                                     isFocused={true}
                                     onChange={(e) =>
                                         setDataEditProd({...dataEditProd,  enderecoOBJ:{...dataEditProd.enderecoOBJ, estado: e.target.value}})
                                     }
                                 />
                                
+                                    </div>
                             </div>
 
                             <div
                                 about="Bairro"
                                 className="flex flex-column align-items-center bg-white w-full"
                             >
+                                <label className='flex align-self-start'><strong>Bairro:</strong></label>
                                 <TextInput
                                     id="bairro"
                                     type="text"
@@ -310,6 +316,7 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                                 about="web_site"
                                 className="flex flex-column align-items-center bg-white w-full"
                             >
+                                <label className='flex align-self-start'><strong>Web_site:</strong></label>
                                 <TextInput
                                     id="web_site"
                                     type="text"
@@ -331,6 +338,7 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                                 about="email"
                                 className="flex flex-column align-items-center bg-white w-full"
                             >
+                                <label className='flex align-self-start'><strong>Email:</strong></label>
                                 <TextInput
                                     id="email"
                                     placeholder="E-mail"
@@ -363,7 +371,7 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
                             </div>
                         </Modal> */}
                 {/* </GuestLayout> */}
-            </div>
+            {/* </div> */}
         </div>
     )} 
     //<-JSX ------------------------------

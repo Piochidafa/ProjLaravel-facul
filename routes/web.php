@@ -22,7 +22,7 @@ use Inertia\Inertia;
 */
 
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
     
     //Estabelecimento
     // Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/c/fornecedor/{id}', [FornecedorController::class, 'show'])->name('fornecedor.show');
     
     
-});
+// });
 
 Route::delete('/c/fornecedordelete/{id}', [FornecedorController::class, 'destroy'])->name('fornecedor.destroy');
 Route::put('/c/fornecedorAtualiza/{id}', [FornecedorController::class, 'update'])->name('fornecedor.update');
@@ -75,9 +75,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/Initial', function () {
-    return Inertia::render('Initial/telaBasica');
-});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');

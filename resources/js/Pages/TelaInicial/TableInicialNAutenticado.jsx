@@ -11,6 +11,7 @@ import { getEstabelecimentoById, getEnderecoById} from '../../../../SERVICES/est
 import { InputText } from 'primereact/inputtext';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
+
 export default function TableInicialNAutenticado() {
 
 
@@ -58,6 +59,7 @@ export default function TableInicialNAutenticado() {
     
             setLoading(false);
             setProducts(listaAtualizada);
+  
         } catch (erro) {
             console.error('Erro ao buscar dados: ', erro);
         }
@@ -65,8 +67,11 @@ export default function TableInicialNAutenticado() {
 
     //<-UseEffect----------------------------------
 
-    useEffect(() => {        
-    },[])
+    useEffect(() => {    
+        if(rowInfoEditar.name !== "" && products.length === 0){
+            toast.error("Produtos não encontrados")
+        }    
+    },[products])
 
     //<-Funcoes-------------------------------
 
@@ -109,11 +114,11 @@ export default function TableInicialNAutenticado() {
 
 
     <div className="w-screen flex flex-col justify-content-center align-items-center mt-8">
-                            <div className="overflow-hidden">
+                            <div className="overflow-hidden mb-2">
                                 
                                     <ApplicationLogo className="bg-center bg-contain bg-no-repeat h-4rem w-full fill-current text-green-500 mb-5" />
+                                {/* <h1 className='text-4xl font-bold '>Precifica</h1> */}
                             </div>
-
                             <div className=" flex p-input-icon-right ">
                                 {/* <i className="pi pi-search" /> */}
                                 <InputText
@@ -125,8 +130,6 @@ export default function TableInicialNAutenticado() {
                                     placeholder="Busque um Produto"
                                     isFocused={true}
                                     onChange={(e) =>{
-
-                                        console.log(e.target.value)
                                         setRowInfoEditar({...rowInfoEditar, name:e.target.value})
                                     }
                                     }

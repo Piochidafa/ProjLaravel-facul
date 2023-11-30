@@ -9,12 +9,13 @@ import CadEstabelecimento from "../CadastroEstabelecimento/CadEstabelecimento";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-import { Toast } from "primereact/toast";
+import { toast } from "react-toastify";
 import { getEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
 import { NaoTemEstabelecimento } from "@/0PersoComponents/naoTemEstabelecimento";
 import TableCadastroFornecedor from "./TableCadastroFornecedor";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
+import { capitalize } from "@/utils/capitalazed";
 
 export default function CadastroFornecedor({ auth }) {
 
@@ -64,7 +65,7 @@ export default function CadastroFornecedor({ auth }) {
 
         try {
             const requestData = {
-                razao_social: data.razao_social,
+                razao_social: capitalize(data.razao_social),
                 telefone: data.telefone,
                 cnpj: data.cnpj,
                 web_site: data.web_site,
@@ -91,7 +92,7 @@ export default function CadastroFornecedor({ auth }) {
             }
         } catch (error) {
             setGoFetch(prev => !prev)
-            console.error("Erro ao cadastrar Fornecedor:", error, response);
+            console.error("Erro ao cadastrar Fornecedor:", error);
         }
     };
 

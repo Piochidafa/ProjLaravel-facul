@@ -1,4 +1,6 @@
+import { capitalize } from "@/utils/capitalazed";
 import { stringify } from "postcss";
+import { toast } from "react-toastify";
 
 let baseUrl = "http://localhost:8000/b";
 
@@ -23,6 +25,7 @@ export function deleteProdutoById(id) {
                 resolve(res.data);
             })
             .catch((error) => {
+                toast.error("Erro ao Excluir produto")
                 reject(error);
             });
     });
@@ -38,6 +41,7 @@ export function atualizarProdutoById(id, bodyAtualizado) {
                 resolve(res.data);
             })
             .catch((error) => {
+                toast.error("Erro ao Atualizar produto")
                 reject(error);
             });
     });
@@ -46,7 +50,7 @@ export function atualizarProdutoById(id, bodyAtualizado) {
 
 export function getAllProdutoFiltradoByDesc(desc) {
     return new Promise((resolve, reject) => {
-        axios.get(`${baseUrl}/showByEstabelecimentoID/${desc}`)
+        axios.get(`${baseUrl}/filterByDesc/${capitalize(desc)}`)
             .then((res) => {
                 resolve(res.data);
             })
@@ -55,6 +59,19 @@ export function getAllProdutoFiltradoByDesc(desc) {
             });
     });
 }
+
+export function getAllProdutoFiltradoById(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${baseUrl}/showByEstabelecimentoID/${id}`)
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
 
 // }// export function getProdutoById(id) {
 //     return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import TableDash from "@/Pages/Dashboard/TableDashboad";
+import TableDash from "@/Pages/CadastroProduto/TableProduto";
 
 
 export default function Dashboard({ auth }) {

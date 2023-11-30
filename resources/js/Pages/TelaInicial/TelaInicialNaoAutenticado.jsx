@@ -3,7 +3,7 @@ import { Button } from "primereact/button"
 import { InputText } from "primereact/inputtext"
 import { Link, Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import TableDash from "../Dashboard/TableDashboad";
+import TableDash from "../CadastroProduto/TableProduto";
 import TableInicialNAutenticado from "./TableInicialNAutenticado";
 
 

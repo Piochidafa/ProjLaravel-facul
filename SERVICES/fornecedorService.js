@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 let baseUrl = "http://localhost:8000/c";
 
@@ -49,6 +50,7 @@ export function deleteFornecedorById(id) {
                 resolve(res.data);
             })
             .catch((error) => {
+                toast.error("Erro Ao Excluir Fornecedor")
                 reject(error);
             });
     });

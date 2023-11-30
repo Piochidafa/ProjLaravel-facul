@@ -16,10 +16,12 @@ import { Button } from "primereact/button";
 import { categoriasDeProdutos } from "./listCategoriaProdutros";
 import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
-import TableDash from "../Dashboard/TableDashboad";
+import TableDash from "./TableProduto";
 import { toast } from 'react-toastify';
 import { Dialog } from "primereact/dialog";
 import { NaoTemEstabelecimento } from "@/0PersoComponents/naoTemEstabelecimento";
+import { capitalize } from "@/utils/capitalazed";
+import TableProd from "./TableProduto";
 
 export default function CadastroProduto({ auth }) {
     const [dropFornecedores, setDropFornecedores] = useState([]);
@@ -27,7 +29,6 @@ export default function CadastroProduto({ auth }) {
     const [controlVal, setControlVal] = useState(false);
     const [visible, setVisible] = useState();
     const [goFetch, setGoFetch] = useState(false);
-
 
 
     useEffect(() => {
@@ -58,12 +59,11 @@ export default function CadastroProduto({ auth }) {
         estabelecimento_id: "",
     });
 
-
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
             const requestData = {
-                nome_produto: data.nome_produto,
+                nome_produto: capitalize(data.nome_produto),
                 preco: data.preco,
                 unidade: data.unidade,
                 descricao: data.descricao,
@@ -129,11 +129,11 @@ export default function CadastroProduto({ auth }) {
                                                 className="p-invalid text-800 bg-white w-full mb-3 mr-3"
                                                 isFocused={true}
                                                 placeholder="Nome Produto"
-                                                onChange={(e) =>
+                                                onChange={(e) =>{
                                                     setData(
                                                         "nome_produto",
                                                         e.target.value
-                                                    )
+                                                    )}
                                                 }
                                             />
     
@@ -296,7 +296,7 @@ export default function CadastroProduto({ auth }) {
                     <div className="w-11 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
     
                         <Button className="mb-3" icon="pi pi-plus" label="Adicionar produto" onClick={() => setVisible(true)}/>
-                        <TableDash
+                        <TableProd
                             auth={auth}
                             canViewButtons={true}
                             goFetch={goFetch}
