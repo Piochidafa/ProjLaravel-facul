@@ -88,7 +88,7 @@ export class Validar {
     }
 
     static StringNoSpecialChars(texto) {
-        const regexApenasLetrasAcentuadas = /[^a-zA-ZÀ-ÖØ-öø-ÿ]/g;
+        const regexApenasLetrasAcentuadas = /[^a-zA-ZÀ-ÖØ-öø-ÿ\s ]/g;
         return texto.replace(regexApenasLetrasAcentuadas, '').toUpperCase();
     }
 

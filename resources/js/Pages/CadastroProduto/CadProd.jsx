@@ -81,7 +81,7 @@ export default function CadastroProduto({ auth }) {
             setVisible(false)
             if (response.status === 200) {
                 setGoFetch(prev => !prev)
-                toast.success("Poduto cadastrado com sucesso");
+                toast.success("Produto cadastrado com sucesso");
                 console.error("Deu certo:", response);
             } else {
                 if (response.status === 500) {
@@ -96,7 +96,7 @@ export default function CadastroProduto({ auth }) {
             setControlVal((controlVal) => !controlVal);
             reset();
         } catch (error) {
-            toast.error("Erro ao Cadastrar produto");
+            toast.error("Erro ao cadastrar produto");
             console.error("Erro ao cadastrar produto:", error);
         }
     };

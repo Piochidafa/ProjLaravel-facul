@@ -125,7 +125,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
-                                                razao_social: StringWithSpecialChars(e.target.value),
+                                                razao_social: Validar.StringWithSpecialChars(e.target.value),
                                             })
                                         }
                                         value={editadaData?.razao_social}
@@ -288,7 +288,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 type="text"
                                                 name="razao_social"
                                                 value={data.razao_social}
-                                                className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
+                                                className="text-800 bg-white mb-3 mr-3 ml-3 w-full"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -314,7 +314,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 name="nome_fantasia"
                                                 placeholder="Nome Fantasia"
                                                 value={data.nome_fantasia}
-                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                className="text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(

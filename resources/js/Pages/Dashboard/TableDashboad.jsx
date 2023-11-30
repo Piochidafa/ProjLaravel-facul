@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../../0PersoComponents/ProductService'; 
+import { ProductService } from '../../0PersoComponents/ProductService';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { toast } from 'react-toastify';
@@ -25,7 +25,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
     const [dropFornecedor, setDropFornecedores] = useState()
     const [rowInfoEditar, setRowInfoEditar] = useState({name:""})
     const [isFetching, setIsFetching] = useState(false)
-    
+
     const [dataEditProd, setDataEditProd] = useState({
         nome_produto: "",
         preco: 0,
@@ -60,7 +60,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
 
     //<-UseEffect----------------------------------
 
-    useEffect(() => {        
+    useEffect(() => {
         fetchData();
         getEstabelecimentoById(auth.user.id).then((res) => {
             if (res.data != {}) {
@@ -86,15 +86,15 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
             toast.success('Produto Excluido com sucesso')
             setVisibleModalExcluir(false)
             setIsFetching(true)
-            
+
                 fetchData()
-    
+
         })
     }
 
     const prefixDinheiro0 = (value) => {
         return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }; 
+    };
 
     const prefixDinheiro = (rowData) => {
         return prefixDinheiro0(rowData.preco);
@@ -109,20 +109,20 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                     setVisibleModalEditar(true)
                     }} />
 
-                <Button icon="pi pi-trash" size='small' severity="danger" onClick={() => 
+                <Button icon="pi pi-trash" size='small' severity="danger" onClick={() =>
                     {
                         setVisibleModalExcluir(true)
-                        setRowInfo(rowData)    
-                    }}/>    
+                        setRowInfo(rowData)
+                    }}/>
             </>
     );}
-    
+
     const dialogFooter = () => {
         return(
         <>
-            <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} /> 
+            <Button label="Não" icon="pi pi-times" outlined onClick={() => setVisibleModalExcluir(false)} />
 
-            <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() => 
+            <Button label="Sim" icon="pi pi-check" severity="danger" onClick={() =>
                 {
                     onDelete(rowInfo)
                     setVisibleModalExcluir(false)
@@ -133,8 +133,8 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
     const dialogFooterEdit = () => {
         return(
         <>
-            <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setVisibleModalEditar(false)} />  
-            <Button label="Salvar" icon="pi pi-check" severity="danger" onClick={() => 
+            <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setVisibleModalEditar(false)} />
+            <Button label="Salvar" icon="pi pi-check" severity="danger" onClick={() =>
                 {
                     atualizarProdutoById(dataEditProd.id, dataEditProd).then(_ => {
                         toast.warn("Produto atualizado com sucesso")
@@ -145,12 +145,12 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                 }} />
         </>
     )}
-        
+
     const formEditProd = () => {
         return(
-        
+
             <div className='p-6'>
-                
+
                 <div className="flex flex-row justify-content-center bg-white ">
 
                             <div className='w-full flex flex-column mr-4'>
@@ -170,7 +170,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                                             />
                             </div>
 
-                                
+
                             <div className='w-4 flex flex-column'>
                                 <label><strong>Valor:</strong></label>
                                         <InputNumber
@@ -191,7 +191,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                  </div>
 
                  <div className="flex flex-column align-items-center bg-white">
-                                   
+
                             <div className='w-full flex flex-column mx-4'>
                                 <label><strong>Descrição:</strong></label>
                                         <InputTextarea
@@ -211,7 +211,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                 </div>
 
                                     <div className="flex flex-row justify-content-between bg-white w-full">
-                                    
+
                                     <div className='w-4 mr-2'>
                                     <label><strong>Peso:</strong></label>
                                         <InputText
@@ -247,7 +247,7 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                                     </div>
 
                                     <div className="w-4 mr-2">
-                                    <label><strong>Material:</strong></label>                                    
+                                    <label><strong>Material:</strong></label>
                                         <InputText
                                             id="material"
                                             type="text"
@@ -300,21 +300,20 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                             </div>
 
             </div>
-        
-    )} 
+
+    )}
     //<-JSX ------------------------------
 
     return (
         <div className="card">
         <DataTable
-            value={products} 
-            paginator 
-            oned
-            rowsPerPageOptions={[10, 15, 20]} 
-            stripedRows 
-            loading={(products.length === 0 || isFetching) } 
-            rows={[10]} 
-            tableStyle={{ minWidth: '60rem' }} 
+            value={products}
+            paginator
+            rowsPerPageOptions={[10, 15, 20]}
+            stripedRows
+            loading={(products.length === 0 || isFetching) }
+            rows={[10]}
+            tableStyle={{ minWidth: '60rem' }}
             className='w-full flex flex-column  '
             >
 
@@ -340,10 +339,9 @@ export default function TableDash({canViewButtons, auth, goFetch}) {
                 </div>
             </Dialog>
 
-  
+
     </div>
 
 );
 
 }
-        

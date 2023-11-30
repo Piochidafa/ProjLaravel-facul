@@ -199,7 +199,7 @@ export default function CadastroFornecedor({ auth }) {
                                         value={data.cep}
                                         mask="99999-999"
                                         maxLength={9}
-                                        className="p-invalid text-50 bg-white  mb-3 mr-3 w-12"
+                                        className="text-50 bg-white  mb-3 mr-3 w-12"
                                         isfocused="true"
                                         onChange={(e) =>
                                             setData("cep", e.target.value)
