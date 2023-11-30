@@ -93,8 +93,10 @@ export class Validar {
     }
 
     static StringWithSpecialChars(texto) {
-        const regexApenasLetrasAcentuadas = /[^a-zA-ZÀ-ÖØ-öø-ÿ\s.,;-]+g/;
-        return texto.replace(regexApenasLetrasAcentuadas, '').toUpperCase();
+        const regexApenasLetrasAcentuadas = /[^a-zA-ZÀ-ÖØ-öø-ÿ\s.,;-]/g;
+        let oi = texto.replace(regexApenasLetrasAcentuadas, '').toUpperCase();
+        console.log(oi);
+        return oi
     }
 
     static OnlyNumber(number) {
