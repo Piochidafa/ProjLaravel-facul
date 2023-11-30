@@ -70,6 +70,7 @@ export default function Authenticated({ user, header, children }) {
                                             >
                                                 {user.name}
 
+
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
