@@ -70,7 +70,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 type="text"
                                                 name="razao_social"
                                                 value={data.razao_social}
-                                                className="p-invalid text-50 bg-white mb-3 mr-3 ml-3 w-full"
+                                                className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -96,7 +96,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 name="marca"
                                                 placeholder="Marca"
                                                 value={data.marca}
-                                                className="p-invalid text-50 bg-white mb-3 mr-3 ml-3 w-full"
+                                                className="p-invalid text-800 bg-white mb-3 mr-3 ml-3 w-full"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -121,7 +121,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 type="text"
                                                 name="telefone"
                                                 value={data.telefone}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -142,7 +142,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 type="text"
                                                 name="cnpj"
                                                 value={data.cnpj}
-                                                className="p-invalid text-50 bg-white  mb-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
                                                 autoComplete="cnpj"
                                                 isFocused={true}
                                                 onChange={(e) =>
@@ -168,7 +168,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 name="cidade"
                                                 placeholder="Cidade"
                                                 value={data.cidade}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -193,7 +193,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 name="cep"
                                                 placeholder="CEP"
                                                 value={data.cep}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -213,7 +213,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 name="estado"
                                                 placeholder="Estado"
                                                 value={data.estado}
-                                                className="p-invalid text-50 bg-white  mb-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -238,7 +238,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 placeholder="Bairro"
                                                 name="bairro"
                                                 value={data.bairro}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -263,7 +263,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 placeholder="Web Site"
                                                 name="web_site"
                                                 value={data.web_site}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -289,7 +289,7 @@ export default function CadastroFornecedor({ auth }) {
                                                 type="text"
                                                 name="email"
                                                 value={data.email}
-                                                className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
+                                                className="p-invalid text-800 bg-white  mb-3 mr-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
