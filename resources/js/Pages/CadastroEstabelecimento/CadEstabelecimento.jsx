@@ -20,6 +20,8 @@ import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { AvatarGroup } from "primereact/avatargroup";
 import { Badge } from "primereact/badge";
+import { Validar } from "@/validations"
+import { InputMask } from "primereact/inputmask";
 
 export default function CadastroEstabelecimento({ auth }) {
     const [allEstabelecimentoData, setAllEstabelecimentoData] = useState();
@@ -123,7 +125,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
-                                                razao_social: e.target.value,
+                                                razao_social: StringWithSpecialChars(e.target.value),
                                             })
                                         }
                                         value={editadaData?.razao_social}
@@ -138,7 +140,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
-                                                nome_fantasia: e.target.value,
+                                                nome_fantasia: Validar.StringNoSpecialChars(e.target.value),
                                             })
                                         }
                                         value={editadaData?.nome_fantasia}
@@ -148,8 +150,10 @@ export default function CadastroEstabelecimento({ auth }) {
                             <div className="flex justify-content-center gap-4">
                                 <div className="w-12rem flex flex-column gap-2">
                                     <label htmlFor="telefone">Telefone</label>
-                                    <InputText
+                                    <InputMask
                                         disabled={!editar}
+                                        mask="(99) 99999-9999"
+                                        className="p-invalid"
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
@@ -161,8 +165,11 @@ export default function CadastroEstabelecimento({ auth }) {
                                 </div>
                                 <div className="flex w-12rem flex-column gap-2">
                                     <label htmlFor="cnpj">CNPJ</label>
-                                    <InputText
+                                    <InputMask
                                         disabled={!editar}
+                                        mask="99.999.999/9999-99"
+                                        maxLength={18}
+                                        className="p-invalid"
                                         onChange={(e) =>
                                             setEditadaData({
                                                 ...editadaData,
@@ -286,7 +293,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 onChange={(e) =>
                                                     setData(
                                                         "razao_social",
-                                                        e.target.value
+                                                        Validar.StringWithSpecialChars(e.target.value),
                                                     )
                                                 }
                                             />
@@ -312,7 +319,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 onChange={(e) =>
                                                     setData(
                                                         "nome_fantasia",
-                                                        e.target.value
+                                                        Validar.StringNoSpecialChars(e.target.value),
                                                     )
                                                 }
                                             />
@@ -327,18 +334,21 @@ export default function CadastroEstabelecimento({ auth }) {
                                             about="cnpj and telefone"
                                             className="flex flex-row justify-content-between bg-white"
                                         >
-                                            <TextInput
+                                            <InputMask
+
                                                 id="telefone"
                                                 placeholder="Telefone"
                                                 type="text"
                                                 name="telefone"
                                                 value={data.telefone}
+                                                maxLength={15}
+                                                mask="(99) 99999-9999"
                                                 className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
                                                 autoComplete="current-password"
                                                 onChange={(e) =>
                                                     setData(
                                                         "telefone",
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                             />
@@ -348,14 +358,16 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 className="mt-2"
                                             />
 
-                                            <TextInput
+                                            <InputMask
                                                 id="cnpj"
                                                 type="text"
                                                 placeholder="CNPJ"
                                                 name="cnpj"
                                                 value={data.cnpj}
-                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
+                                                mask="99.999.999/9999-99"
+                                                className="p-invalid text-800 bg-white  mb-3 ml-3 w-12 p-invalid"
                                                 autoComplete="cnpj"
+                                                maxLength={18}
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
@@ -385,7 +397,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 onChange={(e) =>
                                                     setData(
                                                         "cidade",
-                                                        e.target.value
+                                                        Validar.StringNoSpecialChars(e.target.value)
                                                     )
                                                 }
                                             />
@@ -407,10 +419,12 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 value={data.cep}
                                                 className="p-invalid text-800 bg-white  mb-3 mr-3 w-12"
                                                 isFocused={true}
+                                                maxLength={9}
                                                 onChange={(e) =>
                                                     setData(
                                                         "cep",
-                                                        e.target.value
+                                                        Validar.mascaraCEP(e.target.value)
+
                                                     )
                                                 }
                                             />
@@ -424,13 +438,14 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 type="text"
                                                 placeholder="Estado"
                                                 name="estado"
+                                                maxLength={2}
                                                 value={data.estado}
                                                 className="p-invalid text-800 bg-white  mb-3 ml-3 w-12"
                                                 isFocused={true}
                                                 onChange={(e) =>
                                                     setData(
                                                         "estado",
-                                                        e.target.value
+                                                        Validar.StringNoSpecialChars(e.target.value)
                                                     )
                                                 }
                                             />
@@ -455,7 +470,7 @@ export default function CadastroEstabelecimento({ auth }) {
                                                 onChange={(e) =>
                                                     setData(
                                                         "bairro",
-                                                        e.target.value
+                                                        Validar.StringNoSpecialChars(e.target.value)
                                                     )
                                                 }
                                             />

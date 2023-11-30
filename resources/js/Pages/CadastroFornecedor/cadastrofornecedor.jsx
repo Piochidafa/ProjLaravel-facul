@@ -12,6 +12,8 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import { getEstabelecimentoById } from "../../../../SERVICES/estabelecimentoService";
 import { NaoTemEstabelecimento } from "@/0PersoComponents/naoTemEstabelecimento";
+import { Validar } from "@/validations"
+import { InputMask } from "primereact/inputmask";
 
 export default function CadastroFornecedor({ auth }) {
 
@@ -74,12 +76,12 @@ export default function CadastroFornecedor({ auth }) {
                                         type="text"
                                         name="razao_social"
                                         value={data.razao_social}
-                                        className="p-invalid text-50 bg-white mb-3 mr-3 ml-3 w-full"
-                                        isFocused={true}
+                                        className="text-50 bg-white mb-3 mr-3 ml-3 w-full"
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "razao_social",
-                                                e.target.value
+                                                Validar.StringWithSpecialChars(e.target.value)
                                             )
                                         }
                                     />
@@ -100,10 +102,10 @@ export default function CadastroFornecedor({ auth }) {
                                         name="marca"
                                         placeholder="Marca"
                                         value={data.marca}
-                                        className="p-invalid text-50 bg-white mb-3 mr-3 ml-3 w-full"
-                                        isFocused={true}
+                                        className=" text-50 bg-white mb-3 mr-3 ml-3 w-full"
+                                        isfocused="true"
                                         onChange={(e) =>
-                                            setData("marca", e.target.value)
+                                            setData("marca", Validar.StringWithSpecialChars(e.target.value))
                                         }
                                     />
                                     <InputError
@@ -116,14 +118,16 @@ export default function CadastroFornecedor({ auth }) {
                                     about="telefone and cnpj"
                                     className="flex flex-row justify-content-between bg-white"
                                 >
-                                    <TextInput
+                                    <InputMask
                                         id="telefone"
                                         placeholder="Telefone"
                                         type="text"
                                         name="telefone"
+                                        mask="(99) 99999-9999"
                                         value={data.telefone}
-                                        className="p-invalid text-50 bg-white  mb-3 mr-3 w-12"
-                                        isFocused={true}
+                                        maxLength={15}
+                                        className="text-50 bg-white  mb-3 mr-3 w-12"
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "telefone",
@@ -137,15 +141,17 @@ export default function CadastroFornecedor({ auth }) {
                                         className="mt-2"
                                     />
 
-                                    <TextInput
+                                    <InputMask
                                         id="cnpj"
                                         placeholder="CNPJ"
                                         type="text"
                                         name="cnpj"
+                                        mask="99.999.999/9999-99"
                                         value={data.cnpj}
-                                        className="p-invalid text-50 bg-white  mb-3 ml-3 w-12"
+                                        className="text-50 bg-white  mb-3 ml-3 w-12 cnpj"
                                         autoComplete="cnpj"
-                                        isFocused={true}
+                                        maxLength={18}
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData("cnpj", e.target.value)
                                         }
@@ -166,12 +172,12 @@ export default function CadastroFornecedor({ auth }) {
                                         name="cidade"
                                         placeholder="Cidade"
                                         value={data.cidade}
-                                        className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
-                                        isFocused={true}
+                                        className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12 String"
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "cidade",
-                                                e.target.value
+                                                Validar.StringNoSpecialChars(e.target.value)
                                             )
                                         }
                                     />
@@ -185,14 +191,16 @@ export default function CadastroFornecedor({ auth }) {
                                     about="cep and estado"
                                     className="flex flex-row justify-content-between bg-white"
                                 >
-                                    <TextInput
+                                    <InputMask
                                         id="cep"
                                         type="text"
                                         name="cep"
                                         placeholder="CEP"
                                         value={data.cep}
+                                        mask="99999-999"
+                                        maxLength={9}
                                         className="p-invalid text-50 bg-white  mb-3 mr-3 w-12"
-                                        isFocused={true}
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData("cep", e.target.value)
                                         }
@@ -208,12 +216,13 @@ export default function CadastroFornecedor({ auth }) {
                                         name="estado"
                                         placeholder="Estado"
                                         value={data.estado}
-                                        className="p-invalid text-50 bg-white  mb-3 ml-3 w-12"
-                                        isFocused={true}
+                                        maxLength={2}
+                                        className="text-50 bg-white  mb-3 ml-3 w-12"
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "estado",
-                                                e.target.value
+                                                Validar.StringNoSpecialChars(e.target.value)
                                             )
                                         }
                                     />
@@ -233,12 +242,12 @@ export default function CadastroFornecedor({ auth }) {
                                         placeholder="Bairro"
                                         name="bairro"
                                         value={data.bairro}
-                                        className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
-                                        isFocused={true}
+                                        className="text-50 bg-white  mb-3 mr-3 ml-3 w-12"
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "bairro",
-                                                e.target.value
+                                                Validar.StringNoSpecialChars(e.target.value)
                                             )
                                         }
                                     />
@@ -259,7 +268,7 @@ export default function CadastroFornecedor({ auth }) {
                                         name="web_site"
                                         value={data.web_site}
                                         className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
-                                        isFocused={true}
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData(
                                                 "web_site",
@@ -285,7 +294,7 @@ export default function CadastroFornecedor({ auth }) {
                                         name="email"
                                         value={data.email}
                                         className="p-invalid text-50 bg-white  mb-3 mr-3 ml-3 w-12"
-                                        isFocused={true}
+                                        isfocused="true"
                                         onChange={(e) =>
                                             setData("email", e.target.value)
                                         }
@@ -366,12 +375,12 @@ export default function CadastroFornecedor({ auth }) {
         >
             <Head title="Cadastro Fornecedor" />
 
-            {hasEstabelecimento === null ? 
-            (<NaoTemEstabelecimento nomeTela="Fornecedor"/>)    
-        
+            {hasEstabelecimento === null ?
+            (<NaoTemEstabelecimento nomeTela="Fornecedor"/>)
+
                 : FormularioFornecedor()
         }
- 
+
         </AuthenticatedLayout>
     );
 }

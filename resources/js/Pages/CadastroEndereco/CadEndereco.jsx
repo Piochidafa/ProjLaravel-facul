@@ -5,6 +5,8 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
+import { Validar } from "@/validations"
+
 
 export default function CadastroEndereco() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -31,7 +33,7 @@ export default function CadastroEndereco() {
                         value={data.bairro}
                         className="mt-1 block w-full"
                         isFocused={true}
-                        onChange={(e) => setData('bairro', e.target.value)}
+                        onChange={(e) => setData('bairro', Validar.StringNoSpecialChars(e.target.value))}
                     />
                     <InputError message={errors.bairro} className="mt-2" />
                 </div>
@@ -43,9 +45,10 @@ export default function CadastroEndereco() {
                         type="text"
                         name="cep"
                         value={data.cep}
+                        maxLength={9}
                         className="mt-1 block w-full"
                         isFocused={true}
-                        onChange={(e) => setData('cep', e.target.value)}
+                        onChange={(e) => setData('cep', Validar.StringNoSpecialChars(e.target.value))}
                     />
                     <InputError message={errors.cep} className="mt-2" />
                 </div>
@@ -59,7 +62,7 @@ export default function CadastroEndereco() {
                         value={data.cidade}
                         className="mt-1 block w-full"
                         isFocused={true}
-                        onChange={(e) => setData('cidade', e.target.value)}
+                        onChange={(e) => setData('cidade', Validar.StringNoSpecialChars(e.target.value))}
                     />
                     <InputError message={errors.cidade} className="mt-2" />
                 </div>
@@ -72,8 +75,9 @@ export default function CadastroEndereco() {
                         name="estado"
                         value={data.estado}
                         className="mt-1 block w-full"
+                        maxLength={2}
                         isFocused={true}
-                        onChange={(e) => setData('estado', e.target.value)}
+                        onChange={(e) => setData('estado', Validar.StringNoSpecialChars(e.target.value))}
                     />
                     <InputError message={errors.estado} className="mt-2" />
                 </div>
