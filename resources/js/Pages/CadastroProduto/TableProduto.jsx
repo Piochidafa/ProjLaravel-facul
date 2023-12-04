@@ -50,16 +50,8 @@ export default function TableProd({ canViewButtons, auth, goFetch }) {
     const fetchData = async () => {
         try {
             const listaObtida = await getAllProdutoFiltradoById(auth.user.id);
-            const listaAtualizada = await Promise.all(
-                listaObtida.map(async (item) => {
-                    const valorPorId = await getFornecedorById(
-                        item.fornecedor_id
-                    );
-                    return { ...item, fornecedor: valorPorId.data };
-                })
-            );
-            setIsFetching(false);
-            setProducts(listaAtualizada);
+            setProducts(listaObtida);
+            setIsFetching(false)
         } catch (erro) {
             console.error("Erro ao buscar dados: ", erro);
         }
@@ -379,7 +371,8 @@ export default function TableProd({ canViewButtons, auth, goFetch }) {
                 paginator
                 rowsPerPageOptions={[5, 10, 15]}
                 stripedRows
-                loading={products.length === 0 || isFetching}
+                emptyMessage="Nenhum produto cadastrado"
+                loading={isFetching}
                 rows={[5]}
                 tableStyle={{ minWidth: "60rem" }}
                 className="w-full flex flex-column  "

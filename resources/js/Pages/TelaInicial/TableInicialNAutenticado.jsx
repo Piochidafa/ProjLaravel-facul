@@ -36,29 +36,8 @@ export default function TableInicialNAutenticado() {
                 listaObtida = await getAllProduto();
             }
     
-            const listaAtualizada = await Promise.all(
-                listaObtida.map(async (item) => {
-                    try {
-                        const estabelecimento = await getEstabelecimentoById(item.estabelecimento_id);
-                        const endereco = await getEnderecoById(estabelecimento.data.endereco_id);
-                        
-                        // Adicionando as informações de estabelecimento e endereço ao item
-                        setIsFetching(false)
-                        return {
-                            ...item,
-                            estabelecimentoOBJ: estabelecimento.data,
-                            enderecoOBJ: endereco.data
-                        };
-                    } catch (erroEstabelecimento) {
-                        console.error('Erro ao obter informações de estabelecimento: ', erroEstabelecimento);
-                        // Se ocorrer um erro ao obter informações de estabelecimento, você pode tratar conforme necessário
-                        return item;
-                    }
-                })
-            );
-    
-            setLoading(false);
-            setProducts(listaAtualizada);
+            setProducts(listaObtida);
+            setIsFetching(false);
   
         } catch (erro) {
             console.error('Erro ao buscar dados: ', erro);
@@ -74,19 +53,6 @@ export default function TableInicialNAutenticado() {
     },[products])
 
     //<-Funcoes-------------------------------
-
-
-    
-
-
-    // const load = () => {
-    //     setLoading(true);
-
-    //     setTimeout(() => {
-    //         setLoading(false);
-    //     }, 2000);
-    // };
-
 
     const { data, setData, post, processing, erros, reset } = useForm({
         search: "",
@@ -149,7 +115,7 @@ export default function TableInicialNAutenticado() {
                                     label="Buscar"
                                 />
                             </div>
-    </div>
+                    </div>
 
         <div className='w-8 mt-3 p-3 bg-green-100 border-round-2xl '>
             
@@ -158,9 +124,11 @@ export default function TableInicialNAutenticado() {
             value={products} 
             paginator 
             onLoad={loading}
+            emptyMessage="Nenhum produto cadastrado"
             rowsPerPageOptions={[5, 10, 15]} 
             stripedRows 
-            loading={(products.length === 0 || isFetching) } 
+            loading={isFetching} 
+            // loading={false} 
             rows={[5]} 
             tableStyle={{ minWidth: '60rem' }} 
             className='w-full flex flex-column border-round-2xl  '
@@ -170,7 +138,7 @@ export default function TableInicialNAutenticado() {
             <Column field="nome_produto" header="Nome" sortable ></Column>
             <Column field="descricao" header="descricao" ></Column>
             <Column Field="preco" header="Preço" body={prefixDinheiro}></Column>
-            <Column field="estabelecimentoOBJ.nome_fantasia" header="Estabelecimento" className=''></Column>
+            <Column field="estabelecimento.nome_fantasia" header="Estabelecimento" className=''></Column>
             {/* <Column field="enderecoOBJ.razao_social" header="" className=''></Column> */}
 
         </DataTable>

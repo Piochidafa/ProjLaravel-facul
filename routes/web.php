@@ -59,6 +59,7 @@ Route::get('/b/showByEstabelecimentoID/{id}', [ProdutoController::class, 'showBy
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 
 Route::get('/a/endereco/{id}', [EnderecoController::class, 'show'])->name('endereco.show');
+
 //Endereço Estabelecimento
 Route::get('/a', [EstabelecimentoController::class, 'index'])->name('estabelecimento.index');
 Route::put('a/estabelecimentoAtualizar/{id}', [EstabelecimentoController::class, 'update'])->name('estabelecimento.update');

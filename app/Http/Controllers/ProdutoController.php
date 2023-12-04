@@ -23,7 +23,8 @@ class ProdutoController extends Controller
     public function index()
     {
         return response()->json(
-            Produto::all('*'),
+            // Produto::all('*'),
+            Produto::with('estabelecimento', 'fornecedor')->get(),
         );
     }
 
@@ -84,7 +85,7 @@ class ProdutoController extends Controller
 
     public function showByEstabelecimentoID(string $id){
 
-        $produto = Produto::where('estabelecimento_id', $id )->get();
+        $produto = Produto::where('estabelecimento_id', $id )->with('estabelecimento', 'fornecedor')->get();
 
         return $produto;
     }

@@ -47,15 +47,8 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
     const fetchData = async () => {
         try{
             const listaObtida = await getAllFornecedor();
-            const listaAtualizada = await Promise.all(
-                listaObtida.map(async (item) => {
-                    const valorPorId = await getEnderecoById(item.endereco_id);
-                    return {...item, enderecoOBJ: valorPorId.data}
-                })
-            );
             setIsFetching(false)
-            console.log(listaAtualizada);
-            setFornecedores(listaAtualizada)
+            setFornecedores(listaObtida)
         }catch (erro) {
             console.error('Erro ao buscar dados: ', erro)
         }
@@ -64,15 +57,6 @@ export default function TableCadastroFornecedor({canViewButtons, auth, goFetch})
     //<-UseEffect----------------------------------
 
     useEffect(() => {        
-        // fetchData();
-        // getEstabelecimentoById(auth.user.id).then((res) => {
-        //     if (res.dataEditProd != {}) {
-        //         setDataEditProd({...dataEditProd});
-        //     }
-        // });
-        // getAllFornecedor().then((res) => {
-        //     setDropFornecedores(res);
-        // });
     },[])
 
     //<-Funcoes-------------------------------
