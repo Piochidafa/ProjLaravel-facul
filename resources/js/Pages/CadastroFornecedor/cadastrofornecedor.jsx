@@ -102,7 +102,7 @@ export default function CadastroFornecedor({ auth }) {
                return(
         <div className=" pt-6 w-full flex flex-column align-items-center ">
         <div className="w-11 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 ">
-                <Dialog header="Cadastrar Produto" visible={visible} draggable={false} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+                <Dialog header="Cadastrar Fornecedor" visible={visible} draggable={false} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
                     <div className="">
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <GuestLayout>

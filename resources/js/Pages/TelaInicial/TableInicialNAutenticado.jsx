@@ -4,9 +4,10 @@ import { Column } from 'primereact/column';
 import { ProductService } from '../../0PersoComponents/ProductService'; 
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
 import { Link, Head, useForm } from "@inertiajs/react";
 import { toast } from 'react-toastify';
-import { getAllProdutoFiltradoByDesc, getAllProduto} from '../../../../SERVICES/produtoService';
+import { getAllProdutoFiltradoByDesc, getAllProduto, getAllProdutoFiltradoByDescOrdenado } from '../../../../SERVICES/produtoService';
 import { getEstabelecimentoById, getEnderecoById} from '../../../../SERVICES/estabelecimentoService';
 import { InputText } from 'primereact/inputtext';
 import ApplicationLogo from '@/Components/ApplicationLogo';
@@ -16,13 +17,13 @@ export default function TableInicialNAutenticado() {
 
 
     const [products, setProducts] = useState([]);
-    const [visibleModalExcluir, setVisibleModalExcluir] = useState(false)
-    const [visibleModalEditar, setVisibleModalEditar] = useState(false)
-    const [rowInfo, setRowInfo] = useState({name:""})
-    const [dropFornecedor, setDropFornecedores] = useState()
-    const [rowInfoEditar, setRowInfoEditar] = useState({name:""})
+    const [rowInfoEditar, setRowInfoEditar] = useState({
+        name:"",
+        orderBy: undefined
+    })
     const [isFetching, setIsFetching] = useState(false)
     const [loading, setLoading] = useState(false);
+
     //<-CoreFunctions------------------------------
 
     const fetchData = async () => {
@@ -30,9 +31,14 @@ export default function TableInicialNAutenticado() {
 
             let listaObtida;
             
-            if(rowInfoEditar.name !== ""){
+            if(rowInfoEditar.name !== "" && rowInfoEditar.orderBy === undefined ){
                 listaObtida = await getAllProdutoFiltradoByDesc(rowInfoEditar.name)
-            }else{
+
+            }else if(rowInfoEditar.name !== "" && rowInfoEditar.orderBy !== undefined){
+
+                listaObtida = await getAllProdutoFiltradoByDescOrdenado(rowInfoEditar.name, rowInfoEditar.orderBy)
+            }
+            else{
                 listaObtida = await getAllProduto();
             }
     
@@ -64,6 +70,15 @@ export default function TableInicialNAutenticado() {
 
     },[])
 
+    useEffect(() => {
+        
+        if(rowInfoEditar.name === ""){
+            setRowInfoEditar({...rowInfoEditar, orderBy: undefined})
+        }
+
+    },[rowInfoEditar.name])
+
+
 
 
     const prefixDinheiro0 = (value) => {
@@ -85,21 +100,44 @@ export default function TableInicialNAutenticado() {
                                     <ApplicationLogo className="bg-center bg-contain bg-no-repeat h-4rem w-full fill-current text-green-500 mb-5" />
                                 {/* <h1 className='text-4xl font-bold '>Precifica</h1> */}
                             </div>
-                            <div className=" flex p-input-icon-right ">
+                            <div className=" flex p-input-icon-right h-full align-content-end gap-1 ">
                                 {/* <i className="pi pi-search" /> */}
+                                
+                                <div className='flex align-content-end '>
                                 <InputText
                                     id="search"
                                     type="search"
                                     name="search"
                                     value={rowInfoEditar.name}
-                                    className="w-30rem"
+                                    className="w-30rem "
                                     placeholder="Busque um Produto"
                                     isFocused={true}
                                     onChange={(e) =>{
+                                                                                
                                         setRowInfoEditar({...rowInfoEditar, name:e.target.value})
                                     }
-                                    }
+                                }
                                 />
+                                </div>
+                                <div className='flex flex-column h-full '>
+                                    {/* <Button onClick={() => console.log(rowInfoEditar)}/> */}
+                                <Dropdown
+
+                                    value={rowInfoEditar.orderBy}
+                                    showClear
+                                    disabled={rowInfoEditar.name === ""}
+                                    className='w-12'
+                                    options={['Menor Preço', 'Maior Preço']}
+                                    placeholder='Ordenar por'
+                                    onChange={(e) => {
+                                    
+                                        setRowInfoEditar({...rowInfoEditar, orderBy: e.target.value})
+                                        console.log(e.target.value);
+                                    
+                                    }}
+                                
+                                />
+                                </div>
                             </div>
 
                             <div className="flex items-center justify-content-between mt-4 flex-col">

@@ -60,6 +60,34 @@ export function getAllProdutoFiltradoByDesc(desc) {
     });
 }
 
+export function getAllProdutoFiltradoByDescOrdenado(desc, ordeBy) {
+    return new Promise((resolve, reject) => {
+        if(ordeBy === "Menor Preço"){
+
+            axios.get(`${baseUrl}/filterByDesc/${capitalize(desc)}/asc`)
+                .then((res) => {
+                    resolve(res.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        }
+
+        if(ordeBy === "Maior Preço"){
+
+            axios.get(`${baseUrl}/filterByDesc/${capitalize(desc)}/dec`)
+                .then((res) => {
+                    resolve(res.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        }
+
+    });
+}
+
+
 export function getAllProdutoFiltradoById(id) {
     return new Promise((resolve, reject) => {
         axios.get(`${baseUrl}/showByEstabelecimentoID/${id}`)

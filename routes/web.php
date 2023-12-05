@@ -55,6 +55,10 @@ Route::put('/c/fornecedorAtualiza/{id}', [FornecedorController::class, 'update']
 
 Route::put('b/produtoAtualizar/{id}', [ProdutoController::class, 'update'])->name('Produto.update');
 Route::get('/b/filterByDesc/{desc}', [ProdutoController::class, 'showByDesc'])->name('Produto.showByDesc');
+
+Route::get('/b/filterByDesc/{desc}/dec', [ProdutoController::class, 'getProdutosOrdenadosDec'])->name('Produto.getProdutosOrdenadosDec'); // -------------
+Route::get('/b/filterByDesc/{desc}/asc', [ProdutoController::class, 'getProdutosOrdenadosAsc'])->name('Produto.getProdutosOrdenadosAsc'); // -------------
+
 Route::get('/b/showByEstabelecimentoID/{id}', [ProdutoController::class, 'showByEstabelecimentoID'])->name('Produto.showByEstabelecimentoID');
 Route::get('/b', [ProdutoController::class, 'index'])->name('Produto.index');
 

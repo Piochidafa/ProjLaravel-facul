@@ -78,10 +78,27 @@ class ProdutoController extends Controller
 
     public function showByDesc(string $desc){
 
-        $produto = Produto::where('nome_produto', 'like', $desc . '%')->get();
+        $produto = Produto::where('nome_produto', 'like', $desc . '%')->with('estabelecimento')->get();
 
         return $produto;
     }
+
+    public function getProdutosOrdenadosDec(string $desc){
+
+        $produtos = Produto::orderBy('preco', 'desc')->where('nome_produto', 'like', $desc . '%')->with('estabelecimento')->get();
+        
+        return $produtos;
+
+    }
+
+    public function getProdutosOrdenadosAsc(string $desc){
+
+        $produtos = Produto::orderBy('preco', 'asc')->where('nome_produto', 'like', $desc . '%')->with('estabelecimento')->get();
+        
+        return $produtos;
+
+    }
+
 
     public function showByEstabelecimentoID(string $id){
 
